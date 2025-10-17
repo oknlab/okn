@@ -1,327 +1,259 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WB - The Future of Digital Autonomy</title>
+    <title>WB - Autonomous Agents for Every Digital Task</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0A0A0A; /* Near-black background */
-            color: #E2E8F0; /* Light gray text */
+            background-color: #0a0a0a;
+            color: #e5e7eb;
         }
         .gradient-text {
-            background: linear-gradient(90deg, #4F46E5, #A855F7, #EC4899);
+            background: linear-gradient(90deg, #4f46e5, #c026d3);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 0;
-        }
-        .nav-glass {
-             background: rgba(10, 10, 10, 0.7);
-             backdrop-filter: blur(12px);
-             -webkit-backdrop-filter: blur(12px);
-             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background-image: radial-gradient(circle at top right, rgba(79, 70, 229, 0.2), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(192, 38, 211, 0.2), transparent 40%);
         }
         .card-bg {
-            background-color: #111111;
+            background-color: rgba(24, 24, 27, 0.7);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .cta-button {
             transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(79, 70, 229, 0.4), 0 0 15px rgba(192, 38, 211, 0.4);
         }
-        .card-bg:hover {
-            transform: translateY(-5px);
-            border-color: #A855F7;
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(79, 70, 229, 0.6), 0 0 25px rgba(192, 38, 211, 0.6);
         }
-        .btn-primary {
-            background: linear-gradient(90deg, #4F46E5, #A855F7);
-            transition: all 0.3s ease;
-        }
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
-        }
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .scroll-reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
         }
     </style>
 </head>
-
 <body class="antialiased">
 
     <!-- Header -->
-    <header id="header" class="nav-glass fixed top-0 left-0 right-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-white">WB<span class="text-purple-400">.</span></a>
-            <div class="hidden md:flex space-x-8 items-center">
-                <a href="#agents" class="text-slate-300 hover:text-purple-400 transition-colors">Agents</a>
-                <a href="#solutions" class="text-slate-300 hover:text-purple-400 transition-colors">Solutions</a>
-                <a href="#vision" class="text-slate-300 hover:text-purple-400 transition-colors">Vision</a>
-                <a href="#contact" class="text-slate-300 hover:text-purple-400 transition-colors">Contact</a>
+    <header class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-50 backdrop-blur-md">
+        <div class="container mx-auto px-6 py-4">
+            <nav class="flex items-center justify-between">
+                <div class="text-2xl font-bold">
+                    <span class="gradient-text">WB</span> AI
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-300 hover:text-white transition">Home</a>
+                    <a href="#services" class="text-gray-300 hover:text-white transition">Services</a>
+                    <a href="#about" class="text-gray-300 hover:text-white transition">About</a>
+                    <a href="#contact" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition">Get Started</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </nav>
+             <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <a href="#home" class="block py-2 text-gray-300 hover:text-white">Home</a>
+                <a href="#services" class="block py-2 text-gray-300 hover:text-white">Services</a>
+                <a href="#about" class="block py-2 text-gray-300 hover:text-white">About</a>
+                <a href="#contact" class="block mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg">Get Started</a>
             </div>
-            <a href="#" class="hidden md:block bg-slate-800 text-white py-2 px-5 rounded-lg hover:bg-slate-700 transition-colors">
-                Request Access
-            </a>
-            <button id="mobile-menu-button" class="md:hidden text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-            </button>
-        </nav>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2">
-            <a href="#agents" class="block text-slate-300 hover:text-purple-400 transition-colors">Agents</a>
-            <a href="#solutions" class="block text-slate-300 hover:text-purple-400 transition-colors">Solutions</a>
-            <a href="#vision" class="block text-slate-300 hover:text-purple-400 transition-colors">Vision</a>
-            <a href="#contact" class="block text-slate-300 hover:text-purple-400 transition-colors">Contact</a>
-            <a href="#" class="block bg-slate-800 text-white py-2 px-5 rounded-lg hover:bg-slate-700 transition-colors mt-2 text-center">
-                Request Access
-            </a>
         </div>
     </header>
 
-    <main class="relative overflow-hidden">
-        <!-- Hero Section -->
-        <section class="relative h-screen flex items-center justify-center text-center overflow-hidden">
-            <div id="hero-animation" class="hero-bg"></div>
-            <div class="relative z-10 px-4">
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-tight mb-4">
-                    The Last Software <br> You'll Ever Need.
-                </h1>
-                <p class="text-lg md:text-xl max-w-3xl mx-auto text-slate-300 mb-8">
-                    WB builds multifunctional AI agents to automate any digital task, from complex coding to creative content generation and office management. We are building the universal collaborator for human progress.
-                </p>
-                <a href="#agents" class="btn-primary text-white font-bold py-4 px-8 rounded-full text-lg">
-                    Meet Your Agents
-                </a>
-            </div>
-        </section>
-
-        <!-- Agents Section -->
-        <section id="agents" class="py-20 lg:py-32">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16 scroll-reveal">
-                    <h2 class="text-4xl lg:text-5xl font-bold text-white">One Platform, Infinite Capabilities</h2>
-                    <p class="text-lg text-slate-400 mt-4 max-w-2xl mx-auto">Our agents are specialists, trained to excel in their domains and collaborate seamlessly.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Coding Agent Card -->
-                    <div class="card-bg p-8 rounded-2xl scroll-reveal">
-                        <div class="mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Coding Agents</h3>
-                        <p class="text-slate-400">From prototypes to production-ready code. Our AI developers build, debug, and deploy applications, accelerating your engineering velocity by 10x.</p>
-                    </div>
-
-                    <!-- Content Agent Card -->
-                    <div class="card-bg p-8 rounded-2xl scroll-reveal" style="transition-delay: 0.2s;">
-                         <div class="mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Content Agents</h3>
-                        <p class="text-slate-400">Generate high-quality marketing copy, in-depth articles, and stunning visual designs. Your entire content pipeline, automated and optimized.</p>
-                    </div>
-
-                    <!-- Office Agent Card -->
-                    <div class="card-bg p-8 rounded-2xl scroll-reveal" style="transition-delay: 0.4s;">
-                         <div class="mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Office Tools Agents</h3>
-                        <p class="text-slate-400">Manage schedules, analyze spreadsheets, create presentations, and organize your inbox. An entire administrative team at your command.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Solutions Section -->
-        <section id="solutions" class="py-20 lg:py-32 bg-[#111111]">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16 scroll-reveal">
-                    <h2 class="text-4xl lg:text-5xl font-bold text-white">From Digital Task to Physical Reality</h2>
-                    <p class="text-lg text-slate-400 mt-4 max-w-3xl mx-auto">WB is the bridge between idea and execution. Our agents don't just complete tasks; they drive outcomes.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div class="scroll-reveal">
-                        <h3 class="gradient-text text-3xl font-bold mb-4">Product Development Lifecycle</h3>
-                        <p class="text-slate-300 mb-6">An entrepreneur has an idea for a new smart home device. WB agents are tasked to:</p>
-                        <ul class="space-y-4 text-slate-400">
-                           <li class="flex items-start"><span class="text-purple-400 mr-3 mt-1">&#10003;</span><span>Design the product branding and marketing website.</span></li>
-                           <li class="flex items-start"><span class="text-purple-400 mr-3 mt-1">&#10003;</span><span>Code the firmware and companion mobile application.</span></li>
-                           <li class="flex items-start"><span class="text-purple-400 mr-3 mt-1">&#10003;</span><span>Generate technical documentation and user manuals.</span></li>
-                           <li class="flex items-start"><span class="text-purple-400 mr-3 mt-1">&#10003;</span><span>Draft manufacturing specifications to send to a factory.</span></li>
-                        </ul>
-                    </div>
-                     <div class="card-bg rounded-2xl p-8 scroll-reveal" style="transition-delay: 0.2s;">
-                        <img src="https://placehold.co/600x400/0A0A0A/A855F7?text=Product+Visualization" alt="Product Visualization" class="rounded-lg shadow-2xl">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Vision Section -->
-        <section id="vision" class="py-20 lg:py-32">
-            <div class="container mx-auto px-6 text-center">
-                <div class="scroll-reveal">
-                    <h2 class="text-4xl lg:text-5xl font-bold text-white mb-6">We're Building the Next <br> <span class="gradient-text">Operating System for Work</span></h2>
-                    <p class="text-lg text-slate-400 max-w-4xl mx-auto">
-                        Just as Microsoft built the OS for personal computing and Apple built the OS for mobile, WB is creating the foundational platform for automated digital labor. Our vision is a world where human creativity is amplified by autonomous agents, seamlessly translating intent into impact, from pixels on a screen to products in your hand.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="py-20 lg:py-32 bg-[#111111]">
-            <div class="container mx-auto px-6 text-center">
-                <div class="scroll-reveal">
-                    <h2 class="text-4xl lg:text-5xl font-bold text-white">Join the Waitlist</h2>
-                    <p class="text-lg text-slate-400 mt-4 max-w-2xl mx-auto mb-8">Be among the first to experience the future of digital autonomy. We are onboarding partners who are ready to redefine what's possible.</p>
-                    <form class="max-w-xl mx-auto flex flex-col sm:flex-row gap-4">
-                        <input type="email" placeholder="your.email@company.com" class="w-full px-5 py-4 rounded-lg bg-slate-800 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" required>
-                        <button type="submit" class="btn-primary text-white font-bold py-4 px-8 rounded-lg whitespace-nowrap">Request Early Access</button>
-                    </form>
-                </div>
-            </div>
+    <!-- Hero Section -->
+    <main id="home" class="pt-24 hero-bg">
+        <section class="container mx-auto px-6 py-24 md:py-32 text-center">
+            <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4">
+                Autonomous AI Agents for 
+                <span id="typing-effect" class="gradient-text"></span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-8">
+                WB AI creates multifunctional agents for coding, content generation, office tasks, and more. We turn any digital task into an automated workflow, capable of indirectly producing physical products through seamless integration.
+            </p>
+            <a href="#contact" class="cta-button inline-block bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg py-4 px-10 rounded-full">
+                Deploy Your First Agent
+            </a>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-black py-12">
-        <div class="container mx-auto px-6 text-center text-slate-500">
-            <p>&copy; 2025 WB AI Corporation. All rights reserved.</p>
-            <div class="mt-4 flex justify-center space-x-6">
-                <a href="#" class="hover:text-white">Twitter</a>
-                <a href="#" class="hover:text-white">LinkedIn</a>
-                <a href="#" class="hover:text-white">Privacy Policy</a>
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-black">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold">One Agent, Infinite Capabilities</h2>
+                <p class="text-gray-400 mt-2">Our AI can be tasked with virtually any digital objective.</p>
             </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Feature 1: Code Generation -->
+                <div class="feature-card card-bg p-8 rounded-2xl text-center">
+                    <div class="feature-icon bg-indigo-500 bg-opacity-20 inline-flex items-center justify-center p-4 rounded-full mb-4 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Automated Coding</h3>
+                    <p class="text-gray-400">From simple scripts to complex applications, our agents can write, debug, and deploy code across any stack.</p>
+                </div>
+                <!-- Feature 2: Content Creation -->
+                <div class="feature-card card-bg p-8 rounded-2xl text-center">
+                    <div class="feature-icon bg-purple-500 bg-opacity-20 inline-flex items-center justify-center p-4 rounded-full mb-4 transition-transform duration-300">
+                         <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Content Generation</h3>
+                    <p class="text-gray-400">Generate high-quality articles, marketing copy, social media posts, and creative stories on any topic.</p>
+                </div>
+                <!-- Feature 3: Office Automation -->
+                <div class="feature-card card-bg p-8 rounded-2xl text-center">
+                    <div class="feature-icon bg-green-500 bg-opacity-20 inline-flex items-center justify-center p-4 rounded-full mb-4 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Office & Tool Automation</h3>
+                    <p class="text-gray-400">Automate spreadsheets, manage emails, schedule meetings, and integrate with your favorite office tools seamlessly.</p>
+                </div>
+                <!-- Feature 4: Physical Production -->
+                <div class="feature-card card-bg p-8 rounded-2xl text-center">
+                    <div class="feature-icon bg-red-500 bg-opacity-20 inline-flex items-center justify-center p-4 rounded-full mb-4 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Digital to Physical</h3>
+                    <p class="text-gray-400">Our agents can manage supply chains, place manufacturing orders, and coordinate logistics to bring ideas to life.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <div class="card-bg rounded-2xl p-8">
+                        <h2 class="text-3xl font-bold mb-4">Our Mission: <span class="gradient-text">Automate Everything</span></h2>
+                        <p class="text-gray-300 mb-4">At WB AI, we believe that human potential should be unleashed from repetitive digital labor. Our mission is to create a world where autonomous AI agents act as extensions of human creativity and ingenuity, handling complex digital tasks so you can focus on what truly matters.</p>
+                        <p class="text-gray-300">We are building the future of work—a future where a single command can set in motion a chain of intelligent actions, from writing a line of code to shipping a physical product across the globe.</p>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <!-- Placeholder for an image or graphic -->
+                     <div class="bg-gray-800 rounded-2xl h-80 flex items-center justify-center">
+                        <span class="text-gray-500"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-black">
+        <div class="container mx-auto px-6">
+            <div class="card-bg max-w-2xl mx-auto p-8 md:p-12 rounded-2xl">
+                <h2 class="text-3xl font-bold text-center mb-2">Start Your AI Journey</h2>
+                <p class="text-gray-400 text-center mb-8">Tell us your goal, and we'll configure an agent to achieve it.</p>
+                <form id="contact-form">
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
+                        <input type="text" id="name" name="name" required class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
+                        <input type="email" id="email" name="email" required class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div class="mb-6">
+                        <label for="message" class="block text-sm font-medium text-gray-300 mb-1">What do you want to automate?</label>
+                        <textarea id="message" name="message" rows="4" required class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="cta-button w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-3 px-6 rounded-full">
+                            Submit Request
+                        </button>
+                    </div>
+                     <p id="form-message" class="text-center mt-4 text-green-400"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-8">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <div class="text-lg font-bold mb-2">
+                <span class="gradient-text">WB</span> AI
+            </div>
+            <p>&copy; <span id="year"></span> WB AI. All rights reserved. Pioneering the future of autonomous work.</p>
         </div>
     </footer>
 
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Smooth Scrolling for nav links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-                // Close mobile menu on click
-                if (!mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
             });
-        });
 
-        // Scroll Reveal Animation
-        const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+            // Typing effect
+            const typingElement = document.getElementById('typing-effect');
+            const words = ["Any Digital Task.", "Software Development.", "Content Creation.", "Business Operations."];
+            let i = 0;
+            let j = 0;
+            let currentWord = "";
+            let isDeleting = false;
+
+            function type() {
+                currentWord = words[i];
+                if (isDeleting) {
+                    typingElement.textContent = currentWord.substring(0, j - 1);
+                    j--;
+                    if (j == 0) {
+                        isDeleting = false;
+                        i++;
+                        if (i == words.length) {
+                            i = 0;
+                        }
+                    }
+                } else {
+                    typingElement.textContent = currentWord.substring(0, j + 1);
+                    j++;
+                    if (j == currentWord.length) {
+                        isDeleting = true;
+                        // Wait before deleting
+                        setTimeout(type, 2000);
+                        return;
+                    }
                 }
-            });
-        }, {
-            threshold: 0.1
-        });
-        scrollRevealElements.forEach(el => {
-            observer.observe(el);
-        });
-
-        // Three.js Hero Background Animation
-        let scene, camera, renderer, particles;
-        const container = document.getElementById('hero-animation');
-
-        function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-            camera.position.z = 5;
-
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.setClearColor(0x000000, 0);
-            container.appendChild(renderer.domElement);
-            
-            const particleCount = 5000;
-            const geometry = new THREE.BufferGeometry();
-            const positions = new Float32Array(particleCount * 3);
-
-            for(let i=0; i < particleCount * 3; i++) {
-                positions[i] = (Math.random() - 0.5) * 10;
+                const typingSpeed = isDeleting ? 50 : 150;
+                setTimeout(type, typingSpeed);
             }
-            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            
-            const material = new THREE.PointsMaterial({
-                color: 0xA855F7,
-                size: 0.008,
-                transparent: true,
-                blending: THREE.AdditiveBlending,
+
+            type();
+
+            // Set current year in footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // Contact form submission
+            const contactForm = document.getElementById('contact-form');
+            const formMessage = document.getElementById('form-message');
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // In a real app, you would send this data to a server.
+                // For this demo, we'll just show a success message.
+                formMessage.textContent = 'Thank you for your interest! We will be in touch shortly.';
+                contactForm.reset();
+                setTimeout(() => {
+                    formMessage.textContent = '';
+                }, 5000);
             });
-            
-            particles = new THREE.Points(geometry, material);
-            scene.add(particles);
-
-            window.addEventListener('resize', onWindowResize, false);
-            document.addEventListener('mousemove', onMouseMove, false);
-        }
-
-        let mouseX = 0, mouseY = 0;
-        function onMouseMove(event) {
-            mouseX = (event.clientX - window.innerWidth / 2) / 100;
-            mouseY = (event.clientY - window.innerHeight / 2) / 100;
-        }
-
-        function onWindowResize() {
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            particles.rotation.x += 0.0001;
-            particles.rotation.y += 0.0002;
-            
-            camera.position.x += (mouseX - camera.position.x) * 0.01;
-            camera.position.y += (-mouseY - camera.position.y) * 0.01;
-            camera.lookAt(scene.position);
-
-            renderer.render(scene, camera);
-        }
-        
-        // Only run animation if the user doesn't prefer reduced motion
-        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            init();
-            animate();
-        }
+        });
     </script>
-</body>
 
+</body>
 </html>
