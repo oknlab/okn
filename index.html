@@ -3,255 +3,405 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WB - Autonomous Agents for Every Digital Task</title>
+    <title>OKNLAB - The Future of AI Agents</title>
+    
+    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Load Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-    <style>
+    
+    <!-- Custom Tailwind Configuration & Styles -->
+    <style type="text/tailwindcss">
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a;
-            color: #e5e7eb;
+            background-color: #0F172A; /* bg-slate-900 */
+            color: #E2E8F0; /* text-slate-200 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        .gradient-text {
-            background: linear-gradient(90deg, #4f46e5, #c026d3);
+        
+        /* Custom gradient for hero text */
+        .hero-gradient-text {
+            background: linear-gradient(to right, #a5b4fc, #6366f1); /* indigo-300 to indigo-600 */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .hero-bg {
-            background-image: radial-gradient(circle at top right, rgba(79, 70, 229, 0.2), transparent 40%),
-                              radial-gradient(circle at bottom left, rgba(192, 38, 211, 0.2), transparent 40%);
+
+        /* Blinking cursor for typing effect */
+        .blinking-cursor {
+            font-weight: 900;
+            color: #818cf8; /* indigo-400 */
+            animation: blink 1s step-end infinite;
         }
-        .card-bg {
-            background-color: rgba(24, 24, 27, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .cta-button {
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(79, 70, 229, 0.4), 0 0 15px rgba(192, 38, 211, 0.4);
-        }
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 25px rgba(79, 70, 229, 0.6), 0 0 25px rgba(192, 38, 211, 0.6);
-        }
-        .feature-card:hover .feature-icon {
-            transform: scale(1.1);
+
+        @keyframes blink {
+            from, to {
+                color: transparent;
+            }
+            50% {
+                color: #818cf8; /* indigo-400 */
+            }
         }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-50 backdrop-blur-md">
-        <div class="container mx-auto px-6 py-4">
-            <nav class="flex items-center justify-between">
-                <div class="text-2xl font-bold">
-                    <span class="gradient-text">WB</span> AI
-                </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="text-gray-300 hover:text-white transition">Home</a>
-                    <a href="#services" class="text-gray-300 hover:text-white transition">Services</a>
-                    <a href="#about" class="text-gray-300 hover:text-white transition">About</a>
-                    <a href="#contact" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition">Get Started</a>
-                </div>
-                <button id="mobile-menu-button" class="md:hidden text-white">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                </button>
-            </nav>
-             <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden mt-4">
-                <a href="#home" class="block py-2 text-gray-300 hover:text-white">Home</a>
-                <a href="#services" class="block py-2 text-gray-300 hover:text-white">Services</a>
-                <a href="#about" class="block py-2 text-gray-300 hover:text-white">About</a>
-                <a href="#contact" class="block mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg">Get Started</a>
+    <!-- Header / Navigation -->
+    <header class="absolute top-0 left-0 w-full z-30 py-6">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="text-3xl font-extrabold text-white">
+                OKN<span class="text-indigo-400">LAB</span>
+            </a>
+            
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#agents" class="text-slate-300 hover:text-white transition-colors">Agents</a>
+                <a href="#vision" class="text-slate-300 hover:text-white transition-colors">Vision</a>
+                <a href="#contact" class="text-slate-300 hover:text-white transition-colors">Contact</a>
+                <a href="#contact" class="bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 px-5 rounded-lg transition-colors">
+                    Request Demo
+                </a>
             </div>
-        </div>
+            
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-slate-300 hover:text-white">
+                    <span class="sr-only">Open menu</span>
+                    <!-- Menu Icon (Heroicons) -->
+                    <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
     </header>
 
-    <!-- Hero Section -->
-    <main id="home" class="pt-24 hero-bg">
-        <section class="container mx-auto px-6 py-24 md:py-32 text-center">
-            <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4">
-                Autonomous AI Agents for 
-                <span id="typing-effect" class="gradient-text"></span>
-            </h1>
-            <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-8">
-                WB AI creates multifunctional agents for coding, content generation, office tasks, and more. We turn any digital task into an automated workflow, capable of indirectly producing physical products through seamless integration.
-            </p>
-            <a href="#contact" class="cta-button inline-block bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg py-4 px-10 rounded-full">
-                Deploy Your First Agent
+    <!-- Mobile Menu (Hidden by default) -->
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-slate-900 z-50 flex flex-col items-center justify-center">
+        <button id="mobile-close-button" class="absolute top-7 right-4 sm:right-6 lg:right-8 text-slate-300 hover:text-white">
+            <span class="sr-only">Close menu</span>
+            <!-- Close Icon (Heroicons) -->
+            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        
+        <div class="flex flex-col space-y-8 text-center">
+            <a href="#agents" class="mobile-menu-link text-2xl font-medium text-slate-300 hover:text-white">Agents</a>
+            <a href="#vision" class="mobile-menu-link text-2xl font-medium text-slate-300 hover:text-white">Vision</a>
+            <a href="#contact" class="mobile-menu-link text-2xl font-medium text-slate-300 hover:text-white">Contact</a>
+            <a href="#contact" class="mobile-menu-link bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 px-6 rounded-lg transition-colors text-lg">
+                Request Demo
             </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <main>
+        <section class="relative h-screen flex items-center justify-center text-center overflow-hidden px-4">
+            <!-- Background Gradient Blur -->
+            <div class="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[150%] h-[150%] lg:w-[100%] lg:h-[100%] opacity-20 lg:opacity-10" 
+                 style="background: radial-gradient(circle, rgba(99,102,241,0.5) 0%, rgba(15,23,42,0) 60%);">
+            </div>
+
+            <div class="relative z-10 max-w-4xl">
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tighter">
+                    Accomplish Any Digital Task:
+                    <br>
+                    <span class="hero-gradient-text">
+                        <span id="task-ticker"></span><span class="blinking-cursor">|</span>
+                    </span>
+                </h1>
+                <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto">
+                    OKNLAB creates multifunctional AI agents that autonomously execute complex workflows—from coding and content creation to complete business process automation.
+                </p>
+                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#contact" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-8 rounded-lg transition-colors text-lg">
+                        Get Early Access
+                    </a>
+                    <a href="#agents" class="bg-slate-700 hover:bg-slate-600 text-white font-medium py-3 px-8 rounded-lg transition-colors text-lg">
+                        Explore Agents
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Agents Section -->
+        <section id="agents" class="py-20 lg:py-32">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-sm font-semibold text-indigo-400 uppercase tracking-wider">The Agents</h2>
+                    <p class="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tighter">
+                        Your New Autonomous Workforce
+                    </p>
+                    <p class="mt-4 text-lg text-slate-300">
+                        Our agents are specialized, self-learning entities designed to master and execute any digital function at scale.
+                    </p>
+                </div>
+                
+                <!-- Agent Cards Grid -->
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <!-- Card 1: Coding -->
+                    <div class="bg-slate-800/70 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-slate-700 transition-all duration-300 hover:border-indigo-500 hover:bg-slate-800">
+                        <!-- Icon -->
+                        <div class="w-14 h-14 bg-indigo-600 rounded-lg flex items-center justify-center">
+                            <!-- Code Icon (Lucide) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                                <polyline points="16 18 22 12 16 6"></polyline>
+                                <polyline points="8 6 2 12 8 18"></polyline>
+                            </svg>
+                        </div>
+                        <h3 class="mt-6 text-2xl font-bold text-white">NexusCoder</h3>
+                        <p class="mt-2 text-slate-300">
+                            The development agent that writes, debugs, tests, and deploys production-ready code. It understands your entire codebase and iterates on tasks autonomously.
+                        </p>
+                    </div>
+
+                    <!-- Card 2: Content -->
+                    <div class="bg-slate-800/70 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-slate-700 transition-all duration-300 hover:border-indigo-500 hover:bg-slate-800">
+                        <!-- Icon -->
+                        <div class="w-14 h-14 bg-indigo-600 rounded-lg flex items-center justify-center">
+                            <!-- Edit/Pen Icon (Lucide) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="mt-6 text-2xl font-bold text-white">AuraScribe</h3>
+                        <p class="mt-2 text-slate-300">
+                            The creative agent for generating hyper-realistic text, audio, and visual content. It crafts entire marketing campaigns, scripts, and brand identities.
+                        </p>
+                    </div>
+
+                    <!-- Card 3: Office Tools -->
+                    <div class="bg-slate-800/70 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-slate-700 transition-all duration-300 hover:border-indigo-500 hover:bg-slate-800">
+                        <!-- Icon -->
+                        <div class="w-14 h-14 bg-indigo-600 rounded-lg flex items-center justify-center">
+                            <!-- Briefcase Icon (Lucide) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                            </svg>
+                        </div>
+                        <h3 class="mt-6 text-2xl font-bold text-white">OrionSuite</h3>
+                        <p class="mt-2 text-slate-300">
+                            The business agent that automates your office. It manages schedules, drafts reports, analyzes financial data, and optimizes your entire operational workflow.
+                        </ReadMe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vision Section -->
+        <section id="vision" class="py-20 lg:py-32 bg-slate-900/70 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-sm font-semibold text-indigo-400 uppercase tracking-wider">The Vision</h2>
+                        <p class="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tighter">
+                            From Digital Command to Physical Product
+                        </p>
+                        <p class="mt-6 text-lg text-slate-300">
+                            Our mission extends beyond the digital realm. OKNLAB agents are designed to be the central nervous system for modern enterprise, capable of orchestrating complex, real-world outcomes.
+                        </p>
+                        <ul class="mt-8 space-y-4">
+                            <li class="flex items-start">
+                                <span class="flex-shrink-0 w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center mr-4 mt-1">
+                                    <!-- Check Icon (Lucide) -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </span>
+                                <span class="text-slate-300">
+                                    <strong class="text-white">Supply Chain Orchestration:</strong> Agents autonomously source materials, manage vendors, and track logistics via API integration.
+                                </span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="flex-shrink-0 w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center mr-4 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </span>
+                                <span class="text-slate-300">
+                                    <strong class="text-white">Automated Manufacturing:</strong> Send designs generated by AuraScribe directly to 3D printers or CNC machines, managing production without human intervention.
+                                </span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="flex-shrink-0 w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center mr-4 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </span>
+                                <span class="text-slate-300">
+                                    <strong class="text-white">Full Product Lifecycle:</strong> An agent can design a product, order the parts, oversee its assembly, and list it on an e-commerce store, all from a single prompt.
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Placeholder for a graphic - using styled divs to create a futuristic look -->
+                    <div class="relative h-96 lg:h-full min-h-[400px]">
+                        <div class="absolute inset-0 bg-slate-800 rounded-2xl opacity-30 animate-pulse"></div>
+                        <div class="absolute inset-4 border-2 border-dashed border-indigo-500 rounded-xl opacity-50"></div>
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                            <svg class="w-24 h-24 text-indigo-400 mx-auto opacity-70" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"></path>
+                                <path d="M12 12L16 10 12 12 10 16 12 12 8 10 12 12 10 8 12 12 16 14"></path>
+                                <path d="M12 12L14.5 14.5"></path>
+                                <path d="M12 12L9.5 9.5"></path>
+                                <path d="M12 12L9.5 14.5"></path>
+                                <path d="M12 12L14.5 9.5"></path>
+                            </svg>
+                            <p class="mt-4 text-lg font-semibold text-indigo-300">
+                                Digital-to-Physical Orchestration
+                            </p>
+                            <p class="text-sm text-slate-400">
+                                AI Core → API Layer → Physical Output
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact / CTA Section -->
+        <section id="contact" class="py-20 lg:py-32">
+            <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tighter">
+                    Join the Waitlist
+                </h2>
+                <p class="mt-4 text-lg text-slate-300">
+                    Get early access to the OKNLAB platform and be the first to deploy autonomous agents in your organization.
+                </p>
+
+                <!-- Contact Form -->
+                <form id="contact-form" class="mt-10 text-left space-y-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-slate-200">Full Name</label>
+                        <input type="text" id="name" name="name" required
+                               class="mt-1 block w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-slate-200">Work Email</label>
+                        <input type="email" id="email" name="email" required
+                               class="mt-1 block w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label for="task-to-automate" class="block text-sm font-medium text-slate-200">What's the first task you'll automate?</label>
+                        <textarea id="task-to-automate" name="task" rows="4"
+                                  class="mt-1 block w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                  placeholder="e.g., 'Automate our entire PR and content pipeline...'"></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-8 rounded-lg transition-colors text-lg">
+                            Request Early Access
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Success Message (Hidden by default) -->
+                <div id="form-success" class="hidden mt-6 p-4 bg-green-800 text-green-100 rounded-lg text-center">
+                    <p class="font-medium">Thank you! You're on the waitlist.</p>
+                    <p class="text-sm">We'll be in touch soon with next steps.</p>
+                </div>
+
+            </div>
         </section>
     </main>
 
-    <!-- Services Section -->
-    <section id="services" class="py-20 bg-black">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold">One Agent, Infinite Capabilities</h2>
-                <p class="text-gray-400 mt-2">Our AI can be tasked with virtually any digital objective.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Feature 1: Code Generation -->
-                <div class="feature-card card-bg p-8 rounded-2xl text-center">
-                    <div class="feature-icon bg-indigo-500 bg-opacity-20 inline-flex items-center justify-center p-4 rounded-full mb-4 transition-transform duration-300">
-                        <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Automated Coding</h3>
-                    <p class="text-gray-400">From simple scripts to complex applications, our agents can write, debug, and deploy code across any stack.</p>
-                </div>
-                <!-- Feature 2: Content Creation -->
-                <div class="feature-card card-bg p-8 rounded-2xl text-center">
-                    <div class="feature-icon bg-purple-500 bg-opacity-20 inline-flex items-center justify-center p-4 rounded-full mb-4 transition-transform duration-300">
-                         <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Content Generation</h3>
-                    <p class="text-gray-400">Generate high-quality articles, marketing copy, social media posts, and creative stories on any topic.</p>
-                </div>
-                <!-- Feature 3: Office Automation -->
-                <div class="feature-card card-bg p-8 rounded-2xl text-center">
-                    <div class="feature-icon bg-green-500 bg-opacity-20 inline-flex items-center justify-center p-4 rounded-full mb-4 transition-transform duration-300">
-                        <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Office & Tool Automation</h3>
-                    <p class="text-gray-400">Automate spreadsheets, manage emails, schedule meetings, and integrate with your favorite office tools seamlessly.</p>
-                </div>
-                <!-- Feature 4: Physical Production -->
-                <div class="feature-card card-bg p-8 rounded-2xl text-center">
-                    <div class="feature-icon bg-red-500 bg-opacity-20 inline-flex items-center justify-center p-4 rounded-full mb-4 transition-transform duration-300">
-                        <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Digital to Physical</h3>
-                    <p class="text-gray-400">Our agents can manage supply chains, place manufacturing orders, and coordinate logistics to bring ideas to life.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="py-20">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center gap-12">
-                <div class="md:w-1/2">
-                    <div class="card-bg rounded-2xl p-8">
-                        <h2 class="text-3xl font-bold mb-4">Our Mission: <span class="gradient-text">Automate Everything</span></h2>
-                        <p class="text-gray-300 mb-4">At WB AI, we believe that human potential should be unleashed from repetitive digital labor. Our mission is to create a world where autonomous AI agents act as extensions of human creativity and ingenuity, handling complex digital tasks so you can focus on what truly matters.</p>
-                        <p class="text-gray-300">We are building the future of work—a future where a single command can set in motion a chain of intelligent actions, from writing a line of code to shipping a physical product across the globe.</p>
-                    </div>
-                </div>
-                <div class="md:w-1/2">
-                    <!-- Placeholder for an image or graphic -->
-                     <div class="bg-gray-800 rounded-2xl h-80 flex items-center justify-center">
-                        <span class="text-gray-500"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-black">
-        <div class="container mx-auto px-6">
-            <div class="card-bg max-w-2xl mx-auto p-8 md:p-12 rounded-2xl">
-                <h2 class="text-3xl font-bold text-center mb-2">Start Your AI Journey</h2>
-                <p class="text-gray-400 text-center mb-8">Tell us your goal, and we'll configure an agent to achieve it.</p>
-                <form id="contact-form">
-                    <div class="mb-4">
-                        <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
-                        <input type="text" id="name" name="name" required class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    </div>
-                    <div class="mb-4">
-                        <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
-                        <input type="email" id="email" name="email" required class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    </div>
-                    <div class="mb-6">
-                        <label for="message" class="block text-sm font-medium text-gray-300 mb-1">What do you want to automate?</label>
-                        <textarea id="message" name="message" rows="4" required class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="cta-button w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-3 px-6 rounded-full">
-                            Submit Request
-                        </button>
-                    </div>
-                     <p id="form-message" class="text-center mt-4 text-green-400"></p>
-                </form>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
-    <footer class="bg-gray-900 py-8">
-        <div class="container mx-auto px-6 text-center text-gray-500">
-            <div class="text-lg font-bold mb-2">
-                <span class="gradient-text">WB</span> AI
-            </div>
-            <p>&copy; <span id="year"></span> WB AI. All rights reserved. Pioneering the future of autonomous work.</p>
+    <footer class="py-12 bg-slate-900/50 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-slate-500">
+                &copy; 2025 OKNLAB. All rights reserved.
+            </p>
         </div>
     </footer>
 
+
+    <!-- JavaScript -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Mobile Menu Toggle ---
+            const menuButton = document.getElementById('mobile-menu-button');
+            const closeButton = document.getElementById('mobile-close-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
+            const menuLinks = document.querySelectorAll('.mobile-menu-link');
+
+            const openMenu = () => mobileMenu.classList.remove('hidden');
+            const closeMenu = () => mobileMenu.classList.add('hidden');
+
+            menuButton.addEventListener('click', openMenu);
+            closeButton.addEventListener('click', closeMenu);
+            // Close menu when a link is clicked
+            menuLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
             });
 
-            // Typing effect
-            const typingElement = document.getElementById('typing-effect');
-            const words = ["Any Digital Task.", "Software Development.", "Content Creation.", "Business Operations."];
-            let i = 0;
-            let j = 0;
-            let currentWord = "";
+
+            // --- Hero Typing Effect ---
+            const taskTicker = document.getElementById('task-ticker');
+            const tasks = [
+                "Coding",
+                "Designing",
+                "Analyzing",
+                "Automating",
+                "Orchestrating"
+            ];
+            
+            let taskIndex = 0;
+            let charIndex = 0;
             let isDeleting = false;
 
-            function type() {
-                currentWord = words[i];
+            function typeEffect() {
+                const currentTask = tasks[taskIndex];
+                const typeSpeed = isDeleting ? 75 : 150;
+
+                // Set text
+                taskTicker.textContent = currentTask.substring(0, charIndex);
+
+                // Logic
                 if (isDeleting) {
-                    typingElement.textContent = currentWord.substring(0, j - 1);
-                    j--;
-                    if (j == 0) {
-                        isDeleting = false;
-                        i++;
-                        if (i == words.length) {
-                            i = 0;
-                        }
-                    }
+                    charIndex--;
                 } else {
-                    typingElement.textContent = currentWord.substring(0, j + 1);
-                    j++;
-                    if (j == currentWord.length) {
-                        isDeleting = true;
-                        // Wait before deleting
-                        setTimeout(type, 2000);
-                        return;
-                    }
+                    charIndex++;
                 }
-                const typingSpeed = isDeleting ? 50 : 150;
-                setTimeout(type, typingSpeed);
+
+                // State change
+                if (!isDeleting && charIndex === currentTask.length) {
+                    // Pause at end of word
+                    setTimeout(() => isDeleting = true, 2000);
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    taskIndex = (taskIndex + 1) % tasks.length;
+                }
+                
+                setTimeout(typeEffect, typeSpeed);
             }
+            
+            typeEffect(); // Start the effect
 
-            type();
 
-            // Set current year in footer
-            document.getElementById('year').textContent = new Date().getFullYear();
-
-            // Contact form submission
+            // --- Contact Form Submission ---
             const contactForm = document.getElementById('contact-form');
-            const formMessage = document.getElementById('form-message');
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                // In a real app, you would send this data to a server.
-                // For this demo, we'll just show a success message.
-                formMessage.textContent = 'Thank you for your interest! We will be in touch shortly.';
+            const formSuccess = document.getElementById('form-success');
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault(); // Prevent actual form submission
+                
+                // You would typically send data to a server here
+                // For this demo, we'll just show the success message
+                
+                // Hide the form and show the message
+                // Or just show message below
+                formSuccess.classList.remove('hidden');
+                
+                // Optional: reset the form
                 contactForm.reset();
+                
+                // Optional: hide the success message after a few seconds
                 setTimeout(() => {
-                    formMessage.textContent = '';
+                    formSuccess.classList.add('hidden');
                 }, 5000);
             });
+
         });
     </script>
 
