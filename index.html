@@ -5,27 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OKNLAB - Premium AI Solutions Platform</title>
     <meta name="description" content="OKNLAB creates multifunctional AI products for coding, content generation, office automation, and beyond. Accomplish any digital task.">
-    <meta property="og:title" content="OKNLAB - Premium AI Solutions Platform">
-    <meta property="og:description" content="OKNLAB creates multifunctional AI products for coding, content generation, office automation, and beyond.">
-    <meta property="og:image" content="https://avatars.githubusercontent.com/u/32960623?s=500&v=2">
-    <meta property="og:type" content="website">
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "OKNLAB",
-      "url": "/",
-      "logo": "https://avatars.githubusercontent.com/u/32960623?s=500&v=2",
-      "sameAs": [
-        "https://twitter.com/oknlab",
-        "https://github.com/oknlab",
-        "https://linkedin.com/company/oknlab"
-      ],
-      "description": "OKNLAB creates multifunctional AI products for coding, content generation, office automation, and beyond."
-    }
-    </script>
-
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -59,89 +39,28 @@
             @apply text-gray-400 hover:text-white transition-colors duration-300 text-sm tracking-wide;
         }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        /* Hide scrollbar for the horizontal film strip */
+        .hide-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;     /* Firefox */
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;             /* Chrome, Safari and Opera */
+        }
 
-        /* Film Card Reveal */
-        .film-card {
-            @apply opacity-0 translate-y-14;
+        /* Scroll-driven reveal */
+        .project-panel {
+            @apply opacity-0 translate-y-16;
             transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
                         transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .film-card.is-visible {
+        .project-panel.is-visible {
             @apply opacity-100 translate-y-0;
         }
-
-        /* Sprocket holes */
-        .sprocket-strip {
-            background-image: repeating-linear-gradient(
-                to bottom,
-                transparent 0px,
-                transparent 6px,
-                rgba(255,255,255,0.07) 6px,
-                rgba(255,255,255,0.07) 18px,
-                transparent 18px,
-                transparent 24px
-            );
-        }
-
-        /* Film frame line */
-        .film-frame-line {
-            @apply w-0;
-            transition: width 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
-        }
-        .film-card.is-visible .film-frame-line {
-            @apply w-full;
-        }
-
-        /* Film poster shimmer */
-        .film-poster {
-            position: relative;
-            overflow: hidden;
-        }
-        .film-poster::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                105deg,
-                transparent 40%,
-                rgba(255,255,255,0.03) 45%,
-                rgba(255,255,255,0.06) 50%,
-                rgba(255,255,255,0.03) 55%,
-                transparent 60%
-            );
-            transform: translateX(-100%);
-            transition: transform 0.8s ease;
-            pointer-events: none;
-        }
-        .film-card:hover .film-poster::after {
-            transform: translateX(100%);
-        }
-
-        /* Grain overlay */
-        .film-grain {
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-        }
-
-        /* Stagger children inside visible cards */
-        .film-card .fade-child {
-            @apply opacity-0 translate-y-6;
-            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .film-card.is-visible .fade-child { @apply opacity-100 translate-y-0; }
-        .film-card.is-visible .delay-1 { transition-delay: 0.1s; }
-        .film-card.is-visible .delay-2 { transition-delay: 0.2s; }
-        .film-card.is-visible .delay-3 { transition-delay: 0.3s; }
-        .film-card.is-visible .delay-4 { transition-delay: 0.4s; }
-        .film-card.is-visible .delay-5 { transition-delay: 0.5s; }
     </style>
 </head>
 <body>
-    <div id="app" class="min-h-screen flex flex-col">
+    <div id="app" class="min-h-screen flex flex-col overflow-x-hidden">
 
         <!-- Header -->
         <header class="fixed top-0 w-full z-50 transition-all duration-300"
@@ -211,135 +130,82 @@
                 </div>
             </section>
 
-            <!-- Projects Section — Film Cards (Stretch) -->
-            <section id="projects" class="relative">
+            <!-- Projects Section — Cinematic Film Strip Vertical Cards -->
+            <section id="projects" class="relative bg-[#0a0a0a] border-y border-white/5 py-24 overflow-hidden">
 
                 <!-- Section Header -->
-                <div class="bg-okn-gray border-t border-white/5">
-                    <div class="container mx-auto px-6 py-24">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-                            <div>
-                                <span class="text-xs font-bold tracking-[0.3em] uppercase text-gray-600 mb-4 block">Portfolio</span>
-                                <h2 class="text-4xl md:text-5xl lg:text-6xl mb-6">Selected Projects</h2>
-                                <p class="text-gray-400 max-w-lg text-lg font-light">
-                                    Our suite of specialized tools tailored for developers, creators, and enterprises.
-                                </p>
-                            </div>
+                <div class="container mx-auto px-6 mb-16">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                        <div>
+                            <span class="text-xs font-bold tracking-[0.3em] uppercase text-gray-500 mb-4 block">Portfolio</span>
+                            <h2 class="text-4xl md:text-5xl lg:text-6xl mb-6">Selected Projects</h2>
+                            <p class="text-gray-400 max-w-lg text-lg font-light">
+                                Scroll horizontally to explore our specialized suite of intelligent tools.
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center gap-6">
                             <span class="text-sm text-gray-600 font-mono">
                                 {{ String(projects.length).padStart(2, '0') }} Projects
                             </span>
+                            <div class="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 uppercase tracking-widest animate-pulse">
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i> Scroll
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Film Cards — Stretch Layout -->
-                <div class="container mx-auto px-6 py-16 md:py-24">
-                    <div class="flex flex-col gap-10 md:gap-14 items-stretch">
+                <!-- Horizontal Scroll Track (Film Strip layout + Flex stretch) -->
+                <div class="w-full flex overflow-x-auto snap-x snap-mandatory items-stretch gap-6 px-6 md:px-[10vw] pb-16 hide-scrollbar">
+                    
+                    <!-- Vertical Card Items -->
+                    <a v-for="(project, index) in projects" :key="index" :href="project.link"
+                       class="project-panel flex-none w-[85vw] sm:w-[380px] md:w-[420px] snap-center flex flex-col bg-okn-gray border border-white/10 rounded-[2rem] p-8 md:p-10 group hover:bg-white/[0.03] hover:border-white/30 transition-all duration-500 relative shadow-2xl">
 
-                        <a v-for="(project, index) in projects"
-                           :key="index"
-                           :href="project.link"
-                           class="film-card group block w-full"
-                           :data-panel="index">
+                        <!-- Background Number -->
+                        <span class="absolute -right-4 -bottom-4 text-[12rem] font-serif font-bold text-white/[0.02] select-none leading-none pointer-events-none group-hover:text-white/[0.04] transition-colors duration-500">
+                            {{ String(index + 1).padStart(2, '0') }}
+                        </span>
 
-                            <!-- Card Shell -->
-                            <div class="flex flex-col lg:flex-row rounded-sm overflow-hidden border border-white/[0.06] group-hover:border-white/15 transition-all duration-500 bg-okn-gray/50">
-
-                                <!-- Left Sprocket -->
-                                <div class="hidden lg:block w-6 sprocket-strip bg-black/40 shrink-0"></div>
-
-                                <!-- Poster -->
-                                <div class="film-poster relative shrink-0 lg:w-80 xl:w-96 min-h-[240px] lg:min-h-0 film-grain"
-                                     :style="`background: linear-gradient(135deg, ${project.gradientFrom}, ${project.gradientVia || project.gradientFrom}, ${project.gradientTo})`">
-
-                                    <!-- Frame badge -->
-                                    <div class="absolute top-4 left-4 flex items-center gap-2 fade-child delay-1">
-                                        <span class="text-[10px] font-mono text-white/30 bg-black/30 px-2 py-0.5 rounded-sm backdrop-blur-sm border border-white/5">
-                                            FRAME {{ String(index + 1).padStart(2, '0') }}
-                                        </span>
-                                        <span v-if="project.isNew" class="text-[10px] font-bold tracking-widest uppercase text-black bg-white px-2 py-0.5 rounded-sm">
-                                            NEW
-                                        </span>
-                                    </div>
-
-                                    <!-- Icon -->
-                                    <div class="absolute inset-0 flex items-center justify-center fade-child delay-2">
-                                        <div class="w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-black/20 border border-white/10 flex items-center justify-center backdrop-blur-sm group-hover:scale-110 group-hover:bg-black/30 transition-all duration-700">
-                                            <i :data-lucide="project.icon" class="w-12 h-12 md:w-14 md:h-14 text-white/50 group-hover:text-white/90 transition-colors duration-500"></i>
-                                        </div>
-                                    </div>
-
-                                    <!-- Bottom strip -->
-                                    <div class="absolute bottom-0 left-0 right-0 px-4 py-3 bg-gradient-to-t from-black/50 to-transparent">
-                                        <div class="flex items-center justify-between">
-                                            <span class="text-[9px] font-mono text-white/25 tracking-wider">OKNLAB © 2024</span>
-                                            <div class="flex gap-1">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-red-500/40"></span>
-                                                <span class="w-1.5 h-1.5 rounded-full bg-green-500/40"></span>
-                                                <span class="w-1.5 h-1.5 rounded-full bg-blue-500/40"></span>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <!-- Card Inner Content (Flex Col to stretch & center content) -->
+                        <div class="flex flex-col h-full flex-grow relative z-10">
+                            
+                            <!-- Header Info -->
+                            <div class="flex items-center justify-between mb-10">
+                                <span class="text-sm text-gray-600 font-mono">{{ String(index + 1).padStart(2, '0') }}</span>
+                                <div class="flex items-center gap-3">
+                                    <span v-if="project.isNew" class="text-[10px] font-bold tracking-widest uppercase text-black bg-white px-2 py-0.5 rounded-sm">New</span>
+                                    <span class="text-xs font-bold tracking-[0.2em] uppercase text-gray-500">{{ project.category }}</span>
                                 </div>
-
-                                <!-- Content -->
-                                <div class="flex-1 flex flex-col p-8 md:p-10 lg:p-12">
-
-                                    <!-- Category row -->
-                                    <div class="flex items-center gap-3 mb-6 fade-child delay-1">
-                                        <span class="text-xs font-bold tracking-[0.2em] uppercase text-gray-600">{{ project.category }}</span>
-                                        <div class="flex-1 h-px bg-white/5"></div>
-                                        <span class="text-xs text-gray-700 font-mono">{{ String(index + 1).padStart(2, '0') }}/{{ String(projects.length).padStart(2, '0') }}</span>
-                                    </div>
-
-                                    <!-- Title -->
-                                    <h3 class="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-tight text-gray-300 group-hover:text-white transition-colors duration-500 mb-5 fade-child delay-2">
-                                        {{ project.title }}
-                                    </h3>
-
-                                    <!-- Frame line -->
-                                    <div class="h-px bg-white/5 mb-5 overflow-hidden">
-                                        <div class="film-frame-line h-full bg-gradient-to-r from-white/20 via-white/10 to-transparent"></div>
-                                    </div>
-
-                                    <!-- Description -->
-                                    <p class="text-gray-500 text-sm md:text-base leading-relaxed group-hover:text-gray-400 transition-colors duration-500 mb-8 flex-1 fade-child delay-3">
-                                        {{ project.description }}
-                                    </p>
-
-                                    <!-- Tags -->
-                                    <div class="flex flex-wrap gap-2 mb-6 fade-child delay-4">
-                                        <span v-for="tag in project.tags" :key="tag"
-                                              class="text-[10px] font-mono tracking-wider uppercase text-gray-600 border border-white/5 px-2.5 py-1 rounded-sm group-hover:border-white/10 group-hover:text-gray-500 transition-all duration-300">
-                                            {{ tag }}
-                                        </span>
-                                    </div>
-
-                                    <!-- CTA -->
-                                    <div class="flex items-center justify-between fade-child delay-5">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center group-hover:bg-white group-hover:text-black group-hover:border-white transition-all duration-500">
-                                                <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform duration-500 group-hover:rotate-45"></i>
-                                            </div>
-                                            <span class="text-xs text-gray-600 tracking-wider uppercase group-hover:text-white transition-colors duration-500">
-                                                View Project
-                                            </span>
-                                        </div>
-
-                                        <!-- Progress dots -->
-                                        <div class="hidden md:flex items-center gap-1.5 opacity-30">
-                                            <span v-for="n in projects.length" :key="n"
-                                                  class="w-1.5 h-1.5 rounded-full transition-colors duration-300"
-                                                  :class="n <= index + 1 ? 'bg-white' : 'bg-white/30'"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Right Sprocket -->
-                                <div class="hidden lg:block w-6 sprocket-strip bg-black/40 shrink-0"></div>
                             </div>
-                        </a>
-                    </div>
+
+                            <!-- Floating Icon -->
+                            <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:border-white/30 transition-all duration-500 shadow-lg">
+                                <i :data-lucide="project.icon" class="w-8 h-8 md:w-10 md:h-10 text-white/50 group-hover:text-white transition-colors duration-500"></i>
+                            </div>
+
+                            <!-- Title & Description (Flex-Grow pushes CTA to bottom) -->
+                            <div class="flex-grow flex flex-col">
+                                <h3 class="text-3xl md:text-4xl font-bold leading-[1.1] tracking-tight text-gray-200 mb-6 group-hover:text-white transition-colors duration-500">
+                                    {{ project.title }}
+                               </h3>
+                                <p class="text-gray-500 text-base leading-relaxed group-hover:text-gray-400 transition-colors duration-500">
+                                    {{ project.description }}
+                                </p>
+                            </div>
+
+                            <!-- Card Footer / CTA -->
+                            <div class="mt-12 pt-6 border-t border-white/10 flex items-center justify-between group/cta">
+                                <span class="text-sm text-gray-500 tracking-wide font-medium group-hover:text-white transition-colors duration-500">
+                                    View Project
+                                </span>
+                                <div class="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-500">
+                                    <i data-lucide="arrow-up-right" class="w-5 h-5 text-gray-400 group-hover:text-black group-hover:rotate-45 transition-all duration-500"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                    </a>
                 </div>
             </section>
         </main>
@@ -380,8 +246,8 @@
 
         createApp({
             setup() {
-                const isScrolled     = ref(false)
-                const mobileMenuOpen = ref(false)
+                const isScrolled      = ref(false)
+                const mobileMenuOpen  = ref(false)
 
                 const projects = [
                     {
@@ -390,10 +256,7 @@
                         description: 'An intelligent IDE plugin that predicts your next logic block, not just the next line. Built with transformer-based architecture trained on millions of production codebases to understand intent, not just syntax.',
                         icon: 'terminal-square',
                         link: '#project-codesynth',
-                        isNew: true,
-                        gradientFrom: '#1a1a2e',
-                        gradientTo: '#16213e',
-                        tags: ['AI', 'IDE', 'Transformer']
+                        isNew: true
                     },
                     {
                         title: 'DocuGen AI',
@@ -401,10 +264,7 @@
                         description: 'Automated technical documentation generator that reads your codebase and writes the manual. Supports JSDoc, TypeDoc, Sphinx, and custom templates with multi-language output.',
                         icon: 'file-text',
                         link: '#project-docugen',
-                        isNew: false,
-                        gradientFrom: '#1a1a1a',
-                        gradientTo: '#2d1b2e',
-                        tags: ['NLP', 'Docs', 'Multi-lang']
+                        isNew: false
                     },
                     {
                         title: 'FlowAutomate',
@@ -412,10 +272,7 @@
                         description: 'Visual workflow builder for connecting API endpoints without writing a single line of glue code. Drag, connect, deploy — with built-in error handling and retry logic.',
                         icon: 'workflow',
                         link: '#project-flow',
-                        isNew: false,
-                        gradientFrom: '#0d1b0e',
-                        gradientTo: '#1a2e1b',
-                        tags: ['Workflow', 'No-Code', 'API']
+                        isNew: false
                     },
                     {
                         title: 'VisionCraft API',
@@ -423,10 +280,7 @@
                         description: 'Enterprise-grade image manipulation API for bulk e-commerce processing. Background removal, color correction, and format optimization at scale — processing millions of images daily.',
                         icon: 'aperture',
                         link: '#project-vision',
-                        isNew: false,
-                        gradientFrom: '#1b1a0d',
-                        gradientTo: '#2e2a1b',
-                        tags: ['Vision', 'API', 'E-commerce']
+                        isNew: false
                     },
                     {
                         title: 'SecureGuard',
@@ -434,10 +288,7 @@
                         description: 'AI-powered vulnerability scanner that detects zero-day exploits in real-time. Continuous monitoring with automated patch suggestions and compliance reporting for SOC2, HIPAA, and ISO 27001.',
                         icon: 'shield-check',
                         link: '#project-secure',
-                        isNew: false,
-                        gradientFrom: '#1b0d0d',
-                        gradientTo: '#2e1b1b',
-                        tags: ['Security', 'Zero-Day', 'Compliance']
+                        isNew: false
                     }
                 ]
 
@@ -450,12 +301,16 @@
                             entries.forEach((entry) => {
                                 if (entry.isIntersecting) {
                                     entry.target.classList.add('is-visible')
+                                    observer.unobserve(entry.target)
                                 }
                             })
                         },
-                        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+                        { threshold: 0.1, rootMargin: '0px 100px 0px 0px' } 
                     )
-                    document.querySelectorAll('.film-card').forEach((card) => observer.observe(card))
+
+                    document.querySelectorAll('.project-panel').forEach((panel) => {
+                        observer.observe(panel)
+                    })
                 }
 
                 onMounted(() => {
@@ -465,7 +320,12 @@
                 })
                 onUpdated(() => { lucide.createIcons() })
 
-                return { isScrolled, mobileMenuOpen, projects, toggleMobileMenu }
+                return {
+                    isScrolled,
+                    mobileMenuOpen,
+                    projects,
+                    toggleMobileMenu
+                }
             }
         }).mount('#app')
     </script>
