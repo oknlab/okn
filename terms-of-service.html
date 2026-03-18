@@ -1,1 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service — OKNLAB</title>
+    <meta name="description" content="OKNLAB Terms of Service — the rules governing use of our platform and products.">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style type="text/tailwindcss">
+        @theme {
+            --font-serif: "Old Standard TT", serif;
+            --font-sans: "Inter", sans-serif;
+            --color-okn-black: #050505;
+            --color-okn-white: #EDEDED;
+            --color-okn-gray: #121212;
+        }
+
+        body {
+            @apply font-sans bg-okn-black text-okn-white antialiased selection:bg-white selection:text-black;
+        }
+
+        h1, h2, h3, h4 { @apply font-serif; }
+
+        .legal-section {
+            @apply border-t border-white/5 pt-10 pb-2;
+        }
+
+        .legal-h2 {
+            @apply text-xl md:text-2xl font-bold mb-5 text-white;
+        }
+
+        .legal-p {
+            @apply text-gray-400 text-sm md:text-base leading-relaxed mb-4 font-light;
+        }
+
+        .legal-ul {
+            @apply list-none space-y-2 mb-4 pl-0;
+        }
+
+        .legal-ul li {
+            @apply flex items-start gap-3 text-sm md:text-base text-gray-400 leading-relaxed font-light;
+        }
+
+        .legal-ul li::before {
+            content: '—';
+            @apply text-gray-600 shrink-0 mt-0.5;
+        }
+
+        .callout {
+            @apply p-5 border border-white/10 rounded-xl bg-white/5 text-sm text-gray-400 leading-relaxed mb-6;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 bg-okn-black/90 backdrop-blur-xl border-b border-white/5">
+        <div class="container mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2" alt="OKNLAB Logo"
+                     class="w-9 h-9 rounded-full grayscale group-hover:grayscale-0 transition-all duration-500 border border-white/20">
+                <span class="font-serif text-xl font-bold tracking-wider">OKNLAB</span>
+            </a>
+            <a href="index.html" class="text-xs text-gray-500 hover:text-white transition-colors tracking-widest uppercase border-b border-transparent hover:border-white/50 pb-0.5">
+                ← Back
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="pt-32 pb-16 relative overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none"
+             style="background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 48px 48px;"></div>
+        <div class="absolute bottom-0 left-0 w-full h-24"
+             style="background: linear-gradient(to top, #050505, transparent);"></div>
+        <div class="container mx-auto px-6 relative z-10 max-w-3xl">
+            <span class="inline-flex items-center text-xs tracking-widest uppercase border border-white/10 px-3 py-1 rounded-full text-gray-500 mb-6">Legal Document</span>
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-5 leading-tight">
+                Terms of<br>Service
+            </h1>
+            <p class="text-gray-500 text-sm">
+                Effective Date: <span class="text-gray-300">January 1, 2025</span>
+                &nbsp;&nbsp;·&nbsp;&nbsp;
+                Last Updated: <span class="text-gray-300">March 17, 2026</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <main class="container mx-auto px-6 max-w-3xl pb-32">
+
+        <div class="mb-10">
+            <div class="callout">
+                <strong class="text-white/80">Please read these Terms carefully.</strong> By accessing or using OKNLAB's website, tools, APIs, or any associated services (collectively, the "Services"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, please discontinue use immediately.
+            </div>
+        </div>
+
+        <div class="legal-section border-t-0 pt-0">
+            <h2 class="legal-h2">1. Acceptance of Terms</h2>
+            <p class="legal-p">These Terms constitute a legally binding agreement between you ("User," "you," or "your") and OKNLAB ("Company," "we," "our," or "us"). By using the Services in any capacity — visiting the website, accessing an API, subscribing to a product, or submitting data — you represent that you are at least 13 years of age and have the legal authority to enter into this agreement.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">2. Description of Services</h2>
+            <p class="legal-p">OKNLAB provides AI-powered software products and platform tools for coding automation, content generation, workflow automation, and related functions. The Services are offered "as-is" and may be updated, modified, or discontinued at our sole discretion.</p>
+            <p class="legal-p">We reserve the right to introduce new features, adjust pricing, or restrict access at any time with or without prior notice.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">3. User Accounts &amp; Registration</h2>
+            <p class="legal-p">Certain features of the Services may require account registration. You agree to:</p>
+            <ul class="legal-ul">
+                <li>Provide accurate, current, and complete information during registration</li>
+                <li>Maintain the security and confidentiality of your login credentials</li>
+                <li>Promptly notify us of any unauthorized access or suspected breach</li>
+                <li>Accept responsibility for all activity that occurs under your account</li>
+            </ul>
+            <p class="legal-p">We reserve the right to suspend or terminate accounts that violate these Terms or that we reasonably suspect are being used for unauthorized or harmful purposes.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">4. Acceptable Use</h2>
+            <p class="legal-p">You agree to use the Services only for lawful purposes and in compliance with all applicable local, national, and international laws. You must not:</p>
+            <ul class="legal-ul">
+                <li>Use the Services to generate, distribute, or promote harmful, harassing, defamatory, or illegal content</li>
+                <li>Attempt to reverse-engineer, decompile, or extract underlying AI models or proprietary code</li>
+                <li>Circumvent authentication systems, rate limits, or access controls</li>
+                <li>Automate requests in ways that overburden or degrade our infrastructure</li>
+                <li>Use the Services to train competing AI models without our express written consent</li>
+                <li>Impersonate OKNLAB, its team, or any other individual or entity</li>
+                <li>Violate the intellectual property rights of OKNLAB or any third party</li>
+            </ul>
+            <p class="legal-p">Violations may result in immediate suspension of access and potential legal action.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">5. Intellectual Property</h2>
+            <p class="legal-p">All content, software, trademarks, trade names, logos, interface designs, and underlying models made available through the Services are the intellectual property of OKNLAB or its licensors and are protected by applicable copyright, trademark, and trade secret laws.</p>
+            <p class="legal-p">You are granted a limited, non-exclusive, non-transferable, revocable license to access and use the Services for your personal or internal business purposes only. This license does not include any right to sublicense, modify, distribute, or create derivative works from OKNLAB's proprietary assets.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">6. User-Generated Content</h2>
+            <p class="legal-p">If you submit, upload, or transmit content to our Services ("User Content"), you retain ownership of that content. By submitting User Content, you grant OKNLAB a non-exclusive, worldwide, royalty-free license to use, store, reproduce, and process that content solely for the purpose of providing and improving the Services.</p>
+            <p class="legal-p">You represent that you have all necessary rights to submit User Content and that it does not infringe any third-party rights or violate any applicable law.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">7. AI-Generated Output</h2>
+            <p class="legal-p">Outputs generated by OKNLAB's AI products ("AI Output") are provided for informational and productivity purposes only. You acknowledge that:</p>
+            <ul class="legal-ul">
+                <li>AI Output may be inaccurate, incomplete, or not suitable for all purposes</li>
+                <li>You are solely responsible for reviewing, validating, and using AI Output</li>
+                <li>OKNLAB makes no representations about the accuracy, reliability, or fitness for purpose of AI Output</li>
+                <li>AI Output should not be relied upon as professional legal, medical, financial, or technical advice</li>
+            </ul>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">8. Fees &amp; Payment</h2>
+            <p class="legal-p">Some Services may be offered under a paid subscription or usage-based model. Where applicable:</p>
+            <ul class="legal-ul">
+                <li>All fees are stated in USD and exclusive of applicable taxes unless otherwise noted</li>
+                <li>Subscriptions renew automatically unless cancelled prior to the renewal date</li>
+                <li>Refunds are issued at our discretion and subject to our refund policy communicated at point of purchase</li>
+                <li>We reserve the right to modify pricing with at least 30 days' notice to active subscribers</li>
+            </ul>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">9. Privacy</h2>
+            <p class="legal-p">Your use of the Services is also governed by our <a href="privacy-policy.html" class="text-white hover:opacity-70 transition-opacity underline underline-offset-2">Privacy Policy</a>, which is incorporated into these Terms by reference. By using the Services, you consent to the collection and use of data as described therein.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">10. Disclaimer of Warranties</h2>
+            <p class="legal-p">THE SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. TO THE FULLEST EXTENT PERMITTED BY LAW, OKNLAB EXPRESSLY DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</p>
+            <p class="legal-p">We do not warrant that the Services will be uninterrupted, error-free, secure, or free of viruses or other harmful components.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">11. Limitation of Liability</h2>
+            <p class="legal-p">TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, OKNLAB AND ITS OFFICERS, DIRECTORS, EMPLOYEES, AND LICENSORS SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES — INCLUDING LOSS OF PROFITS, DATA, OR GOODWILL — ARISING FROM YOUR USE OF OR INABILITY TO USE THE SERVICES.</p>
+            <p class="legal-p">Our total cumulative liability to you for any claim arising under these Terms shall not exceed the greater of (a) the amounts paid by you to OKNLAB in the 12 months preceding the claim, or (b) USD $100.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">12. Indemnification</h2>
+            <p class="legal-p">You agree to defend, indemnify, and hold harmless OKNLAB and its affiliates, officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, and expenses (including reasonable legal fees) arising out of or in any way related to your use of the Services, your violation of these Terms, or your violation of any third-party rights.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">13. Termination</h2>
+            <p class="legal-p">We reserve the right to suspend or terminate your access to the Services at any time, with or without cause or notice. You may discontinue use of the Services at any time. Upon termination, all licenses granted to you under these Terms will immediately cease. Sections relating to intellectual property, disclaimers, limitation of liability, and indemnification shall survive termination.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">14. Governing Law &amp; Dispute Resolution</h2>
+            <p class="legal-p">These Terms shall be governed by and construed in accordance with the laws of the State of California, without regard to its conflict of law principles. Any dispute arising out of or related to these Terms shall be resolved by binding arbitration in San Francisco, California, under the rules of the American Arbitration Association, except that either party may seek injunctive or equitable relief in any court of competent jurisdiction.</p>
+            <p class="legal-p">You waive any right to participate in a class-action lawsuit or class-wide arbitration against OKNLAB.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">15. Changes to Terms</h2>
+            <p class="legal-p">We may revise these Terms at any time. When we do, we will update the "Last Updated" date above. If the changes are material, we will provide notice by email (if you have an account) or via a prominent banner on the site. Your continued use of the Services after the effective date of any modification constitutes your acceptance of the revised Terms.</p>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">16. Miscellaneous</h2>
+            <ul class="legal-ul">
+                <li><strong class="text-white/80">Entire Agreement:</strong> These Terms, together with the Privacy Policy, constitute the entire agreement between you and OKNLAB regarding the Services.</li>
+                <li><strong class="text-white/80">Severability:</strong> If any provision is found unenforceable, the remaining provisions continue in full force.</li>
+                <li><strong class="text-white/80">Waiver:</strong> Failure to enforce any provision shall not constitute a waiver of future enforcement.</li>
+                <li><strong class="text-white/80">Assignment:</strong> You may not assign your rights under these Terms. We may assign ours in connection with a merger, acquisition, or sale of assets.</li>
+                <li><strong class="text-white/80">Force Majeure:</strong> We are not liable for failures caused by circumstances beyond our reasonable control.</li>
+            </ul>
+        </div>
+
+        <div class="legal-section">
+            <h2 class="legal-h2">17. Contact</h2>
+            <p class="legal-p">If you have questions about these Terms, please contact us:</p>
+            <div class="mt-4 p-6 border border-white/10 rounded-xl bg-white/5 space-y-1 text-sm text-gray-400">
+                <p class="font-serif text-lg font-bold text-white mb-3">OKNLAB</p>
+                <p>San Francisco, CA · Est. 2024</p>
+                <p>Email: <a href="mailto:hello@oknlab.com" class="text-white hover:opacity-70 transition-opacity">hello@oknlab.com</a></p>
+            </div>
+        </div>
+
+        <!-- Bottom Nav -->
+        <div class="mt-16 pt-10 border-t border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <a href="privacy-policy.html" class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white border border-white/10 hover:border-white/30 transition-all px-5 py-2.5 rounded-full">
+                ← Privacy Policy
+            </a>
+            <a href="index.html" class="text-sm text-gray-500 hover:text-white transition-colors tracking-widest uppercase">Back to Home →</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-white/10 py-8">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-gray-700 text-xs">© 2025 OKNLAB. All rights reserved.</p>
+            <div class="flex gap-6 text-xs text-gray-600">
+                <a href="privacy-policy.html" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="terms-of-service.html" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
+                <a href="mailto:hello@oknlab.com" class="hover:text-white transition-colors">Contact</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
