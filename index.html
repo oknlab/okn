@@ -179,9 +179,10 @@
                                 </div>
                             </div>
 
-                            <!-- Floating Icon -->
-                            <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:border-white/30 transition-all duration-500 shadow-lg">
-                                <i :data-lucide="project.icon" class="w-8 h-8 md:w-10 md:h-10 text-white/50 group-hover:text-white transition-colors duration-500"></i>
+                            <!-- Logo / Icon -->
+                            <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:border-white/30 transition-all duration-500 shadow-lg overflow-hidden">
+                                <img v-if="project.logo" :src="project.logo" :alt="project.title + ' logo'" class="w-10 h-10 md:w-12 md:h-12 object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+                                <i v-else :data-lucide="project.icon" class="w-8 h-8 md:w-10 md:h-10 text-white/50 group-hover:text-white transition-colors duration-500"></i>
                             </div>
 
                             <!-- Title & Description (Flex-Grow pushes CTA to bottom) -->
@@ -255,6 +256,7 @@
                         category: 'DevTools',
                         description: 'An intelligent IDE plugin that predicts your next logic block, not just the next line. Built with transformer-based architecture trained on millions of production codebases to understand intent, not just syntax.',
                         icon: 'terminal-square',
+                        logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg',
                         link: '#project-codesynth',
                         isNew: true
                     },
@@ -263,6 +265,7 @@
                         category: 'Content',
                         description: 'Automated technical documentation generator that reads your codebase and writes the manual. Supports JSDoc, TypeDoc, Sphinx, and custom templates with multi-language output.',
                         icon: 'file-text',
+                        logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/markdown/markdown-original.svg',
                         link: '#project-docugen',
                         isNew: false
                     },
@@ -271,6 +274,7 @@
                         category: 'Productivity',
                         description: 'Visual workflow builder for connecting API endpoints without writing a single line of glue code. Drag, connect, deploy — with built-in error handling and retry logic.',
                         icon: 'workflow',
+                        logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg',
                         link: '#project-flow',
                         isNew: false
                     },
@@ -279,6 +283,7 @@
                         category: 'Media',
                         description: 'Enterprise-grade image manipulation API for bulk e-commerce processing. Background removal, color correction, and format optimization at scale — processing millions of images daily.',
                         icon: 'aperture',
+                        logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg',
                         link: '#project-vision',
                         isNew: false
                     },
@@ -287,6 +292,7 @@
                         category: 'Security',
                         description: 'AI-powered vulnerability scanner that detects zero-day exploits in real-time. Continuous monitoring with automated patch suggestions and compliance reporting for SOC2, HIPAA, and ISO 27001.',
                         icon: 'shield-check',
+                        logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg',
                         link: '#project-secure',
                         isNew: false
                     }
