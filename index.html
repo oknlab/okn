@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OKNLAB - Premium AI Solutions Platform</title>
     <meta name="description" content="OKNLAB creates multifunctional AI products for coding, content generation, office automation, and beyond. Accomplish any digital task.">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -23,8 +23,15 @@
             --color-okn-accent: #333333;
         }
 
+        /* ── Global overflow fix ── */
+        html {
+            overflow-x: hidden;
+            overflow-x: clip;       /* modern: no scroll-container side-effects */
+        }
+
         body {
             @apply font-sans bg-okn-black text-okn-white antialiased selection:bg-white selection:text-black;
+            overscroll-behavior-x: none;      /* stop pull-to-navigate */
         }
 
         h1, h2, h3, h4, h5, h6 { @apply font-serif; }
@@ -39,16 +46,33 @@
             @apply text-gray-400 hover:text-white transition-colors duration-300 text-sm tracking-wide;
         }
 
-        /* Hide scrollbar for the horizontal film strip */
-        .hide-scrollbar {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;     /* Firefox */
+        /* ── Horizontal scroll track ── */
+        .scroll-track {
+            -webkit-overflow-scrolling: touch;   /* momentum on older iOS */
+            overscroll-behavior-x: contain;      /* contain over-scroll   */
         }
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;             /* Chrome, Safari and Opera */
+        .scroll-track:active {
+            scroll-behavior: auto;               /* instant feedback while dragging */
         }
 
-        /* Scroll-driven reveal */
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* ── Scroll nav arrows ── */
+        .scroll-nav {
+            @apply absolute top-1/2 -translate-y-1/2 z-20
+                   w-11 h-11 rounded-full
+                   bg-black/70 backdrop-blur-md border border-white/10
+                   items-center justify-center
+                   text-white/60 hover:text-white
+                   hover:bg-white/10 hover:border-white/30
+                   transition-all duration-300 shadow-2xl;
+        }
+
+        /* ── Card reveal ── */
         .project-panel {
             @apply opacity-0 translate-y-16;
             transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
@@ -60,9 +84,9 @@
     </style>
 </head>
 <body>
-    <div id="app" class="min-h-screen flex flex-col overflow-x-hidden">
+    <div id="app" class="min-h-screen flex flex-col">
 
-        <!-- Header -->
+        <!-- ╔═══════════════════════ Header ═══════════════════════╗ -->
         <header class="fixed top-0 w-full z-50 transition-all duration-300"
                 :class="{ 'bg-okn-black/90 backdrop-blur-xl border-b border-white/5': isScrolled, 'bg-transparent': !isScrolled }">
             <div class="container mx-auto px-6 h-20 flex items-center justify-between">
@@ -80,23 +104,24 @@
                     <a href="contact.html" class="hidden md:inline-flex text-xs font-semibold uppercase tracking-widest border-b border-white pb-1 hover:opacity-70 transition-opacity">
                         Contact Us
                     </a>
-                    <button class="md:hidden text-white" @click="toggleMobileMenu">
+                    <button class="md:hidden text-white" @click="toggleMobileMenu" aria-label="Menu">
                         <i data-lucide="menu" class="w-6 h-6"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Mobile Menu -->
-            <div v-if="mobileMenuOpen" class="md:hidden absolute top-full left-0 w-full bg-okn-black border-b border-white/10 p-6 flex flex-col gap-4 shadow-2xl">
+            <div v-if="mobileMenuOpen"
+                 class="md:hidden absolute top-full left-0 w-full bg-okn-black border-b border-white/10 p-6 flex flex-col gap-4 shadow-2xl">
                 <a href="#projects"    class="nav-link text-lg" @click="mobileMenuOpen = false">Projects</a>
                 <a href="contact.html" class="nav-link text-lg text-white" @click="mobileMenuOpen = false">Contact</a>
             </div>
         </header>
 
-        <!-- Main Content -->
+        <!-- ╔═══════════════════════ Main ═══════════════════════╗ -->
         <main class="flex-grow pt-20">
 
-            <!-- Hero Section -->
+            <!-- ── Hero ── -->
             <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
                 <div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
                     <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-white rounded-full blur-[150px] opacity-10 animate-pulse"></div>
@@ -130,8 +155,8 @@
                 </div>
             </section>
 
-            <!-- Projects Section — Cinematic Film Strip Vertical Cards -->
-            <section id="projects" class="relative bg-[#0a0a0a] border-y border-white/5 py-24 overflow-hidden">
+            <!-- ── Projects — Horizontal Film-Strip ── -->
+            <section id="projects" class="relative bg-[#0a0a0a] border-y border-white/5 py-24">
 
                 <!-- Section Header -->
                 <div class="container mx-auto px-6 mb-16">
@@ -140,78 +165,137 @@
                             <span class="text-xs font-bold tracking-[0.3em] uppercase text-gray-500 mb-4 block">Portfolio</span>
                             <h2 class="text-4xl md:text-5xl lg:text-6xl mb-6">Selected Projects</h2>
                             <p class="text-gray-400 max-w-lg text-lg font-light">
-                                Scroll horizontally to explore our specialized suite of intelligent tools.
+                                <span class="hidden md:inline">Scroll horizontally or use the arrows</span>
+                                <span class="md:hidden">Swipe</span>
+                                to explore our specialized suite of intelligent tools.
                             </p>
                         </div>
-                        
+
                         <div class="flex items-center gap-6">
                             <span class="text-sm text-gray-600 font-mono">
                                 {{ String(projects.length).padStart(2, '0') }} Projects
                             </span>
-                            <div class="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 uppercase tracking-widest animate-pulse">
-                                <i data-lucide="arrow-right" class="w-4 h-4"></i> Scroll
+                            <div class="flex md:hidden items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 uppercase tracking-widest animate-pulse">
+                                <i data-lucide="move-horizontal" class="w-4 h-4"></i> Swipe
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Horizontal Scroll Track (Film Strip layout + Flex stretch) -->
-                <div class="w-full flex overflow-x-auto snap-x snap-mandatory items-stretch gap-6 px-6 md:px-[10vw] pb-16 hide-scrollbar">
-                    
-                    <!-- Vertical Card Items -->
-                    <a v-for="(project, index) in projects" :key="index" :href="project.link"
-                       class="project-panel flex-none w-[85vw] sm:w-[380px] md:w-[420px] snap-center flex flex-col bg-okn-gray border border-white/10 rounded-[2rem] p-8 md:p-10 group hover:bg-white/[0.03] hover:border-white/30 transition-all duration-500 relative shadow-2xl">
+                <!-- Scroll Wrapper (relative for nav-button positioning) -->
+                <div class="relative group/scroll">
 
-                        <!-- Background Number -->
-                        <span class="absolute -right-4 -bottom-4 text-[12rem] font-serif font-bold text-white/[0.02] select-none leading-none pointer-events-none group-hover:text-white/[0.04] transition-colors duration-500">
-                            {{ String(index + 1).padStart(2, '0') }}
-                        </span>
+                    <!-- Left arrow — desktop only, shown on hover -->
+                    <button class="scroll-nav hidden md:flex left-3 lg:left-6
+                                   opacity-0 group-hover/scroll:opacity-100
+                                   disabled:!opacity-0 disabled:pointer-events-none"
+                            :disabled="!canScrollLeft"
+                            @click="scrollByDir(-1)"
+                            aria-label="Previous project">
+                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                    </button>
 
-                        <!-- Card Inner Content (Flex Col to stretch & center content) -->
-                        <div class="flex flex-col h-full flex-grow relative z-10">
-                            
-                            <!-- Header Info -->
-                            <div class="flex items-center justify-between mb-10">
-                                <span class="text-sm text-gray-600 font-mono">{{ String(index + 1).padStart(2, '0') }}</span>
-                                <div class="flex items-center gap-3">
-                                    <span v-if="project.isNew" class="text-[10px] font-bold tracking-widest uppercase text-black bg-white px-2 py-0.5 rounded-sm">New</span>
-                                    <span class="text-xs font-bold tracking-[0.2em] uppercase text-gray-500">{{ project.category }}</span>
+                    <!-- ★ Scroll Track ★ -->
+                    <div ref="scrollContainer"
+                         class="scroll-track hide-scrollbar
+                                w-full flex overflow-x-auto snap-x snap-mandatory
+                                items-stretch gap-5 sm:gap-6
+                                px-6 md:px-[10vw] pb-2"
+                         role="region"
+                         aria-label="Projects carousel"
+                         tabindex="0"
+                         @scroll="onTrackScroll"
+                         @keydown.left.prevent="scrollByDir(-1)"
+                         @keydown.right.prevent="scrollByDir(1)">
+
+                        <!-- Cards -->
+                        <a v-for="(project, index) in projects" :key="index" :href="project.link"
+                           class="project-panel flex-none
+                                  w-[82vw] min-w-[280px] sm:w-[370px] md:w-[420px]
+                                  snap-center
+                                  flex flex-col bg-okn-gray border border-white/10
+                                  rounded-[2rem] p-7 sm:p-8 md:p-10
+                                  group hover:bg-white/[0.03] hover:border-white/30
+                                  transition-all duration-500 relative shadow-2xl
+                                  select-none"
+                           draggable="false">
+
+                            <!-- Background Number -->
+                            <span class="absolute -right-4 -bottom-4 text-[10rem] sm:text-[12rem] font-serif font-bold text-white/[0.02] leading-none pointer-events-none group-hover:text-white/[0.04] transition-colors duration-500 select-none">
+                                {{ String(index + 1).padStart(2, '0') }}
+                            </span>
+
+                            <!-- Card Inner -->
+                            <div class="flex flex-col h-full flex-grow relative z-10">
+
+                                <!-- Header -->
+                                <div class="flex items-center justify-between mb-8 md:mb-10">
+                                    <span class="text-sm text-gray-600 font-mono">{{ String(index + 1).padStart(2, '0') }}</span>
+                                    <div class="flex items-center gap-3">
+                                        <span v-if="project.isNew" class="text-[10px] font-bold tracking-widest uppercase text-black bg-white px-2 py-0.5 rounded-sm">New</span>
+                                        <span class="text-xs font-bold tracking-[0.2em] uppercase text-gray-500">{{ project.category }}</span>
+                                    </div>
+                                </div>
+
+                                <!-- Icon -->
+                                <div class="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:border-white/30 transition-all duration-500 shadow-lg overflow-hidden">
+                                    <img v-if="project.logo" :src="project.logo" :alt="project.title + ' logo'" class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+                                    <i v-else :data-lucide="project.icon" class="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white/50 group-hover:text-white transition-colors duration-500"></i>
+                                </div>
+
+                                <!-- Copy -->
+                                <div class="flex-grow flex flex-col">
+                                    <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold leading-[1.1] tracking-tight text-gray-200 mb-5 md:mb-6 group-hover:text-white transition-colors duration-500">
+                                        {{ project.title }}
+                                    </h3>
+                                    <p class="text-gray-500 text-sm sm:text-base leading-relaxed group-hover:text-gray-400 transition-colors duration-500">
+                                        {{ project.description }}
+                                    </p>
+                                </div>
+
+                                <!-- Footer / CTA -->
+                                <div class="mt-10 md:mt-12 pt-6 border-t border-white/10 flex items-center justify-between">
+                                    <span class="text-sm text-gray-500 tracking-wide font-medium group-hover:text-white transition-colors duration-500">
+                                        View Project
+                                    </span>
+                                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-500">
+                                        <i data-lucide="arrow-up-right" class="w-5 h-5 text-gray-400 group-hover:text-black group-hover:rotate-45 transition-all duration-500"></i>
+                                    </div>
                                 </div>
                             </div>
+                        </a>
+                    </div>
 
-                            <!-- Logo / Icon -->
-                            <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:border-white/30 transition-all duration-500 shadow-lg overflow-hidden">
-                                <img v-if="project.logo" :src="project.logo" :alt="project.title + ' logo'" class="w-10 h-10 md:w-12 md:h-12 object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-                                <i v-else :data-lucide="project.icon" class="w-8 h-8 md:w-10 md:h-10 text-white/50 group-hover:text-white transition-colors duration-500"></i>
-                            </div>
+                    <!-- Right arrow — desktop only -->
+                    <button class="scroll-nav hidden md:flex right-3 lg:right-6
+                                   opacity-0 group-hover/scroll:opacity-100
+                                   disabled:!opacity-0 disabled:pointer-events-none"
+                            :disabled="!canScrollRight"
+                            @click="scrollByDir(1)"
+                            aria-label="Next project">
+                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
 
-                            <!-- Title & Description (Flex-Grow pushes CTA to bottom) -->
-                            <div class="flex-grow flex flex-col">
-                                <h3 class="text-3xl md:text-4xl font-bold leading-[1.1] tracking-tight text-gray-200 mb-6 group-hover:text-white transition-colors duration-500">
-                                    {{ project.title }}
-                               </h3>
-                                <p class="text-gray-500 text-base leading-relaxed group-hover:text-gray-400 transition-colors duration-500">
-                                    {{ project.description }}
-                                </p>
-                            </div>
+                <!-- Progress bar -->
+                <div class="mx-6 md:mx-[10vw] mt-8 h-px bg-white/10 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-white/40 to-white/20 rounded-full"
+                         :style="{ width: scrollProgress + '%', transition: 'width .15s ease-out' }"></div>
+                </div>
 
-                            <!-- Card Footer / CTA -->
-                            <div class="mt-12 pt-6 border-t border-white/10 flex items-center justify-between group/cta">
-                                <span class="text-sm text-gray-500 tracking-wide font-medium group-hover:text-white transition-colors duration-500">
-                                    View Project
-                                </span>
-                                <div class="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-500">
-                                    <i data-lucide="arrow-up-right" class="w-5 h-5 text-gray-400 group-hover:text-black group-hover:rotate-45 transition-all duration-500"></i>
-                                </div>
-                            </div>
-
-                        </div>
-                    </a>
+                <!-- Dot indicators — mobile -->
+                <div class="flex md:hidden justify-center gap-2 mt-6">
+                    <button v-for="(p, i) in projects" :key="'dot'+i"
+                            class="w-2 h-2 rounded-full transition-all duration-300"
+                            :class="activeDot === i ? 'bg-white w-6' : 'bg-white/20'"
+                            @click="scrollToDot(i)"
+                            :aria-label="'Go to project ' + (i+1)">
+                    </button>
                 </div>
             </section>
         </main>
 
-        <!-- Footer -->
+        <!-- ╔═══════════════════════ Footer ═══════════════════════╗ -->
         <footer class="bg-black border-t border-white/10 pt-16 pb-8">
             <div class="container mx-auto px-6">
                 <div class="flex flex-col md:flex-row justify-between items-start mb-12 gap-8">
@@ -242,13 +326,20 @@
         </footer>
     </div>
 
+    <!-- ╔═══════════════════════ App ═══════════════════════╗ -->
     <script type="module">
-        import { createApp, ref, onMounted, onUpdated } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+        import { createApp, ref, computed, onMounted, onUpdated, onBeforeUnmount, nextTick } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 
         createApp({
             setup() {
-                const isScrolled      = ref(false)
-                const mobileMenuOpen  = ref(false)
+                /* ── state ── */
+                const isScrolled       = ref(false)
+                const mobileMenuOpen   = ref(false)
+                const scrollContainer  = ref(null)
+                const canScrollLeft    = ref(false)
+                const canScrollRight   = ref(true)
+                const scrollProgress   = ref(0)
+                const activeDot        = ref(0)
 
                 const projects = [
                     {
@@ -298,39 +389,135 @@
                     }
                 ]
 
+                /* ── helpers ── */
                 const handleScroll     = () => { isScrolled.value = window.scrollY > 20 }
                 const toggleMobileMenu = () => { mobileMenuOpen.value = !mobileMenuOpen.value }
 
-                const initScrollReveal = () => {
-                    const observer = new IntersectionObserver(
-                        (entries) => {
-                            entries.forEach((entry) => {
-                                if (entry.isIntersecting) {
-                                    entry.target.classList.add('is-visible')
-                                    observer.unobserve(entry.target)
-                                }
-                            })
-                        },
-                        { threshold: 0.1, rootMargin: '0px 100px 0px 0px' } 
-                    )
+                /* ── scroll-state bookkeeping (called via rAF) ── */
+                let ticking = false
+                const updateScrollState = () => {
+                    const el = scrollContainer.value
+                    if (!el) return
+                    const max = el.scrollWidth - el.clientWidth
+                    canScrollLeft.value  = el.scrollLeft > 10
+                    canScrollRight.value = el.scrollLeft < max - 10
+                    scrollProgress.value = max > 0 ? (el.scrollLeft / max) * 100 : 0
 
-                    document.querySelectorAll('.project-panel').forEach((panel) => {
-                        observer.observe(panel)
+                    // active dot based on which card is closest to center
+                    const center = el.scrollLeft + el.clientWidth / 2
+                    const cards  = el.querySelectorAll('.project-panel')
+                    let closest  = 0
+                    let minDist  = Infinity
+                    cards.forEach((c, i) => {
+                        const cardCenter = c.offsetLeft + c.offsetWidth / 2
+                        const d = Math.abs(center - cardCenter)
+                        if (d < minDist) { minDist = d; closest = i }
                     })
+                    activeDot.value = closest
                 }
 
+                const onTrackScroll = () => {
+                    if (!ticking) {
+                        requestAnimationFrame(() => { updateScrollState(); ticking = false })
+                        ticking = true
+                    }
+                }
+
+                /* ── navigate by one card ── */
+                const scrollByDir = (dir) => {
+                    const el = scrollContainer.value
+                    if (!el) return
+                    const card = el.querySelector('.project-panel')
+                    const gap  = 24 // gap-6
+                    const dist = card ? card.offsetWidth + gap : 420
+                    el.scrollBy({ left: dir * dist, behavior: 'smooth' })
+                }
+
+                /* ── jump to dot index ── */
+                const scrollToDot = (i) => {
+                    const el = scrollContainer.value
+                    if (!el) return
+                    const card = el.querySelectorAll('.project-panel')[i]
+                    if (!card) return
+                    const target = card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2
+                    el.scrollTo({ left: target, behavior: 'smooth' })
+                }
+
+                /* ── mouse-wheel → horizontal (desktop only) ── */
+                const onWheel = (e) => {
+                    const el = scrollContainer.value
+                    if (!el) return
+
+                    // if the user is swiping horizontally on a trackpad, let it pass
+                    if (Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return
+
+                    const max     = el.scrollWidth - el.clientWidth
+                    const atStart = el.scrollLeft <= 0
+                    const atEnd   = el.scrollLeft >= max - 1
+
+                    // at a boundary → let the page scroll normally
+                    if ((e.deltaY > 0 && atEnd) || (e.deltaY < 0 && atStart)) return
+
+                    e.preventDefault()
+                    el.scrollLeft += e.deltaY
+                }
+
+                /* ── IntersectionObserver for card reveal ── */
+                const initReveal = () => {
+                    const observer = new IntersectionObserver(
+                        (entries) => entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('is-visible')
+                                observer.unobserve(entry.target)
+                            }
+                        }),
+                        {
+                            root: scrollContainer.value,   // observe within the scroll track
+                            threshold: 0.15,
+                            rootMargin: '0px 200px 0px 200px'
+                        }
+                    )
+                    scrollContainer.value
+                        ?.querySelectorAll('.project-panel')
+                        .forEach((p) => observer.observe(p))
+                }
+
+                /* ── lifecycle ── */
                 onMounted(() => {
-                    window.addEventListener('scroll', handleScroll)
+                    window.addEventListener('scroll', handleScroll, { passive: true })
+                    window.addEventListener('resize', updateScrollState, { passive: true })
                     lucide.createIcons()
-                    setTimeout(initScrollReveal, 100)
+
+                    nextTick(() => {
+                        updateScrollState()
+                        initReveal()
+
+                        // attach wheel with {passive:false} so we can preventDefault
+                        scrollContainer.value?.addEventListener('wheel', onWheel, { passive: false })
+                    })
                 })
+
                 onUpdated(() => { lucide.createIcons() })
+
+                onBeforeUnmount(() => {
+                    window.removeEventListener('scroll', handleScroll)
+                    window.removeEventListener('resize', updateScrollState)
+                    scrollContainer.value?.removeEventListener('wheel', onWheel)
+                })
 
                 return {
                     isScrolled,
                     mobileMenuOpen,
                     projects,
-                    toggleMobileMenu
+                    toggleMobileMenu,
+                    scrollContainer,
+                    canScrollLeft,
+                    canScrollRight,
+                    scrollProgress,
+                    activeDot,
+                    onTrackScroll,
+                    scrollByDir,
+                    scrollToDot
                 }
             }
         }).mount('#app')
