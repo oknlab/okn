@@ -12,54 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="icon" type="image/svg+xml" id="favicon" href="https://avatars.githubusercontent.com/u/32960623?s=52&v=2">
 
-    <style type="text/tailwindcss">
-        @theme {
-            --font-serif: "Old Standard TT", serif;
-            --font-sans: "Inter", sans-serif;
-            --color-okn-black: #050505;
-            --color-okn-white: #EDEDED;
-            --color-okn-gray: #121212;
-        }
-
-        body {
-            @apply font-sans bg-okn-black text-okn-white antialiased selection:bg-white selection:text-black;
-        }
-
-        h1, h2, h3, h4 { @apply font-serif; }
-
-        .legal-section {
-            @apply border-t border-white/5 pt-10 pb-2;
-        }
-
-        .legal-h2 {
-            @apply text-xl md:text-2xl font-bold mb-5 text-white;
-        }
-
-        .legal-p {
-            @apply text-gray-400 text-sm md:text-base leading-relaxed mb-4 font-light;
-        }
-
-        .legal-ul {
-            @apply list-none space-y-2 mb-4 pl-0;
-        }
-
-        .legal-ul li {
-            @apply flex items-start gap-3 text-sm md:text-base text-gray-400 leading-relaxed font-light;
-        }
-
-        .legal-ul li::before {
-            content: '—';
-            @apply text-gray-600 shrink-0 mt-0.5;
-        }
-
-        .callout {
-            @apply p-5 border border-white/10 rounded-xl bg-white/5 text-sm text-gray-400 leading-relaxed mb-6;
-        }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-    </style>
+    <<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
