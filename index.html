@@ -3,522 +3,394 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OKNLAB - Premium AI Solutions Platform</title>
-    <meta name="description" content="OKNLAB creates multifunctional AI products for coding, content generation, office automation, and beyond. Accomplish any digital task.">
-    <link rel="icon" type="image/svg+xml" id="favicon" href="https://avatars.githubusercontent.com/u/32960623?s=52&v=2">
+    <title>OKNLAB — Software Built to a Different Standard</title>
+    <meta name="description" content="OKNLAB builds AI-powered tools for serious teams. Custom client projects and our own product line, shipped with care.">
+    <meta property="og:title" content="OKNLAB — Software Built to a Different Standard">
+    <meta property="og:description" content="AI-powered tools for coding, content, and workflows. Client work and proprietary products.">
+    <meta property="og:image" content="https://avatars.githubusercontent.com/u/32960623?s=500&v=2">
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/32960623?s=52&v=2">
 
+    <!-- Fonts: Old Standard TT (display) + DM Sans (body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
+    <!-- Tailwind CDN (processes @apply and @theme below) -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Lucide icons (global) -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- Global stylesheet (pure CSS — no @apply) -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Tailwind utilities — must stay inline for CDN processing -->
     <style type="text/tailwindcss">
         @theme {
             --font-serif: "Old Standard TT", serif;
-            --font-sans: "Inter", sans-serif;
-            --color-okn-black: #050505;
-            --color-okn-white: #EDEDED;
-            --color-okn-gray: #121212;
-            --color-okn-accent: #333333;
-        }
-
-        /* ── Global overflow fix ── */
-        html {
-            overflow-x: hidden;
-            overflow-x: clip;       /* modern: no scroll-container side-effects */
+            --font-sans:  "DM Sans", sans-serif;
+            --color-okn-black:  #050505;
+            --color-okn-white:  #EDEDED;
+            --color-okn-gray:   #0f0f0f;
+            --color-okn-accent: #1e1e1e;
         }
 
         body {
-            @apply font-sans bg-okn-black text-okn-white antialiased selection:bg-white selection:text-black;
-            overscroll-behavior-x: none;      /* stop pull-to-navigate */
+            @apply font-sans bg-okn-black text-okn-white;
         }
 
         h1, h2, h3, h4, h5, h6 { @apply font-serif; }
 
+        /* ── Buttons ── */
         .btn-primary {
-            @apply px-6 py-3 bg-okn-white text-okn-black font-medium text-sm tracking-wide hover:bg-gray-300 transition-colors duration-300 inline-flex items-center justify-center gap-2;
+            @apply px-7 py-3.5 bg-okn-white text-okn-black font-medium text-sm tracking-wide
+                   hover:bg-white transition-all duration-200
+                   inline-flex items-center justify-center gap-2 rounded-full;
         }
         .btn-outline {
-            @apply px-6 py-3 border border-okn-white/30 text-okn-white font-medium text-sm tracking-wide hover:bg-okn-white hover:text-okn-black transition-all duration-300 inline-flex items-center justify-center gap-2;
+            @apply px-7 py-3.5 border border-white/25 text-okn-white font-medium text-sm tracking-wide
+                   hover:bg-okn-white hover:text-okn-black hover:border-okn-white transition-all duration-200
+                   inline-flex items-center justify-center gap-2 rounded-full;
         }
+
+        /* ── Nav ── */
         .nav-link {
-            @apply text-gray-400 hover:text-white transition-colors duration-300 text-sm tracking-wide;
+            @apply text-gray-500 hover:text-white transition-colors duration-200 text-sm tracking-wide;
         }
 
-        /* ── Horizontal scroll track ── */
-        .scroll-track {
-            -webkit-overflow-scrolling: touch;   /* momentum on older iOS */
-            overscroll-behavior-x: contain;      /* contain over-scroll   */
-        }
-        .scroll-track:active {
-            scroll-behavior: auto;               /* instant feedback while dragging */
+        /* ── Scroll nav arrows (desktop only) ── */
+        .scroll-nav-btn {
+            @apply hidden md:flex absolute top-1/2 -translate-y-1/2 z-10;
         }
 
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-
-        /* ── Scroll nav arrows ── */
-        .scroll-nav {
-            @apply absolute top-1/2 -translate-y-1/2 z-20
-                   w-11 h-11 rounded-full
-                   bg-black/70 backdrop-blur-md border border-white/10
-                   items-center justify-center
-                   text-white/60 hover:text-white
-                   hover:bg-white/10 hover:border-white/30
-                   transition-all duration-300 shadow-2xl;
-        }
-
-        /* ── Card reveal ── */
-        .project-panel {
-            @apply opacity-0 translate-y-16;
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .project-panel.is-visible {
-            @apply opacity-100 translate-y-0;
+        /* ── Progress bar ── */
+        .progress-fill {
+            @apply h-full bg-white/30 rounded-full;
+            transition: width 0.15s ease-out;
         }
     </style>
 </head>
+
 <body>
-    <div id="app" class="min-h-screen flex flex-col">
+<div id="app" class="min-h-screen flex flex-col">
 
-        <!-- ╔═══════════════════════ Header ═══════════════════════╗ -->
-        <header class="fixed top-0 w-full z-50 transition-all duration-300"
-                :class="{ 'bg-okn-black/90 backdrop-blur-xl border-b border-white/5': isScrolled, 'bg-transparent': !isScrolled }">
-            <div class="container mx-auto px-6 h-20 flex items-center justify-between">
-                <a href="#" class="flex items-center gap-3 group">
-                    <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2" alt="OKNLAB Logo"
-                         class="w-10 h-10 rounded-full grayscale group-hover:grayscale-0 transition-all duration-500 border border-white/20">
-                    <span class="font-serif text-xl font-bold tracking-wider">OKNLAB</span>
+    <!-- ════════════════════ Header ════════════════════ -->
+    <header class="fixed top-0 w-full z-50 transition-all duration-300"
+            :class="{ 'bg-okn-black/90 backdrop-blur-xl border-b border-white/5': isScrolled, 'bg-transparent': !isScrolled }">
+        <div class="container mx-auto px-6 h-20 flex items-center justify-between">
+
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group" aria-label="OKNLAB home">
+                <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2" alt="OKNLAB"
+                     class="w-10 h-10 rounded-full grayscale group-hover:grayscale-0 transition-all duration-500 border border-white/15">
+                <span class="font-serif text-xl font-bold tracking-wider">OKNLAB</span>
+            </a>
+
+            <!-- Desktop nav -->
+            <nav class="hidden md:flex items-center gap-8" aria-label="Primary">
+                <a href="#projects" class="nav-link">Projects</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="contact.html"
+                   class="hidden md:inline-flex text-xs font-semibold uppercase tracking-widest
+                          border-b border-white pb-0.5 hover:opacity-60 transition-opacity">
+                    Contact
                 </a>
+                <button class="md:hidden text-white p-1" @click="toggleMobileMenu" aria-label="Toggle menu">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
 
-                <nav class="hidden md:flex items-center gap-8">
-                    <a href="#projects" class="nav-link">Projects</a>
-                </nav>
+        <!-- Mobile drawer -->
+        <div v-if="mobileMenuOpen"
+             class="md:hidden absolute top-full left-0 w-full bg-okn-black border-b border-white/10 px-6 py-5 flex flex-col gap-5 shadow-2xl">
+            <a href="#projects"    class="nav-link text-base" @click="mobileMenuOpen = false">Projects</a>
+            <a href="contact.html" class="nav-link text-base text-white" @click="mobileMenuOpen = false">Contact</a>
+        </div>
+    </header>
 
-                <div class="flex items-center gap-4">
-                    <a href="contact.html" class="hidden md:inline-flex text-xs font-semibold uppercase tracking-widest border-b border-white pb-1 hover:opacity-70 transition-opacity">
-                        Contact Us
+    <!-- ════════════════════ Main ════════════════════ -->
+    <main class="flex-grow pt-20">
+
+        <!-- ── Hero ── -->
+        <section class="relative min-h-[100dvh] flex items-center justify-center overflow-hidden">
+
+            <!-- Ambient background -->
+            <div class="absolute inset-0 z-0 pointer-events-none">
+                <!-- Subtle radial glows -->
+                <div class="absolute top-1/3 left-1/3 w-[600px] h-[500px] rounded-full
+                            bg-white/[0.03] blur-[160px]"></div>
+                <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full
+                            bg-white/[0.02] blur-[120px]"></div>
+                <!-- Grid -->
+                <div class="absolute inset-0"
+                     style="background-image:
+                            linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+                            background-size: 52px 52px;"></div>
+                <!-- Fade out grid at bottom -->
+                <div class="absolute bottom-0 left-0 w-full h-48"
+                     style="background: linear-gradient(to top, #050505, transparent);"></div>
+            </div>
+
+            <!-- Hero content -->
+            <div class="container mx-auto px-6 relative z-10 max-w-5xl">
+
+                <!-- Status badge -->
+                <div class="inline-flex items-center gap-2.5 mb-10 px-4 py-1.5
+                            border border-white/10 rounded-full bg-white/[0.04] backdrop-blur-sm
+                            animate-fade-up">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"
+                          style="animation: pulse-glow 2.2s ease-in-out infinite;"></span>
+                    <span class="text-xs tracking-[0.18em] uppercase text-gray-400">All systems running</span>
+                </div>
+
+                <!-- Headline — no gradient, just weight and contrast -->
+                <h1 class="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[1.02] tracking-tight
+                           mb-8 animate-fade-up delay-100">
+                    Software built<br>
+                    to a different<br>
+                    standard.
+                </h1>
+
+                <p class="text-base md:text-lg text-gray-400 mb-12 max-w-xl font-light leading-relaxed
+                          animate-fade-up delay-200">
+                    We build AI-powered tools for technical teams — custom client projects and a growing
+                    line of our own software, each one made to last.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 animate-fade-up delay-300">
+                    <a href="#projects" class="btn-primary w-full sm:w-auto">
+                        See the work <i data-lucide="arrow-down" class="w-4 h-4"></i>
                     </a>
-                    <button class="md:hidden text-white" @click="toggleMobileMenu" aria-label="Menu">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
-                    </button>
+                    <a href="https://github.com/oknlab" target="_blank" rel="noopener"
+                       class="btn-outline w-full sm:w-auto">
+                        <i data-lucide="github" class="w-4 h-4"></i> GitHub
+                    </a>
                 </div>
             </div>
+        </section>
 
-            <!-- Mobile Menu -->
-            <div v-if="mobileMenuOpen"
-                 class="md:hidden absolute top-full left-0 w-full bg-okn-black border-b border-white/10 p-6 flex flex-col gap-4 shadow-2xl">
-                <a href="#projects"    class="nav-link text-lg" @click="mobileMenuOpen = false">Projects</a>
-                <a href="contact.html" class="nav-link text-lg text-white" @click="mobileMenuOpen = false">Contact</a>
-            </div>
-        </header>
+        <!-- ── Projects — Horizontal Film-Strip ── -->
+        <section id="projects" class="relative bg-okn-gray border-y border-white/5 py-24">
 
-        <!-- ╔═══════════════════════ Main ═══════════════════════╗ -->
-        <main class="flex-grow pt-20">
-
-            <!-- ── Hero ── -->
-            <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
-                <div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
-                    <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-white rounded-full blur-[150px] opacity-10 animate-pulse"></div>
-                    <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-gray-600 rounded-full blur-[120px] opacity-10"></div>
-                    <div class="absolute inset-0" style="background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 50px 50px;"></div>
-                </div>
-
-                <div class="container mx-auto px-6 relative z-10 text-center max-w-5xl">
-                    <div class="inline-flex items-center gap-2 mb-8 px-4 py-1.5 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm">
-                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                        <span class="text-xs tracking-[0.2em] uppercase text-gray-300">System Operational</span>
+            <!-- Section header -->
+            <div class="container mx-auto px-6 mb-16">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                    <div>
+                        <span class="text-[10px] font-semibold tracking-[0.32em] uppercase text-gray-600 mb-4 block">
+                            Portfolio
+                        </span>
+                        <h2 class="text-4xl md:text-5xl lg:text-6xl mb-5">Selected work</h2>
+                        <p class="text-gray-500 max-w-md text-base font-light leading-relaxed">
+                            <span class="hidden md:inline">Use the arrows or scroll horizontally</span>
+                            <span class="md:hidden">Swipe</span>
+                            to explore our tools.
+                        </p>
                     </div>
 
-                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight tracking-tight">
-                        Accomplish Any <br/>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-600">Digital Task.</span>
-                    </h1>
-
-                    <p class="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-                        We build intelligent, multifunctional AI products designed to automate the complex and simplify the abstract.
-                    </p>
-
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <a href="#projects" class="btn-primary w-full sm:w-auto rounded-full">
-                            Explore Projects <i data-lucide="arrow-down" class="w-4 h-4"></i>
-                        </a>
-                        <a href="https://github.com/oknlab" target="_blank" class="btn-outline w-full sm:w-auto rounded-full">
-                            <i data-lucide="github" class="w-4 h-4"></i> GitHub Profile
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ── Projects — Horizontal Film-Strip ── -->
-            <section id="projects" class="relative bg-[#0a0a0a] border-y border-white/5 py-24">
-
-                <!-- Section Header -->
-                <div class="container mx-auto px-6 mb-16">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-                        <div>
-                            <span class="text-xs font-bold tracking-[0.3em] uppercase text-gray-500 mb-4 block">Portfolio</span>
-                            <h2 class="text-4xl md:text-5xl lg:text-6xl mb-6">Selected Projects</h2>
-                            <p class="text-gray-400 max-w-lg text-lg font-light">
-                                <span class="hidden md:inline">Scroll horizontally or use the arrows</span>
-                                <span class="md:hidden">Swipe</span>
-                                to explore our specialized suite of intelligent tools.
-                            </p>
-                        </div>
-
-                        <div class="flex items-center gap-6">
-                            <span class="text-sm text-gray-600 font-mono">
-                                {{ String(projects.length).padStart(2, '0') }} Projects
-                            </span>
-                            <div class="flex md:hidden items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-xs text-gray-400 uppercase tracking-widest animate-pulse">
-                                <i data-lucide="move-horizontal" class="w-4 h-4"></i> Swipe
-                            </div>
+                    <div class="flex items-center gap-6">
+                        <span class="text-sm text-gray-700 font-mono tabular-nums">
+                            {{ String(projects.length).padStart(2, '0') }} projects
+                        </span>
+                        <!-- Mobile swipe hint -->
+                        <div class="flex md:hidden items-center gap-2 px-3 py-1.5 rounded-full
+                                    border border-white/10 bg-white/[0.04] text-[10px] text-gray-500
+                                    uppercase tracking-widest">
+                            <i data-lucide="move-horizontal" class="w-3.5 h-3.5"></i> Swipe
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Scroll Wrapper (relative for nav-button positioning) -->
-                <div class="relative group/scroll">
+            <!-- Scroll wrapper -->
+            <div class="relative group/scroll">
 
-                    <!-- Left arrow — desktop only, shown on hover -->
-                    <button class="scroll-nav hidden md:flex left-3 lg:left-6
-                                   opacity-0 group-hover/scroll:opacity-100
-                                   disabled:!opacity-0 disabled:pointer-events-none"
-                            :disabled="!canScrollLeft"
-                            @click="scrollByDir(-1)"
-                            aria-label="Previous project">
-                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
-                    </button>
+                <!-- Left arrow -->
+                <button class="scroll-nav scroll-nav-btn left-3 lg:left-6
+                               opacity-0 group-hover/scroll:opacity-100
+                               transition-opacity duration-300"
+                        :disabled="!canScrollLeft"
+                        @click="scrollByDir(-1)"
+                        aria-label="Previous project">
+                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                </button>
 
-                    <!-- ★ Scroll Track ★ -->
-                    <div ref="scrollContainer"
-                         class="scroll-track hide-scrollbar
-                                w-full flex overflow-x-auto snap-x snap-mandatory
-                                items-stretch gap-5 sm:gap-6
-                                px-6 md:px-[10vw] pb-2"
-                         role="region"
-                         aria-label="Projects carousel"
-                         tabindex="0"
-                         @scroll="onTrackScroll"
-                         @keydown.left.prevent="scrollByDir(-1)"
-                         @keydown.right.prevent="scrollByDir(1)">
+                <!-- Scroll track -->
+                <div ref="scrollContainer"
+                     class="scroll-track hide-scrollbar
+                            w-full flex overflow-x-auto snap-x snap-mandatory
+                            items-stretch gap-5 sm:gap-6
+                            px-6 md:px-[10vw] pb-2"
+                     role="region"
+                     aria-label="Projects carousel"
+                     tabindex="0"
+                     @scroll="onTrackScroll"
+                     @keydown.left.prevent="scrollByDir(-1)"
+                     @keydown.right.prevent="scrollByDir(1)">
 
-                        <!-- Cards -->
-                        <a v-for="(project, index) in projects" :key="index" :href="project.link"
-                           class="project-panel flex-none
-                                  w-[82vw] min-w-[280px] sm:w-[370px] md:w-[420px]
-                                  snap-center
-                                  flex flex-col bg-okn-gray border border-white/10
-                                  rounded-[2rem] p-7 sm:p-8 md:p-10
-                                  group hover:bg-white/[0.03] hover:border-white/30
-                                  transition-all duration-500 relative shadow-2xl
-                                  select-none"
-                           draggable="false">
+                    <!-- Project card -->
+                    <a v-for="(project, index) in projects"
+                       :key="index"
+                       :href="project.link"
+                       class="project-panel
+                              flex-none w-[82vw] min-w-[280px] sm:w-[370px] md:w-[420px]
+                              snap-center flex flex-col
+                              bg-okn-black border border-white/[0.08]
+                              rounded-[2rem] p-7 sm:p-8 md:p-10
+                              group hover:bg-white/[0.025] hover:border-white/20
+                              transition-all duration-500 relative shadow-2xl select-none"
+                       draggable="false">
 
-                            <!-- Background Number -->
-                            <span class="absolute -right-4 -bottom-4 text-[10rem] sm:text-[12rem] font-serif font-bold text-white/[0.02] leading-none pointer-events-none group-hover:text-white/[0.04] transition-colors duration-500 select-none">
-                                {{ String(index + 1).padStart(2, '0') }}
-                            </span>
+                        <!-- Ghost index number -->
+                        <span class="absolute -right-3 -bottom-3 text-[9rem] sm:text-[11rem]
+                                     font-serif font-bold text-white/[0.018] leading-none
+                                     pointer-events-none group-hover:text-white/[0.035]
+                                     transition-colors duration-500 select-none">
+                            {{ String(index + 1).padStart(2, '0') }}
+                        </span>
 
-                            <!-- Card Inner -->
-                            <div class="flex flex-col h-full flex-grow relative z-10">
+                        <div class="flex flex-col h-full flex-grow relative z-10">
 
-                                <!-- Header -->
-                                <div class="flex items-center justify-between mb-8 md:mb-10">
-                                    <span class="text-sm text-gray-600 font-mono">{{ String(index + 1).padStart(2, '0') }}</span>
-                                    <div class="flex items-center gap-3">
-                                        <span v-if="project.isNew" class="text-[10px] font-bold tracking-widest uppercase text-black bg-white px-2 py-0.5 rounded-sm">New</span>
-                                        <span class="text-xs font-bold tracking-[0.2em] uppercase text-gray-500">{{ project.category }}</span>
-                                    </div>
-                                </div>
-
-                                <!-- Icon -->
-                                <div class="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:border-white/30 transition-all duration-500 shadow-lg overflow-hidden">
-                                    <img v-if="project.logo" :src="project.logo" :alt="project.title + ' logo'" class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-                                    <i v-else :data-lucide="project.icon" class="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white/50 group-hover:text-white transition-colors duration-500"></i>
-                                </div>
-
-                                <!-- Copy -->
-                                <div class="flex-grow flex flex-col">
-                                    <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold leading-[1.1] tracking-tight text-gray-200 mb-5 md:mb-6 group-hover:text-white transition-colors duration-500">
-                                        {{ project.title }}
-                                    </h3>
-                                    <p class="text-gray-500 text-sm sm:text-base leading-relaxed group-hover:text-gray-400 transition-colors duration-500">
-                                        {{ project.description }}
-                                    </p>
-                                </div>
-
-                                <!-- Footer / CTA -->
-                                <div class="mt-10 md:mt-12 pt-6 border-t border-white/10 flex items-center justify-between">
-                                    <span class="text-sm text-gray-500 tracking-wide font-medium group-hover:text-white transition-colors duration-500">
-                                        View Project
+                            <!-- Card header row -->
+                            <div class="flex items-center justify-between mb-8 md:mb-10">
+                                <span class="text-xs text-gray-700 font-mono tabular-nums">
+                                    {{ String(index + 1).padStart(2, '0') }}
+                                </span>
+                                <div class="flex items-center gap-3">
+                                    <span v-if="project.isNew"
+                                          class="text-[9px] font-bold tracking-widest uppercase
+                                                 text-black bg-white px-2 py-0.5 rounded-sm">
+                                        New
                                     </span>
-                                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-500">
-                                        <i data-lucide="arrow-up-right" class="w-5 h-5 text-gray-400 group-hover:text-black group-hover:rotate-45 transition-all duration-500"></i>
-                                    </div>
+                                    <span class="text-[10px] font-bold tracking-[0.22em] uppercase text-gray-600">
+                                        {{ project.category }}
+                                    </span>
                                 </div>
                             </div>
-                        </a>
-                    </div>
 
-                    <!-- Right arrow — desktop only -->
-                    <button class="scroll-nav hidden md:flex right-3 lg:right-6
-                                   opacity-0 group-hover/scroll:opacity-100
-                                   disabled:!opacity-0 disabled:pointer-events-none"
-                            :disabled="!canScrollRight"
-                            @click="scrollByDir(1)"
-                            aria-label="Next project">
-                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
-                    </button>
+                            <!-- Project icon / logo -->
+                            <div class="w-14 h-14 sm:w-16 sm:h-16 md:w-[72px] md:h-[72px]
+                                        rounded-2xl bg-white/[0.05] border border-white/[0.08]
+                                        flex items-center justify-center mb-8
+                                        group-hover:scale-105 group-hover:border-white/20
+                                        transition-all duration-500 overflow-hidden">
+                                <img v-if="project.logo"
+                                     :src="project.logo"
+                                     :alt="project.title"
+                                     class="w-8 h-8 sm:w-9 sm:h-9 md:w-11 md:h-11
+                                            object-contain opacity-50 group-hover:opacity-90
+                                            transition-opacity duration-500">
+                                <i v-else
+                                   :data-lucide="project.icon"
+                                   class="w-7 h-7 md:w-9 md:h-9 text-white/40
+                                          group-hover:text-white transition-colors duration-500"></i>
+                            </div>
+
+                            <!-- Title + description -->
+                            <div class="flex-grow flex flex-col">
+                                <h3 class="text-2xl sm:text-3xl md:text-[2rem] font-bold
+                                           leading-[1.1] text-gray-300 mb-5
+                                           group-hover:text-white transition-colors duration-400">
+                                    {{ project.title }}
+                                </h3>
+                                <p class="text-gray-600 text-sm sm:text-base leading-relaxed
+                                          group-hover:text-gray-400 transition-colors duration-400">
+                                    {{ project.description }}
+                                </p>
+                            </div>
+
+                            <!-- Card footer / CTA -->
+                            <div class="mt-10 md:mt-12 pt-6 border-t border-white/[0.07]
+                                        flex items-center justify-between">
+                                <span class="text-sm text-gray-600 tracking-wide font-medium
+                                             group-hover:text-white transition-colors duration-300">
+                                    View project
+                                </span>
+                                <div class="w-11 h-11 rounded-full border border-white/10 bg-white/[0.04]
+                                            flex items-center justify-center
+                                            group-hover:bg-white group-hover:border-white
+                                            transition-all duration-400">
+                                    <i data-lucide="arrow-up-right"
+                                       class="w-5 h-5 text-gray-500
+                                              group-hover:text-black group-hover:rotate-45
+                                              transition-all duration-400"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                    </a>
                 </div>
 
-                <!-- Progress bar -->
-                <div class="mx-6 md:mx-[10vw] mt-8 h-px bg-white/10 rounded-full overflow-hidden">
-                    <div class="h-full bg-gradient-to-r from-white/40 to-white/20 rounded-full"
-                         :style="{ width: scrollProgress + '%', transition: 'width .15s ease-out' }"></div>
+                <!-- Right arrow -->
+                <button class="scroll-nav scroll-nav-btn right-3 lg:right-6
+                               opacity-0 group-hover/scroll:opacity-100
+                               transition-opacity duration-300"
+                        :disabled="!canScrollRight"
+                        @click="scrollByDir(1)"
+                        aria-label="Next project">
+                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="mx-6 md:mx-[10vw] mt-8 h-px bg-white/[0.08] rounded-full overflow-hidden">
+                <div class="progress-fill" :style="{ width: scrollProgress + '%' }"></div>
+            </div>
+
+            <!-- Dot indicators (mobile) -->
+            <div class="flex md:hidden justify-center gap-2 mt-6" role="tablist" aria-label="Project dots">
+                <button v-for="(p, i) in projects" :key="'dot'+i"
+                        role="tab"
+                        class="h-1.5 rounded-full transition-all duration-300"
+                        :class="activeDot === i ? 'bg-white w-6' : 'bg-white/20 w-1.5'"
+                        @click="scrollToDot(i)"
+                        :aria-label="'Go to ' + p.title"
+                        :aria-selected="activeDot === i">
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ════════════════════ Footer ════════════════════ -->
+    <footer class="bg-black border-t border-white/[0.07] pt-16 pb-8">
+        <div class="container mx-auto px-6">
+
+            <div class="flex flex-col md:flex-row justify-between items-start mb-12 gap-8">
+                <div class="max-w-xs">
+                    <a href="#" class="flex items-center gap-3 mb-4 opacity-70 hover:opacity-100 transition-opacity">
+                        <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2" alt="OKNLAB"
+                             class="w-8 h-8 rounded-full grayscale border border-white/15">
+                        <span class="font-serif text-base font-bold tracking-wider">OKNLAB</span>
+                    </a>
+                    <p class="text-gray-700 text-sm leading-relaxed">
+                        San Francisco, CA<br>Est. 2024
+                    </p>
                 </div>
 
-                <!-- Dot indicators — mobile -->
-                <div class="flex md:hidden justify-center gap-2 mt-6">
-                    <button v-for="(p, i) in projects" :key="'dot'+i"
-                            class="w-2 h-2 rounded-full transition-all duration-300"
-                            :class="activeDot === i ? 'bg-white w-6' : 'bg-white/20'"
-                            @click="scrollToDot(i)"
-                            :aria-label="'Go to project ' + (i+1)">
-                    </button>
-                </div>
-            </section>
-        </main>
-
-        <!-- ╔═══════════════════════ Footer ═══════════════════════╗ -->
-        <footer class="bg-black border-t border-white/10 pt-16 pb-8">
-            <div class="container mx-auto px-6">
-                <div class="flex flex-col md:flex-row justify-between items-start mb-12 gap-8">
-                    <div class="max-w-xs">
-                        <a href="#" class="flex items-center gap-3 mb-4 opacity-80 hover:opacity-100 transition-opacity">
-                            <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2" alt="OKNLAB Logo" class="w-8 h-8 rounded-full grayscale border border-white/20">
-                            <span class="font-serif text-lg font-bold tracking-wider">OKNLAB</span>
-                        </a>
-                        <p class="text-gray-600 text-sm">San Francisco, CA<br>Est. 2024</p>
-                    </div>
-
-                    <div class="flex gap-8 text-sm text-gray-500">
-                        <a href="contact"                                        class="hover:text-white transition-colors">Email</a>
-                    </div>
-                </div>
-
-                <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-3">
-                    <p class="text-gray-700 text-xs">© 2024 OKNLAB. All rights reserved.</p>
-                    <div class="flex gap-6 text-xs text-gray-600">
-                        <a href="privacy-policy" class="hover:text-white transition-colors">Privacy Policy</a>
-                        <a href="terms-of-service"   class="hover:text-white transition-colors">Terms of Service</a>
-                    </div>
+                <div class="flex gap-8 text-sm text-gray-600">
+                    <a href="contact.html" class="hover:text-white transition-colors">Contact</a>
+                    <a href="https://github.com/oknlab" target="_blank" rel="noopener"
+                       class="hover:text-white transition-colors">GitHub</a>
                 </div>
             </div>
-        </footer>
-    </div>
 
-    <!-- ╔═══════════════════════ App ═══════════════════════╗ -->
-    <script type="module">
-        import { createApp, ref, computed, onMounted, onUpdated, onBeforeUnmount, nextTick } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+            <div class="border-t border-white/[0.05] pt-8 flex flex-col md:flex-row justify-between items-center gap-3">
+                <p class="text-gray-800 text-xs">© 2025 OKNLAB. All rights reserved.</p>
+                <div class="flex gap-6 text-xs text-gray-700">
+                    <a href="privacy-policy.html"  class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="terms-of-service.html" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
 
-        createApp({
-            setup() {
-                /* ── state ── */
-                const isScrolled       = ref(false)
-                const mobileMenuOpen   = ref(false)
-                const scrollContainer  = ref(null)
-                const canScrollLeft    = ref(false)
-                const canScrollRight   = ref(true)
-                const scrollProgress   = ref(0)
-                const activeDot        = ref(0)
+        </div>
+    </footer>
 
-                const projects = [
-                    {
-                        title: 'CodeSynthesizer X',
-                        category: 'DevTools',
-                        description: 'An intelligent IDE plugin that predicts your next logic block, not just the next line. Built with transformer-based architecture trained on millions of production codebases to understand intent, not just syntax.',
-                        icon: 'terminal-square',
-                        logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg',
-                        link: '#project-codesynth',
-                        isNew: true
-                    },
-                    {
-                        title: 'DocuGen AI',
-                        category: 'Content',
-                        description: 'Automated technical documentation generator that reads your codebase and writes the manual. Supports JSDoc, TypeDoc, Sphinx, and custom templates with multi-language output.',
-                        icon: 'file-text',
-                        logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/markdown/markdown-original.svg',
-                        link: '#project-docugen',
-                        isNew: false
-                    },
-                    {
-                        title: 'FlowAutomate',
-                        category: 'Productivity',
-                        description: 'Visual workflow builder for connecting API endpoints without writing a single line of glue code. Drag, connect, deploy — with built-in error handling and retry logic.',
-                        icon: 'workflow',
-                        logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg',
-                        link: '#project-flow',
-                        isNew: false
-                    },
-                    {
-                        title: 'VisionCraft API',
-                        category: 'Media',
-                        description: 'Enterprise-grade image manipulation API for bulk e-commerce processing. Background removal, color correction, and format optimization at scale — processing millions of images daily.',
-                        icon: 'aperture',
-                        logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg',
-                        link: '#project-vision',
-                        isNew: false
-                    },
-                    {
-                        title: 'SecureGuard',
-                        category: 'Security',
-                        description: 'AI-powered vulnerability scanner that detects zero-day exploits in real-time. Continuous monitoring with automated patch suggestions and compliance reporting for SOC2, HIPAA, and ISO 27001.',
-                        icon: 'shield-check',
-                        logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg',
-                        link: '#project-secure',
-                        isNew: false
-                    }
-                ]
+</div>
 
-                /* ── helpers ── */
-                const handleScroll     = () => { isScrolled.value = window.scrollY > 20 }
-                const toggleMobileMenu = () => { mobileMenuOpen.value = !mobileMenuOpen.value }
-
-                /* ── scroll-state bookkeeping (called via rAF) ── */
-                let ticking = false
-                const updateScrollState = () => {
-                    const el = scrollContainer.value
-                    if (!el) return
-                    const max = el.scrollWidth - el.clientWidth
-                    canScrollLeft.value  = el.scrollLeft > 10
-                    canScrollRight.value = el.scrollLeft < max - 10
-                    scrollProgress.value = max > 0 ? (el.scrollLeft / max) * 100 : 0
-
-                    // active dot based on which card is closest to center
-                    const center = el.scrollLeft + el.clientWidth / 2
-                    const cards  = el.querySelectorAll('.project-panel')
-                    let closest  = 0
-                    let minDist  = Infinity
-                    cards.forEach((c, i) => {
-                        const cardCenter = c.offsetLeft + c.offsetWidth / 2
-                        const d = Math.abs(center - cardCenter)
-                        if (d < minDist) { minDist = d; closest = i }
-                    })
-                    activeDot.value = closest
-                }
-
-                const onTrackScroll = () => {
-                    if (!ticking) {
-                        requestAnimationFrame(() => { updateScrollState(); ticking = false })
-                        ticking = true
-                    }
-                }
-
-                /* ── navigate by one card ── */
-                const scrollByDir = (dir) => {
-                    const el = scrollContainer.value
-                    if (!el) return
-                    const card = el.querySelector('.project-panel')
-                    const gap  = 24 // gap-6
-                    const dist = card ? card.offsetWidth + gap : 420
-                    el.scrollBy({ left: dir * dist, behavior: 'smooth' })
-                }
-
-                /* ── jump to dot index ── */
-                const scrollToDot = (i) => {
-                    const el = scrollContainer.value
-                    if (!el) return
-                    const card = el.querySelectorAll('.project-panel')[i]
-                    if (!card) return
-                    const target = card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2
-                    el.scrollTo({ left: target, behavior: 'smooth' })
-                }
-
-                /* ── mouse-wheel → horizontal (desktop only) ── */
-                const onWheel = (e) => {
-                    const el = scrollContainer.value
-                    if (!el) return
-
-                    // if the user is swiping horizontally on a trackpad, let it pass
-                    if (Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return
-
-                    const max     = el.scrollWidth - el.clientWidth
-                    const atStart = el.scrollLeft <= 0
-                    const atEnd   = el.scrollLeft >= max - 1
-
-                    // at a boundary → let the page scroll normally
-                    if ((e.deltaY > 0 && atEnd) || (e.deltaY < 0 && atStart)) return
-
-                    e.preventDefault()
-                    el.scrollLeft += e.deltaY
-                }
-
-                /* ── IntersectionObserver for card reveal ── */
-                const initReveal = () => {
-                    const observer = new IntersectionObserver(
-                        (entries) => entries.forEach((entry) => {
-                            if (entry.isIntersecting) {
-                                entry.target.classList.add('is-visible')
-                                observer.unobserve(entry.target)
-                            }
-                        }),
-                        {
-                            root: scrollContainer.value,   // observe within the scroll track
-                            threshold: 0.15,
-                            rootMargin: '0px 200px 0px 200px'
-                        }
-                    )
-                    scrollContainer.value
-                        ?.querySelectorAll('.project-panel')
-                        .forEach((p) => observer.observe(p))
-                }
-
-                /* ── lifecycle ── */
-                onMounted(() => {
-                    window.addEventListener('scroll', handleScroll, { passive: true })
-                    window.addEventListener('resize', updateScrollState, { passive: true })
-                    lucide.createIcons()
-
-                    nextTick(() => {
-                        updateScrollState()
-                        initReveal()
-
-                        // attach wheel with {passive:false} so we can preventDefault
-                        scrollContainer.value?.addEventListener('wheel', onWheel, { passive: false })
-                    })
-                })
-
-                onUpdated(() => { lucide.createIcons() })
-
-                onBeforeUnmount(() => {
-                    window.removeEventListener('scroll', handleScroll)
-                    window.removeEventListener('resize', updateScrollState)
-                    scrollContainer.value?.removeEventListener('wheel', onWheel)
-                })
-
-                return {
-                    isScrolled,
-                    mobileMenuOpen,
-                    projects,
-                    toggleMobileMenu,
-                    scrollContainer,
-                    canScrollLeft,
-                    canScrollRight,
-                    scrollProgress,
-                    activeDot,
-                    onTrackScroll,
-                    scrollByDir,
-                    scrollToDot
-                }
-            }
-        }).mount('#app')
-    </script>
+<!-- Vue app (ES module — must load after lucide) -->
+<script type="module" src="app.js"></script>
 </body>
 </html>
