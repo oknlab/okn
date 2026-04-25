@@ -1,0 +1,179 @@
+/* ══════════════════════════════════════════════════════
+   OKNLAB — Global Stylesheet
+   Pairs with Tailwind CDN v4 (utilities stay inline)
+══════════════════════════════════════════════════════ */
+
+/* ── Custom Properties ── */
+:root {
+    --okn-black:   #050505;
+    --okn-white:   #EDEDED;
+    --okn-gray:    #0f0f0f;
+    --okn-border:  rgba(255, 255, 255, 0.07);
+    --font-serif:  "Old Standard TT", serif;
+    --font-sans:   "DM Sans", sans-serif;
+
+    /* Z-index scale */
+    --z-base:    1;
+    --z-raised:  10;
+    --z-nav:     50;
+    --z-overlay: 9000;
+    --z-grain:   9998;
+}
+
+/* ── Reset & Base ── */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    overflow-x: hidden;
+    overflow-x: clip; /* modern: no scroll-container side-effects */
+    scroll-behavior: smooth;
+}
+
+body {
+    overscroll-behavior-x: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Grain Overlay ── */
+/* Adds subtle physical texture — breaks digital flatness */
+body::after {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+    opacity: 0.026;
+    pointer-events: none;
+    z-index: var(--z-grain);
+}
+
+/* ── Selection ── */
+::selection {
+    background: #fff;
+    color: #000;
+}
+
+/* ── Focus ring (accessibility) ── */
+:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.55);
+    outline-offset: 3px;
+    border-radius: 3px;
+}
+
+/* ── Typography ── */
+h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+}
+
+/* ── Custom Scrollbar ── */
+::-webkit-scrollbar        { width: 6px; }
+::-webkit-scrollbar-track  { background: #000; }
+::-webkit-scrollbar-thumb  { background: #282828; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #404040; }
+
+/* ── Keyframe Animations ── */
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { opacity: 1;   transform: scale(1); }
+    50%      { opacity: 0.5; transform: scale(0.9); }
+}
+
+/* ── Animation utilities ── */
+.animate-fade-up { animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.delay-100       { animation-delay: 0.10s; }
+.delay-200       { animation-delay: 0.22s; }
+.delay-300       { animation-delay: 0.34s; }
+.delay-400       { animation-delay: 0.46s; }
+
+/* ── Horizontal Scroll Track ── */
+.scroll-track {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    cursor: grab;
+}
+.scroll-track:active {
+    cursor: grabbing;
+    scroll-behavior: auto;
+}
+
+/* ── Hide Scrollbar (cross-browser) ── */
+.hide-scrollbar                    { -ms-overflow-style: none; scrollbar-width: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ── Project Panel — Card Reveal ── */
+.project-panel {
+    opacity: 0;
+    transform: translateY(3rem);
+    will-change: opacity, transform;
+    transition:
+        opacity   0.85s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.project-panel.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── Button Press Feedback ── */
+.btn-primary:active,
+.btn-outline:active {
+    transform: scale(0.97) translateY(1px);
+    transition-duration: 80ms;
+}
+
+/* ── Smooth transitions on interactive elements ── */
+a, button {
+    transition-property: color, background-color, border-color, opacity, transform;
+    transition-duration: 220ms;
+    transition-timing-function: ease;
+}
+
+/* ── Spotlight: scroll nav arrow buttons (positioned by parent) ── */
+.scroll-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: var(--z-raised);
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    display: none; /* shown via Tailwind md:flex */
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    cursor: pointer;
+    transition:
+        color       220ms ease,
+        background  220ms ease,
+        border-color 220ms ease,
+        opacity     220ms ease,
+        transform   220ms ease;
+}
+.scroll-nav:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.28);
+}
+.scroll-nav:active {
+    transform: translateY(-50%) scale(0.95);
+}
+.scroll-nav:disabled {
+    opacity: 0 !important;
+    pointer-events: none;
+}
