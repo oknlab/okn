@@ -1,194 +1,178 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact — OKNLAB</title>
-    <meta name="description" content="Get in touch with OKNLAB. Reach out for partnerships, support, or general inquiries.">
-    <meta property="og:title" content="Contact — OKNLAB">
-    <meta property="og:image" content="https://avatars.githubusercontent.com/u/32960623?s=500&v=2">
-    <link rel="icon" href="https://avatars.githubusercontent.com/u/32960623?s=52&v=2">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — OKNLAB</title>
+  <meta name="description" content="Get in touch with OKNLAB for partnerships, project enquiries, or general questions.">
+  <meta property="og:title" content="Contact — OKNLAB">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/32960623?s=500&v=2">
+  <link rel="icon" href="https://avatars.githubusercontent.com/u/32960623?s=52&v=2">
 
-    <!-- Fonts: Old Standard TT (display) + DM Sans (body) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="styles.css">
 
-    <!-- Global stylesheet -->
-    <link rel="stylesheet" href="styles.css">
-
-    <!-- Tailwind utilities -->
-    <style type="text/tailwindcss">
-        @theme {
-            --font-serif: "Old Standard TT", serif;
-            --font-sans:  "DM Sans", sans-serif;
-            --color-okn-black: #050505;
-            --color-okn-white: #EDEDED;
-            --color-okn-gray:  #0f0f0f;
-        }
-
-        body {
-            @apply font-sans bg-okn-black text-okn-white;
-        }
-
-        h1, h2, h3, h4 { @apply font-serif; }
-    </style>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-serif: "Old Standard TT", Georgia, serif;
+      --font-sans:  "Outfit", system-ui, sans-serif;
+      --color-bg:   #080807;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="fixed top-0 w-full z-50 bg-okn-black/90 backdrop-blur-xl border-b border-white/5">
-        <div class="container mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="index.html" class="flex items-center gap-3 group" aria-label="OKNLAB home">
-                <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2" alt="OKNLAB"
-                     class="w-10 h-10 rounded-full grayscale group-hover:grayscale-0 transition-all duration-500 border border-white/15">
-                <span class="font-serif text-xl font-bold tracking-wider">OKNLAB</span>
-            </a>
-            <a href="index.html"
-               class="flex items-center gap-2 text-xs text-gray-600 hover:text-white transition-colors tracking-widest uppercase">
-                <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Back
-            </a>
+  <!-- Header -->
+  <header class="site-header is-scrolled">
+    <div class="w-full max-w-[1400px] mx-auto px-6 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group" aria-label="OKNLAB home">
+        <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2"
+             alt="OKNLAB"
+             class="w-9 h-9 rounded-full border grayscale group-hover:grayscale-0 transition-all duration-500"
+             style="border-color:var(--border-hi)">
+        <span class="logo-text">OKNLAB</span>
+      </a>
+      <a href="index.html" class="back-link">
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+        Back to Home
+      </a>
+    </div>
+  </header>
+
+  <main style="padding-top:80px; min-height:100vh; display:flex; flex-direction:column">
+
+    <!-- Hero -->
+    <section style="position:relative; padding:5rem 0 4rem; border-bottom:1px solid var(--border); overflow:hidden">
+      <div class="absolute inset-0 grid-bg opacity-50 pointer-events-none"></div>
+      <div class="absolute pointer-events-none"
+           style="top:50%; left:50%; transform:translate(-50%,-50%); width:500px; height:250px; background:rgba(233,233,228,0.022); border-radius:50%; filter:blur(90px)"></div>
+
+      <div class="max-w-[1400px] mx-auto px-6 relative z-10" style="max-width:56rem">
+        <div class="status-pill mb-8 anim-fade-in">
+          <span class="status-dot"></span>
+          We respond within 24 hours
         </div>
-    </header>
+        <h1 class="anim-fade-up d-50"
+            style="font-size:clamp(3rem,7vw,6rem); font-weight:700; letter-spacing:-0.03em; margin-bottom:1.25rem">
+          Let's Talk.
+        </h1>
+        <p class="anim-fade-up d-150"
+           style="color:var(--muted-hi); font-size:1.0625rem; font-weight:300; max-width:38ch; line-height:1.7">
+          Have a project in mind or a question about our work? We'd love to hear from you.
+        </p>
+      </div>
+    </section>
 
-    <main class="pt-20 min-h-screen flex flex-col">
+    <!-- Content -->
+    <div style="flex:1; max-width:1400px; margin:0 auto; padding:4rem 1.5rem 5rem; width:100%">
+      <div style="display:grid; grid-template-columns:1fr; gap:3.5rem; max-width:56rem">
+        <div style="display:grid; grid-template-columns:1fr; gap:3.5rem" class="md:grid-cols-[1.6fr_1fr]">
 
-        <!-- Page hero -->
-        <section class="relative py-20 md:py-28 border-b border-white/5 overflow-hidden">
-            <!-- Grid -->
-            <div class="absolute inset-0 pointer-events-none"
-                 style="background-image:
-                        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
-                        background-size: 52px 52px;"></div>
-            <!-- Fade out -->
-            <div class="absolute bottom-0 left-0 w-full h-24 pointer-events-none"
-                 style="background: linear-gradient(to top, #050505, transparent);"></div>
-            <!-- Glow -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-                        w-[500px] h-[260px] bg-white/[0.025] rounded-full blur-[120px] pointer-events-none"></div>
+          <!-- Form -->
+          <div class="anim-fade-up d-100">
+            <p class="section-label mb-5">Send a message</p>
+            <iframe
+              data-tally-src="https://tally.so/embed/VL8q4l?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+              loading="lazy"
+              width="100%"
+              height="420"
+              frameborder="0"
+              marginheight="0"
+              marginwidth="0"
+              title="Contact OKNLAB"
+              style="border:none; min-height:420px; display:block">
+            </iframe>
+          </div>
 
-            <div class="container mx-auto px-6 relative z-10 max-w-4xl">
-                <div class="inline-flex items-center gap-2.5 mb-7 px-4 py-1.5
-                            border border-white/10 rounded-full bg-white/[0.04]
-                            text-xs tracking-[0.18em] uppercase text-gray-400
-                            animate-fade-up">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"
-                          style="animation: pulse-glow 2.2s ease-in-out infinite;"></span>
-                    We respond within 24 hours
-                </div>
-                <h1 class="text-5xl md:text-7xl font-bold leading-[1.05] mb-5 animate-fade-up delay-100">
-                    Let's talk.
-                </h1>
-                <p class="text-gray-500 text-lg font-light max-w-lg leading-relaxed animate-fade-up delay-200">
-                    A project in mind, a question about our tools, or just want to say hello — we'd like to hear from you.
-                </p>
+          <!-- Info panel -->
+          <div class="anim-fade-up d-200" style="display:flex; flex-direction:column; gap:2rem">
+
+            <!-- Direct contact -->
+            <div>
+              <p class="section-label mb-5">Direct channels</p>
+              <div style="display:flex; flex-direction:column; gap:0.625rem">
+                <a href="mailto:hello@oknlab.slmail.me" class="info-card" aria-label="Email us">
+                  <div class="icon-box">
+                    <i data-lucide="mail" class="w-4 h-4"></i>
+                  </div>
+                  <div style="flex:1; min-width:0">
+                    <p style="font-size:0.6875rem; color:var(--muted); margin-bottom:0.25rem; letter-spacing:0.06em; text-transform:uppercase; font-weight:500">General</p>
+                    <span style="font-size:0.875rem; color:var(--muted-hi); transition:color 0.2s ease; display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">
+                      hello@oknlab.slmail.me
+                    </span>
+                  </div>
+                  <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 flex-shrink-0" style="color:var(--muted); opacity:0; transition:opacity 0.2s ease"></i>
+                </a>
+              </div>
             </div>
-        </section>
 
-        <!-- Main: split layout -->
-        <div class="flex-grow container mx-auto px-6 max-w-6xl py-16 md:py-24">
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-16 lg:gap-24">
+            <hr class="divider">
 
-                <!-- Form embed -->
-                <div class="lg:col-span-3 animate-fade-up delay-200">
-                    <iframe
-                        data-tally-src="https://tally.so/embed/VL8q4l?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-                        loading="lazy"
-                        width="100%"
-                        height="400"
-                        frameborder="0"
-                        marginheight="0"
-                        marginwidth="0"
-                        title="Contact OKNLAB"
-                        style="border:none; min-height:400px;">
-                    </iframe>
-                </div>
-
-                <!-- Info panel -->
-                <div class="lg:col-span-2 space-y-12 animate-fade-up delay-300">
-
-                    <!-- Direct channels -->
-                    <div>
-                        <p class="text-[10px] font-semibold tracking-[0.3em] uppercase text-gray-600 mb-6">
-                            Direct channels
-                        </p>
-                        <div class="space-y-5">
-                            <a href="mailto:hello@oknlab.slmail.me"
-                               class="flex items-start gap-4 group">
-                                <div class="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center
-                                            shrink-0 group-hover:bg-white group-hover:border-white
-                                            transition-all duration-300">
-                                    <i data-lucide="mail"
-                                       class="w-4 h-4 text-gray-500 group-hover:text-black transition-colors"></i>
-                                </div>
-                                <div>
-                                    <p class="text-[10px] text-gray-600 mb-0.5 tracking-widest uppercase">General</p>
-                                    <span class="text-sm text-gray-400 group-hover:text-white transition-colors">
-                                        hello@oknlab.slmail.me
-                                    </span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="border-t border-white/[0.06]"></div>
-
-                    <!-- Social -->
-                    <div>
-                        <p class="text-[10px] font-semibold tracking-[0.3em] uppercase text-gray-600 mb-6">
-                            Find us online
-                        </p>
-                        <div class="space-y-4">
-                            <a href="https://github.com/oknlab" target="_blank" rel="noopener"
-                               class="flex items-center gap-3 text-sm text-gray-500 hover:text-white transition-colors group">
-                                <i data-lucide="github" class="w-4 h-4 shrink-0"></i>
-                                <span>github.com/oknlab</span>
-                                <i data-lucide="arrow-up-right"
-                                   class="w-3 h-3 ml-auto opacity-0 group-hover:opacity-100 transition-opacity shrink-0"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="border-t border-white/[0.06]"></div>
-
-                    <!-- Location -->
-                    <div class="flex items-start gap-4">
-                        <i data-lucide="map-pin" class="w-4 h-4 text-gray-600 mt-0.5 shrink-0"></i>
-                        <div>
-                            <p class="text-sm text-gray-400">San Francisco, CA</p>
-                            <p class="text-xs text-gray-600 mt-0.5">United States · Est. 2024</p>
-                        </div>
-                    </div>
-
-                </div>
+            <!-- Social -->
+            <div>
+              <p class="section-label mb-5">Find us online</p>
+              <div style="display:flex; flex-direction:column; gap:0.875rem">
+                <a href="https://github.com/oknlab" target="_blank" rel="noopener"
+                   class="hover-line"
+                   style="display:flex; align-items:center; gap:0.75rem; font-size:0.875rem; color:var(--muted-hi); text-decoration:none; width:fit-content; transition:color 0.2s ease">
+                  <i data-lucide="github" class="w-4 h-4 flex-shrink-0"></i>
+                  github.com/oknlab
+                </a>
+              </div>
             </div>
+
+            <hr class="divider">
+
+            <!-- Location -->
+            <div style="display:flex; align-items:flex-start; gap:0.75rem">
+              <i data-lucide="map-pin" class="w-4 h-4 flex-shrink-0 mt-0.5" style="color:var(--muted)"></i>
+              <div>
+                <p style="font-size:0.9rem; color:var(--muted-hi)">San Francisco, CA</p>
+                <p style="font-size:0.8125rem; color:var(--muted); margin-top:0.2rem">United States · Est. 2024</p>
+              </div>
+            </div>
+
+          </div>
         </div>
-    </main>
+      </div>
+    </div>
+  </main>
 
-    <!-- Footer -->
-    <footer class="bg-black border-t border-white/[0.07] py-10">
-        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <a href="index.html" class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
-                <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2" alt="OKNLAB"
-                     class="w-7 h-7 rounded-full grayscale border border-white/15">
-                <span class="font-serif text-sm font-bold tracking-wider">OKNLAB</span>
-            </a>
-            <div class="flex gap-6 text-xs text-gray-700">
-                <a href="privacy-policy.html"  class="hover:text-white transition-colors">Privacy Policy</a>
-                <a href="terms-of-service.html" class="hover:text-white transition-colors">Terms of Service</a>
-                <a href="contact.html" class="text-gray-400">Contact</a>
-            </div>
-            <p class="text-gray-800 text-xs">© 2025 OKNLAB. All rights reserved.</p>
-        </div>
-    </footer>
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="max-w-[1400px] mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <a href="index.html" class="flex items-center gap-2" style="opacity:0.6; text-decoration:none; transition:opacity 0.2s ease"
+         onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+        <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2" alt="OKNLAB"
+             class="w-6 h-6 rounded-full grayscale" style="border:1px solid var(--border-hi)">
+        <span class="logo-text" style="font-size:0.9375rem">OKNLAB</span>
+      </a>
+      <div style="display:flex; gap:1.5rem">
+        <a href="privacy-policy.html" class="hover-line" style="font-size:0.75rem; color:var(--muted)">Privacy Policy</a>
+        <a href="terms-of-service.html" class="hover-line" style="font-size:0.75rem; color:var(--muted)">Terms of Service</a>
+        <span style="font-size:0.75rem; color:var(--muted-hi)">Contact</span>
+      </div>
+      <p style="font-size:0.75rem; color:var(--muted)">© 2025 OKNLAB. All rights reserved.</p>
+    </div>
+  </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => lucide.createIcons());
-    </script>
-    <script src="https://tally.so/widgets/embed.js"></script>
+<script src="app.js"></script>
+<script src="https://tally.so/widgets/embed.js"></script>
+
+<style>
+/* Reveal arrow on info-card hover */
+.info-card:hover i[data-lucide="arrow-up-right"] { opacity: 1 !important; }
+.info-card:hover span { color: var(--text) !important; }
+
+/* md grid breakpoint */
+@media (min-width: 768px) {
+  .md\:grid-cols-\[1\.6fr_1fr\] { grid-template-columns: 1.6fr 1fr !important; }
+}
+</style>
 </body>
 </html>
