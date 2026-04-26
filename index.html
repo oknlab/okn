@@ -1,396 +1,336 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OKNLAB — Software Built to a Different Standard</title>
-    <meta name="description" content="OKNLAB builds AI-powered tools for serious teams. Custom client projects and our own product line, shipped with care.">
-    <meta property="og:title" content="OKNLAB — Software Built to a Different Standard">
-    <meta property="og:description" content="AI-powered tools for coding, content, and workflows. Client work and proprietary products.">
-    <meta property="og:image" content="https://avatars.githubusercontent.com/u/32960623?s=500&v=2">
-    <link rel="icon" href="https://avatars.githubusercontent.com/u/32960623?s=52&v=2">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OKNLAB — AI Products & Custom Development</title>
+  <meta name="description" content="OKNLAB builds intelligent, multifunctional AI products for coding, content generation, and workflow automation. Premium client work and proprietary tools.">
+  <meta property="og:title" content="OKNLAB — AI Products & Custom Development">
+  <meta property="og:description" content="We build intelligent products designed to automate the complex and simplify the abstract.">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/32960623?s=500&v=2">
+  <link rel="icon" href="https://avatars.githubusercontent.com/u/32960623?s=52&v=2">
 
-    <!-- Fonts: Old Standard TT (display) + DM Sans (body) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CDN (processes @apply and @theme below) -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Lucide icons (global) -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="styles.css">
 
-    <!-- Global stylesheet (pure CSS — no @apply) -->
-    <link rel="stylesheet" href="styles.css">
-
-    <!-- Tailwind utilities — must stay inline for CDN processing -->
-    <style type="text/tailwindcss">
-        @theme {
-            --font-serif: "Old Standard TT", serif;
-            --font-sans:  "DM Sans", sans-serif;
-            --color-okn-black:  #050505;
-            --color-okn-white:  #EDEDED;
-            --color-okn-gray:   #0f0f0f;
-            --color-okn-accent: #1e1e1e;
-        }
-
-        body {
-            @apply font-sans bg-okn-black text-okn-white;
-        }
-
-        h1, h2, h3, h4, h5, h6 { @apply font-serif; }
-
-        /* ── Buttons ── */
-        .btn-primary {
-            @apply px-7 py-3.5 bg-okn-white text-okn-black font-medium text-sm tracking-wide
-                   hover:bg-white transition-all duration-200
-                   inline-flex items-center justify-center gap-2 rounded-full;
-        }
-        .btn-outline {
-            @apply px-7 py-3.5 border border-white/25 text-okn-white font-medium text-sm tracking-wide
-                   hover:bg-okn-white hover:text-okn-black hover:border-okn-white transition-all duration-200
-                   inline-flex items-center justify-center gap-2 rounded-full;
-        }
-
-        /* ── Nav ── */
-        .nav-link {
-            @apply text-gray-500 hover:text-white transition-colors duration-200 text-sm tracking-wide;
-        }
-
-        /* ── Scroll nav arrows (desktop only) ── */
-        .scroll-nav-btn {
-            @apply hidden md:flex absolute top-1/2 -translate-y-1/2 z-10;
-        }
-
-        /* ── Progress bar ── */
-        .progress-fill {
-            @apply h-full bg-white/30 rounded-full;
-            transition: width 0.15s ease-out;
-        }
-    </style>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-serif: "Old Standard TT", Georgia, serif;
+      --font-sans:  "Outfit", system-ui, sans-serif;
+      --color-bg:      #080807;
+      --color-bg2:     #0d0d0b;
+      --color-surface: #111110;
+      --color-okn-white: #E9E9E4;
+    }
+  </style>
 </head>
-
 <body>
-<div id="app" class="min-h-screen flex flex-col">
 
-    <!-- ════════════════════ Header ════════════════════ -->
-    <header class="fixed top-0 w-full z-50 transition-all duration-300"
-            :class="{ 'bg-okn-black/90 backdrop-blur-xl border-b border-white/5': isScrolled, 'bg-transparent': !isScrolled }">
-        <div class="container mx-auto px-6 h-20 flex items-center justify-between">
+<div id="app">
 
-            <!-- Logo -->
-            <a href="#" class="flex items-center gap-3 group" aria-label="OKNLAB home">
-                <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2" alt="OKNLAB"
-                     class="w-10 h-10 rounded-full grayscale group-hover:grayscale-0 transition-all duration-500 border border-white/15">
-                <span class="font-serif text-xl font-bold tracking-wider">OKNLAB</span>
-            </a>
+  <!-- ═══ Header ═══ -->
+  <header class="site-header">
+    <div class="w-full max-w-[1400px] mx-auto px-6 flex items-center justify-between">
 
-            <!-- Desktop nav -->
-            <nav class="hidden md:flex items-center gap-8" aria-label="Primary">
-                <a href="#projects" class="nav-link">Projects</a>
-            </nav>
+      <a href="#" class="flex items-center gap-3 group" aria-label="OKNLAB home">
+        <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2"
+             alt="OKNLAB"
+             class="w-9 h-9 rounded-full border grayscale group-hover:grayscale-0 transition-all duration-500"
+             style="border-color: var(--border-hi)">
+        <span class="logo-text">OKNLAB</span>
+      </a>
 
-            <div class="flex items-center gap-4">
-                <a href="contact.html"
-                   class="hidden md:inline-flex text-xs font-semibold uppercase tracking-widest
-                          border-b border-white pb-0.5 hover:opacity-60 transition-opacity">
-                    Contact
-                </a>
-                <button class="md:hidden text-white p-1" @click="toggleMobileMenu" aria-label="Toggle menu">
-                    <i data-lucide="menu" class="w-5 h-5"></i>
-                </button>
+      <nav class="hidden md:flex items-center gap-8" aria-label="Primary">
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <a href="contact.html"
+           class="hidden md:inline-flex btn btn-outline btn-rounded"
+           style="padding: 0.5rem 1.25rem; font-size: 0.75rem;">
+          Work with us
+        </a>
+        <button class="md:hidden flex items-center justify-center w-9 h-9"
+                style="color: var(--text)"
+                @click="toggleMobileMenu"
+                :aria-expanded="mobileMenuOpen"
+                aria-label="Toggle menu">
+          <i :data-lucide="mobileMenuOpen ? 'x' : 'menu'" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile nav -->
+    <div v-if="mobileMenuOpen" class="mobile-nav md:hidden" role="navigation">
+      <a href="#projects" class="nav-link text-base" @click="mobileMenuOpen = false">Projects</a>
+      <a href="contact.html" class="nav-link text-base" @click="mobileMenuOpen = false">Contact</a>
+      <a href="contact.html" class="btn btn-primary btn-rounded mt-2 w-full justify-center" style="font-size:0.75rem; padding:0.625rem 1.25rem;">
+        Work with us
+      </a>
+    </div>
+  </header>
+
+  <!-- ═══ Main ═══ -->
+  <main>
+
+    <!-- ── Hero ── -->
+    <section class="relative min-h-[100dvh] flex items-end overflow-hidden"
+             style="padding-bottom: clamp(3rem, 6vw, 5rem)">
+
+      <!-- Background texture -->
+      <div class="absolute inset-0 grid-bg opacity-60 pointer-events-none"></div>
+
+      <!-- Ambient glows -->
+      <div class="absolute pointer-events-none"
+           style="top:20%; left:5%; width:clamp(300px,40vw,560px); height:clamp(300px,40vw,560px);
+                  background:rgba(233,233,228,0.022); border-radius:50%; filter:blur(130px)"></div>
+      <div class="absolute pointer-events-none"
+           style="bottom:15%; right:10%; width:clamp(200px,28vw,380px); height:clamp(200px,28vw,380px);
+                  background:rgba(233,233,228,0.014); border-radius:50%; filter:blur(100px)"></div>
+
+      <!-- Vertical rule -->
+      <div class="absolute left-[max(1.5rem,calc(50vw-700px))] top-0 bottom-0 w-px pointer-events-none hidden lg:block"
+           style="background: linear-gradient(to bottom, transparent, var(--border) 20%, var(--border) 80%, transparent)"></div>
+
+      <div class="w-full max-w-[1400px] mx-auto px-6 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 items-end">
+
+          <!-- Content -->
+          <div class="md:col-span-8 lg:col-span-7">
+            <div class="status-pill mb-8 anim-fade-in">
+              <span class="status-dot"></span>
+              All systems operational
             </div>
+
+            <h1 class="anim-fade-up d-50"
+                style="font-size:clamp(3.25rem,8.5vw,7.5rem); line-height:0.97; letter-spacing:-0.03em; margin-bottom:2rem; font-weight:700">
+              Accomplish Any<br>
+              <span style="color: rgba(233,233,228,0.25)">Digital Task.</span>
+            </h1>
+
+            <p class="anim-fade-up d-150"
+               style="font-size:clamp(0.9375rem,1.3vw,1.125rem); color:var(--muted-hi); max-width:42ch; margin-bottom:2.5rem; font-weight:300; line-height:1.7">
+              We build intelligent, multifunctional AI products designed to automate the complex and deliver measurable results — for clients and as proprietary tools.
+            </p>
+
+            <div class="flex flex-wrap gap-3 anim-fade-up d-200">
+              <a href="#projects" class="btn btn-primary btn-rounded">
+                Explore Projects
+                <i data-lucide="arrow-down" class="w-4 h-4"></i>
+              </a>
+              <a href="https://github.com/oknlab" target="_blank" rel="noopener" class="btn btn-outline btn-rounded">
+                <i data-lucide="github" class="w-4 h-4"></i>
+                GitHub
+              </a>
+            </div>
+          </div>
+
+          <!-- Editorial aside — desktop only -->
+          <div class="hidden md:flex md:col-span-4 lg:col-span-5 flex-col items-end justify-end anim-fade-in d-300"
+               aria-hidden="true">
+            <span style="font-family:var(--font-serif); font-size:clamp(6rem,11vw,13rem); font-weight:700; line-height:1; color:rgba(233,233,228,0.035); user-select:none; display:block">
+              {{ String(projects.length).padStart(2,'0') }}
+            </span>
+            <div style="width:100%; border-top:1px solid var(--border); padding-top:1.25rem; margin-top:1.25rem; display:flex; justify-content:space-between; align-items:center">
+              <span class="section-label">Selected Works</span>
+              <span style="font-size:0.75rem; color:var(--muted); font-family:var(--font-sans); letter-spacing:0.06em">2024 — 2025</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Projects ── -->
+    <section id="projects" style="background:var(--bg-2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding: 5rem 0 4rem">
+
+      <!-- Header -->
+      <div class="max-w-[1400px] mx-auto px-6 mb-14">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+          <div>
+            <span class="section-label block mb-4">Portfolio</span>
+            <h2 style="font-size:clamp(2.25rem,5vw,4rem); margin-bottom:1rem">Selected Projects</h2>
+            <p style="color:var(--muted-hi); max-width:38ch; font-weight:300; font-size:1rem">
+              <span class="hidden md:inline">Scroll or use the arrows</span>
+              <span class="md:hidden">Swipe</span>
+              to explore our suite of tools.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-5">
+            <span style="font-size:0.8125rem; color:var(--muted); font-family:var(--font-sans); letter-spacing:0.05em">
+              {{ String(projects.length).padStart(2,'0') }} Projects
+            </span>
+            <div class="flex md:hidden items-center gap-2 status-pill" style="animation:none">
+              <i data-lucide="move-horizontal" class="w-3.5 h-3.5"></i>
+              Swipe
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll container -->
+      <div class="scroll-group" style="position:relative">
+
+        <!-- Left arrow -->
+        <button class="scroll-nav-btn" style="left:1rem"
+                :disabled="!canScrollLeft"
+                @click="scrollByDir(-1)"
+                aria-label="Previous project">
+          <i data-lucide="chevron-left" class="w-5 h-5"></i>
+        </button>
+
+        <!-- Track -->
+        <div ref="scrollContainer"
+             class="scroll-track hide-scrollbar"
+             style="display:flex; overflow-x:auto; gap:1.25rem; padding:0.5rem max(1.5rem, calc(50vw - 660px)) 1rem; scroll-snap-type:x mandatory; align-items:stretch"
+             role="region"
+             aria-label="Projects carousel"
+             tabindex="0"
+             @scroll="onTrackScroll"
+             @keydown.left.prevent="scrollByDir(-1)"
+             @keydown.right.prevent="scrollByDir(1)">
+
+          <!-- Card -->
+          <a v-for="(p, i) in projects" :key="i" :href="p.link"
+             class="project-panel card-spotlight"
+             style="flex:none; width:clamp(280px,82vw,420px); scroll-snap-align:center; border-radius:2rem; padding:2rem 2rem 1.75rem; display:flex; flex-direction:column; text-decoration:none; color:inherit"
+             draggable="false">
+
+            <!-- Ghost number -->
+            <span style="position:absolute; right:-1rem; bottom:-1rem; font-family:var(--font-serif); font-size:10rem; font-weight:700; color:rgba(233,233,228,0.02); line-height:1; pointer-events:none; user-select:none; z-index:0"
+                  aria-hidden="true">
+              {{ String(i+1).padStart(2,'0') }}
+            </span>
+
+            <!-- Card header -->
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; position:relative; z-index:1">
+              <span style="font-family:var(--font-sans); font-size:0.75rem; color:var(--muted); letter-spacing:0.08em">
+                {{ String(i+1).padStart(2,'0') }}
+              </span>
+              <div style="display:flex; align-items:center; gap:0.625rem">
+                <span v-if="p.isNew"
+                      style="font-size:0.625rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; background:var(--text); color:var(--bg); padding:0.2rem 0.5rem; border-radius:0.25rem">
+                  New
+                </span>
+                <span style="font-family:var(--font-sans); font-size:0.6875rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted)">
+                  {{ p.category }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Logo / icon -->
+            <div style="width:4rem; height:4rem; border-radius:1rem; border:1px solid var(--border-hi); background:rgba(233,233,228,0.04); display:flex; align-items:center; justify-content:center; margin-bottom:1.75rem; transition:transform 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.4s ease; position:relative; z-index:1; overflow:hidden"
+                class="card-logo">
+              <img v-if="p.logo" :src="p.logo" :alt="p.title + ' logo'"
+                   style="width:2.25rem; height:2.25rem; object-fit:contain; opacity:0.55; transition:opacity 0.4s ease">
+              <i v-else :data-lucide="p.icon" class="w-8 h-8" style="color:var(--muted-hi); transition:color 0.4s ease"></i>
+            </div>
+
+            <!-- Text -->
+            <div style="flex:1; display:flex; flex-direction:column; position:relative; z-index:1">
+              <h3 style="font-size:clamp(1.5rem,4vw,2.25rem); font-weight:700; line-height:1.08; letter-spacing:-0.025em; margin-bottom:0.875rem; transition:color 0.35s ease; color:rgba(233,233,228,0.85)">
+                {{ p.title }}
+              </h3>
+              <p style="font-size:0.9rem; color:var(--muted-hi); line-height:1.7; font-weight:300; transition:color 0.35s ease; flex:1">
+                {{ p.description }}
+              </p>
+            </div>
+
+            <!-- Footer -->
+            <div style="margin-top:2rem; padding-top:1.25rem; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; position:relative; z-index:1">
+              <span style="font-size:0.8125rem; color:var(--muted-hi); letter-spacing:0.04em; transition:color 0.3s ease">
+                View Project
+              </span>
+              <div style="width:2.5rem; height:2.5rem; border-radius:50%; border:1px solid var(--border-hi); background:rgba(233,233,228,0.04); display:flex; align-items:center; justify-content:center; transition:all 0.35s ease">
+                <i data-lucide="arrow-up-right" class="w-4 h-4" style="color:var(--muted-hi); transition:all 0.35s ease"></i>
+              </div>
+            </div>
+          </a>
         </div>
 
-        <!-- Mobile drawer -->
-        <div v-if="mobileMenuOpen"
-             class="md:hidden absolute top-full left-0 w-full bg-okn-black border-b border-white/10 px-6 py-5 flex flex-col gap-5 shadow-2xl">
-            <a href="#projects"    class="nav-link text-base" @click="mobileMenuOpen = false">Projects</a>
-            <a href="contact.html" class="nav-link text-base text-white" @click="mobileMenuOpen = false">Contact</a>
+        <!-- Right arrow -->
+        <button class="scroll-nav-btn" style="right:1rem"
+                :disabled="!canScrollRight"
+                @click="scrollByDir(1)"
+                aria-label="Next project">
+          <i data-lucide="chevron-right" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="max-w-[1400px] mx-auto px-6 mt-8">
+        <div style="height:1px; background:var(--border); border-radius:100px; overflow:hidden">
+          <div style="height:100%; background:linear-gradient(to right, rgba(233,233,228,0.5), rgba(233,233,228,0.2)); border-radius:100px; transition:width 0.15s ease-out"
+               :style="{ width: scrollProgress + '%' }"></div>
         </div>
-    </header>
+      </div>
 
-    <!-- ════════════════════ Main ════════════════════ -->
-    <main class="flex-grow pt-20">
+      <!-- Dot indicators — mobile -->
+      <div class="flex md:hidden justify-center gap-2 mt-6">
+        <button v-for="(p, i) in projects" :key="'d'+i"
+                style="height:0.5rem; border-radius:100px; border:none; cursor:pointer; background:rgba(233,233,228,0.2); transition:all 0.3s ease"
+                :style="{ width: activeDot === i ? '1.5rem' : '0.5rem', background: activeDot === i ? 'var(--text)' : 'rgba(233,233,228,0.2)' }"
+                @click="scrollToDot(i)"
+                :aria-label="'Go to project ' + (i+1)">
+        </button>
+      </div>
+    </section>
 
-        <!-- ── Hero ── -->
-        <section class="relative min-h-[100dvh] flex items-center justify-center overflow-hidden">
+  </main>
 
-            <!-- Ambient background -->
-            <div class="absolute inset-0 z-0 pointer-events-none">
-                <!-- Subtle radial glows -->
-                <div class="absolute top-1/3 left-1/3 w-[600px] h-[500px] rounded-full
-                            bg-white/[0.03] blur-[160px]"></div>
-                <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full
-                            bg-white/[0.02] blur-[120px]"></div>
-                <!-- Grid -->
-                <div class="absolute inset-0"
-                     style="background-image:
-                            linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
-                            linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
-                            background-size: 52px 52px;"></div>
-                <!-- Fade out grid at bottom -->
-                <div class="absolute bottom-0 left-0 w-full h-48"
-                     style="background: linear-gradient(to top, #050505, transparent);"></div>
-            </div>
+  <!-- ═══ Footer ═══ -->
+  <footer class="site-footer">
+    <div class="max-w-[1400px] mx-auto px-6 pt-14 pb-8">
 
-            <!-- Hero content -->
-            <div class="container mx-auto px-6 relative z-10 max-w-5xl">
-
-                <!-- Status badge -->
-                <div class="inline-flex items-center gap-2.5 mb-10 px-4 py-1.5
-                            border border-white/10 rounded-full bg-white/[0.04] backdrop-blur-sm
-                            animate-fade-up">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"
-                          style="animation: pulse-glow 2.2s ease-in-out infinite;"></span>
-                    <span class="text-xs tracking-[0.18em] uppercase text-gray-400">All systems running</span>
-                </div>
-
-                <!-- Headline — no gradient, just weight and contrast -->
-                <h1 class="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[1.02] tracking-tight
-                           mb-8 animate-fade-up delay-100">
-                    Software built<br>
-                    to a different<br>
-                    standard.
-                </h1>
-
-                <p class="text-base md:text-lg text-gray-400 mb-12 max-w-xl font-light leading-relaxed
-                          animate-fade-up delay-200">
-                    We build AI-powered tools for technical teams — custom client projects and a growing
-                    line of our own software, each one made to last.
-                </p>
-
-                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 animate-fade-up delay-300">
-                    <a href="#projects" class="btn-primary w-full sm:w-auto">
-                        See the work <i data-lucide="arrow-down" class="w-4 h-4"></i>
-                    </a>
-                    <a href="https://github.com/oknlab" target="_blank" rel="noopener"
-                       class="btn-outline w-full sm:w-auto">
-                        <i data-lucide="github" class="w-4 h-4"></i> GitHub
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- ── Projects — Horizontal Film-Strip ── -->
-        <section id="projects" class="relative bg-okn-gray border-y border-white/5 py-24">
-
-            <!-- Section header -->
-            <div class="container mx-auto px-6 mb-16">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-                    <div>
-                        <span class="text-[10px] font-semibold tracking-[0.32em] uppercase text-gray-600 mb-4 block">
-                            Portfolio
-                        </span>
-                        <h2 class="text-4xl md:text-5xl lg:text-6xl mb-5">Selected work</h2>
-                        <p class="text-gray-500 max-w-md text-base font-light leading-relaxed">
-                            <span class="hidden md:inline">Use the arrows or scroll horizontally</span>
-                            <span class="md:hidden">Swipe</span>
-                            to explore our tools.
-                        </p>
-                    </div>
-
-                    <div class="flex items-center gap-6">
-                        <span class="text-sm text-gray-700 font-mono tabular-nums">
-                            {{ String(projects.length).padStart(2, '0') }} projects
-                        </span>
-                        <!-- Mobile swipe hint -->
-                        <div class="flex md:hidden items-center gap-2 px-3 py-1.5 rounded-full
-                                    border border-white/10 bg-white/[0.04] text-[10px] text-gray-500
-                                    uppercase tracking-widest">
-                            <i data-lucide="move-horizontal" class="w-3.5 h-3.5"></i> Swipe
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Scroll wrapper -->
-            <div class="relative group/scroll">
-
-                <!-- Left arrow -->
-                <button class="scroll-nav scroll-nav-btn left-3 lg:left-6
-                               opacity-0 group-hover/scroll:opacity-100
-                               transition-opacity duration-300"
-                        :disabled="!canScrollLeft"
-                        @click="scrollByDir(-1)"
-                        aria-label="Previous project">
-                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
-                </button>
-
-                <!-- Scroll track -->
-                <div ref="scrollContainer"
-                     class="scroll-track hide-scrollbar
-                            w-full flex overflow-x-auto snap-x snap-mandatory
-                            items-stretch gap-5 sm:gap-6
-                            px-6 md:px-[10vw] pb-2"
-                     role="region"
-                     aria-label="Projects carousel"
-                     tabindex="0"
-                     @scroll="onTrackScroll"
-                     @keydown.left.prevent="scrollByDir(-1)"
-                     @keydown.right.prevent="scrollByDir(1)">
-
-                    <!-- Project card -->
-                    <a v-for="(project, index) in projects"
-                       :key="index"
-                       :href="project.link"
-                       class="project-panel
-                              flex-none w-[82vw] min-w-[280px] sm:w-[370px] md:w-[420px]
-                              snap-center flex flex-col
-                              bg-okn-black border border-white/[0.08]
-                              rounded-[2rem] p-7 sm:p-8 md:p-10
-                              group hover:bg-white/[0.025] hover:border-white/20
-                              transition-all duration-500 relative shadow-2xl select-none"
-                       draggable="false">
-
-                        <!-- Ghost index number -->
-                        <span class="absolute -right-3 -bottom-3 text-[9rem] sm:text-[11rem]
-                                     font-serif font-bold text-white/[0.018] leading-none
-                                     pointer-events-none group-hover:text-white/[0.035]
-                                     transition-colors duration-500 select-none">
-                            {{ String(index + 1).padStart(2, '0') }}
-                        </span>
-
-                        <div class="flex flex-col h-full flex-grow relative z-10">
-
-                            <!-- Card header row -->
-                            <div class="flex items-center justify-between mb-8 md:mb-10">
-                                <span class="text-xs text-gray-700 font-mono tabular-nums">
-                                    {{ String(index + 1).padStart(2, '0') }}
-                                </span>
-                                <div class="flex items-center gap-3">
-                                    <span v-if="project.isNew"
-                                          class="text-[9px] font-bold tracking-widest uppercase
-                                                 text-black bg-white px-2 py-0.5 rounded-sm">
-                                        New
-                                    </span>
-                                    <span class="text-[10px] font-bold tracking-[0.22em] uppercase text-gray-600">
-                                        {{ project.category }}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Project icon / logo -->
-                            <div class="w-14 h-14 sm:w-16 sm:h-16 md:w-[72px] md:h-[72px]
-                                        rounded-2xl bg-white/[0.05] border border-white/[0.08]
-                                        flex items-center justify-center mb-8
-                                        group-hover:scale-105 group-hover:border-white/20
-                                        transition-all duration-500 overflow-hidden">
-                                <img v-if="project.logo"
-                                     :src="project.logo"
-                                     :alt="project.title"
-                                     class="w-8 h-8 sm:w-9 sm:h-9 md:w-11 md:h-11
-                                            object-contain opacity-50 group-hover:opacity-90
-                                            transition-opacity duration-500">
-                                <i v-else
-                                   :data-lucide="project.icon"
-                                   class="w-7 h-7 md:w-9 md:h-9 text-white/40
-                                          group-hover:text-white transition-colors duration-500"></i>
-                            </div>
-
-                            <!-- Title + description -->
-                            <div class="flex-grow flex flex-col">
-                                <h3 class="text-2xl sm:text-3xl md:text-[2rem] font-bold
-                                           leading-[1.1] text-gray-300 mb-5
-                                           group-hover:text-white transition-colors duration-400">
-                                    {{ project.title }}
-                                </h3>
-                                <p class="text-gray-600 text-sm sm:text-base leading-relaxed
-                                          group-hover:text-gray-400 transition-colors duration-400">
-                                    {{ project.description }}
-                                </p>
-                            </div>
-
-                            <!-- Card footer / CTA -->
-                            <div class="mt-10 md:mt-12 pt-6 border-t border-white/[0.07]
-                                        flex items-center justify-between">
-                                <span class="text-sm text-gray-600 tracking-wide font-medium
-                                             group-hover:text-white transition-colors duration-300">
-                                    View project
-                                </span>
-                                <div class="w-11 h-11 rounded-full border border-white/10 bg-white/[0.04]
-                                            flex items-center justify-center
-                                            group-hover:bg-white group-hover:border-white
-                                            transition-all duration-400">
-                                    <i data-lucide="arrow-up-right"
-                                       class="w-5 h-5 text-gray-500
-                                              group-hover:text-black group-hover:rotate-45
-                                              transition-all duration-400"></i>
-                                </div>
-                            </div>
-
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Right arrow -->
-                <button class="scroll-nav scroll-nav-btn right-3 lg:right-6
-                               opacity-0 group-hover/scroll:opacity-100
-                               transition-opacity duration-300"
-                        :disabled="!canScrollRight"
-                        @click="scrollByDir(1)"
-                        aria-label="Next project">
-                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <!-- Progress bar -->
-            <div class="mx-6 md:mx-[10vw] mt-8 h-px bg-white/[0.08] rounded-full overflow-hidden">
-                <div class="progress-fill" :style="{ width: scrollProgress + '%' }"></div>
-            </div>
-
-            <!-- Dot indicators (mobile) -->
-            <div class="flex md:hidden justify-center gap-2 mt-6" role="tablist" aria-label="Project dots">
-                <button v-for="(p, i) in projects" :key="'dot'+i"
-                        role="tab"
-                        class="h-1.5 rounded-full transition-all duration-300"
-                        :class="activeDot === i ? 'bg-white w-6' : 'bg-white/20 w-1.5'"
-                        @click="scrollToDot(i)"
-                        :aria-label="'Go to ' + p.title"
-                        :aria-selected="activeDot === i">
-                </button>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- ════════════════════ Footer ════════════════════ -->
-    <footer class="bg-black border-t border-white/[0.07] pt-16 pb-8">
-        <div class="container mx-auto px-6">
-
-            <div class="flex flex-col md:flex-row justify-between items-start mb-12 gap-8">
-                <div class="max-w-xs">
-                    <a href="#" class="flex items-center gap-3 mb-4 opacity-70 hover:opacity-100 transition-opacity">
-                        <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2" alt="OKNLAB"
-                             class="w-8 h-8 rounded-full grayscale border border-white/15">
-                        <span class="font-serif text-base font-bold tracking-wider">OKNLAB</span>
-                    </a>
-                    <p class="text-gray-700 text-sm leading-relaxed">
-                        San Francisco, CA<br>Est. 2024
-                    </p>
-                </div>
-
-                <div class="flex gap-8 text-sm text-gray-600">
-                    <a href="contact.html" class="hover:text-white transition-colors">Contact</a>
-                    <a href="https://github.com/oknlab" target="_blank" rel="noopener"
-                       class="hover:text-white transition-colors">GitHub</a>
-                </div>
-            </div>
-
-            <div class="border-t border-white/[0.05] pt-8 flex flex-col md:flex-row justify-between items-center gap-3">
-                <p class="text-gray-800 text-xs">© 2025 OKNLAB. All rights reserved.</p>
-                <div class="flex gap-6 text-xs text-gray-700">
-                    <a href="privacy-policy.html"  class="hover:text-white transition-colors">Privacy Policy</a>
-                    <a href="terms-of-service.html" class="hover:text-white transition-colors">Terms of Service</a>
-                </div>
-            </div>
-
+      <div class="flex flex-col md:flex-row justify-between items-start mb-12 gap-8">
+        <div style="max-width:16rem">
+          <a href="#" class="flex items-center gap-3 mb-4" style="opacity:0.7; text-decoration:none; transition:opacity 0.2s ease"
+             onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+            <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2" alt="OKNLAB"
+                 class="w-8 h-8 rounded-full grayscale" style="border:1px solid var(--border-hi)">
+            <span class="logo-text" style="font-size:1.0625rem">OKNLAB</span>
+          </a>
+          <p style="color:var(--muted); font-size:0.8125rem; line-height:1.6">
+            San Francisco, CA<br>Est. 2024
+          </p>
         </div>
-    </footer>
 
-</div>
+        <div class="flex gap-10">
+          <div>
+            <p class="section-label mb-4">Navigation</p>
+            <div class="flex flex-col gap-2.5">
+              <a href="#projects" class="hover-line" style="font-size:0.875rem; color:var(--muted-hi)">Projects</a>
+              <a href="contact.html" class="hover-line" style="font-size:0.875rem; color:var(--muted-hi)">Contact</a>
+              <a href="https://github.com/oknlab" target="_blank" rel="noopener" class="hover-line" style="font-size:0.875rem; color:var(--muted-hi)">GitHub</a>
+            </div>
+          </div>
+          <div>
+            <p class="section-label mb-4">Legal</p>
+            <div class="flex flex-col gap-2.5">
+              <a href="privacy-policy.html" class="hover-line" style="font-size:0.875rem; color:var(--muted-hi)">Privacy Policy</a>
+              <a href="terms-of-service.html" class="hover-line" style="font-size:0.875rem; color:var(--muted-hi)">Terms of Service</a>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<!-- Vue app (ES module — must load after lucide) -->
-<script type="module" src="app.js"></script>
+      <hr class="divider">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-3 mt-6">
+        <p style="font-size:0.75rem; color:var(--muted)">© 2025 OKNLAB. All rights reserved.</p>
+        <p style="font-size:0.75rem; color:var(--muted)">Intelligent tools. Measurable results.</p>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- #app -->
+
+<script src="app.js"></script>
+<script type="module" src="index-app.js"></script>
 </body>
 </html>
