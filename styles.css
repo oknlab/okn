@@ -1,74 +1,135 @@
-/* ══════════════════════════════════════════════════════
-   OKNLAB — Global Stylesheet v2
-   Stack : Tailwind CDN v4 + custom components
-   Fonts : Cormorant Garamond (display) · Plus Jakarta Sans (body)
-══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   OKNLAB — styles.css  (v3)
+   Global design system. Tailwind CDN v4 handles utilities;
+   this file owns: tokens · resets · component classes · animations.
 
-/* ── Design Tokens ── */
+   TABLE OF CONTENTS
+   ─────────────────
+   1.  Design Tokens
+   2.  Reset & Base
+   3.  Grain Overlay
+   4.  Typography
+   5.  Scrollbar
+   6.  Skip Link / Accessibility
+   7.  Header
+   8.  Navigation
+   9.  Mobile Drawer
+   10. Buttons
+   11. Status Pill
+   12. Section Label
+   13. Hero — Grid Background
+   14. Keyframes & Animation Utilities
+   15. Projects Carousel
+       15a. Track & scrollbar
+       15b. Arrow buttons
+       15c. Project panel (scroll-reveal)
+       15d. Card — spotlight & logo
+   16. Footer
+   17. Contact Page
+   18. Legal Pages
+═══════════════════════════════════════════════════════════════ */
+
+
+/* ─── 1. Design Tokens ─────────────────────────────────────── */
 :root {
+  /* Surface stack */
   --bg:        #080806;
   --bg-2:      #0d0d0b;
   --surface:   #111110;
   --surface-2: #161614;
 
+  /* Text */
   --text:     #E4E2DA;
-  --muted-hi: rgba(228,226,218,0.58);
-  --muted:    rgba(228,226,218,0.28);
+  --muted-hi: rgba(228, 226, 218, 0.58);
+  --muted:    rgba(228, 226, 218, 0.28);
+  --muted-lo: rgba(228, 226, 218, 0.12);
 
+  /* Single accent — restrained warm gold */
   --accent:    #C4953F;
-  --accent-lo: rgba(196,149,63,0.09);
+  --accent-lo: rgba(196, 149, 63, 0.09);
 
-  --border:    rgba(255,255,255,0.065);
-  --border-hi: rgba(255,255,255,0.13);
+  /* Borders */
+  --border:    rgba(255, 255, 255, 0.065);
+  --border-hi: rgba(255, 255, 255, 0.13);
 
+  /* Typography */
   --font-serif: "Cormorant Garamond", Georgia, serif;
   --font-sans:  "Plus Jakarta Sans", system-ui, sans-serif;
 
-  --z-base:  1;
-  --z-raised: 10;
-  --z-nav:   50;
-  --z-grain: 9999;
+  /* Easing presets */
+  --ease-out-expo:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-circ: cubic-bezier(0.85, 0, 0.15, 1);
+
+  /* Z-index scale — never use magic numbers outside this list */
+  --z-base:    1;
+  --z-raised:  10;
+  --z-nav:     50;
+  --z-modal:   100;
+  --z-grain:   9999;
 }
 
-/* ── Reset ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { overflow-x: clip; scroll-behavior: smooth; }
+
+/* ─── 2. Reset & Base ──────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow-x: clip;
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
+  font-size: 1rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior-x: none;
 }
-h1,h2,h3,h4,h5,h6 {
-  font-family: var(--font-serif);
-  text-wrap: balance;
-  letter-spacing: -0.025em;
-  line-height: 1.02;
+
+img {
+  display: block;
+  max-width: 100%;
 }
-p   { text-wrap: pretty; }
-img { display: block; max-width: 100%; }
-a   { color: inherit; text-decoration: none; }
 
-/* ── Selection ── */
-::selection { background: var(--text); color: var(--bg); }
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-/* ── Focus ── */
+/* Interactive baseline — override per component as needed */
+a,
+button {
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow;
+  transition-duration: 220ms;
+  transition-timing-function: ease;
+}
+
+/* Selection */
+::selection {
+  background: var(--text);
+  color: var(--bg);
+}
+
+/* Focus ring — accessibility */
 :focus-visible {
-  outline: 2px solid rgba(228,226,218,0.5);
+  outline: 2px solid rgba(228, 226, 218, 0.5);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar        { width: 5px; }
-::-webkit-scrollbar-track  { background: var(--bg); }
-::-webkit-scrollbar-thumb  { background: #252521; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #353530; }
 
-/* ── Grain overlay (fixed pseudo, no repaint on scroll) ── */
+/* ─── 3. Grain Overlay ──────────────────────────────────────
+   Fixed pseudo-element = zero scroll-repaint cost.
+   Never attach noise to a scrolling container.
+─────────────────────────────────────────────────────────── */
 body::after {
   content: '';
   position: fixed;
@@ -82,27 +143,78 @@ body::after {
   z-index: var(--z-grain);
 }
 
-/* ═══════════════════════════
-   HEADER
-═══════════════════════════ */
+
+/* ─── 4. Typography ────────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+  text-wrap: balance;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+
+/* ─── 5. Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 5px; }
+::-webkit-scrollbar-track  { background: var(--bg); }
+::-webkit-scrollbar-thumb  { background: #252521; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #353530; }
+
+
+/* ─── 6. Skip Link / Accessibility ────────────────────────── */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--text);
+  color: var(--bg);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  z-index: 10000;
+}
+.skip-link:focus {
+  left: 1rem;
+}
+
+
+/* ─── 7. Header ─────────────────────────────────────────────── */
 .site-header {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 72px;
   display: flex;
   align-items: center;
   z-index: var(--z-nav);
-  background: rgba(8,8,6,0.76);
+
+  /* Start transparent; .is-scrolled solidifies */
+  background: rgba(8, 8, 6, 0.62);
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border-bottom: 1px solid var(--border);
-  transition: background 0.4s ease, border-color 0.4s ease;
+  border-bottom: 1px solid transparent;
+
+  transition:
+    background    0.45s ease,
+    border-color  0.45s ease;
 }
+
 .site-header.is-scrolled {
-  background: rgba(8,8,6,0.97);
+  background: rgba(8, 8, 6, 0.97);
   border-color: var(--border-hi);
 }
 
+/* Logo wordmark */
 .logo-text {
   font-family: var(--font-serif);
   font-size: 1.0625rem;
@@ -112,6 +224,8 @@ body::after {
   color: var(--text);
 }
 
+
+/* ─── 8. Navigation ─────────────────────────────────────────── */
 .nav-link {
   font-size: 0.8125rem;
   font-weight: 400;
@@ -119,15 +233,26 @@ body::after {
   color: var(--muted-hi);
   padding-bottom: 2px;
   border-bottom: 1px solid transparent;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition:
+    color         0.2s ease,
+    border-color  0.2s ease;
 }
-.nav-link:hover { color: var(--text); border-color: rgba(228,226,218,0.22); }
+.nav-link:hover,
+.nav-link[aria-current="page"] {
+  color: var(--text);
+  border-color: rgba(228, 226, 218, 0.22);
+}
 
+
+/* ─── 9. Mobile Drawer ──────────────────────────────────────── */
 .mobile-nav {
   position: absolute;
-  top: 72px; left: 0; right: 0;
-  background: rgba(8,8,6,0.98);
+  top: 72px;
+  left: 0;
+  right: 0;
+  background: rgba(8, 8, 6, 0.98);
   backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border-hi);
   padding: 1.75rem 1.5rem 2.25rem;
   display: flex;
@@ -135,9 +260,8 @@ body::after {
   gap: 1.5rem;
 }
 
-/* ═══════════════════════════
-   BUTTONS
-═══════════════════════════ */
+
+/* ─── 10. Buttons ───────────────────────────────────────────── */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -150,25 +274,31 @@ body::after {
   border: 1px solid transparent;
   padding: 0.625rem 1.375rem;
   white-space: nowrap;
+  text-decoration: none;
   transition:
-    background   0.22s ease,
-    color        0.22s ease,
-    border-color 0.22s ease,
-    transform    0.14s ease,
-    box-shadow   0.22s ease;
+    background    0.22s ease,
+    color         0.22s ease,
+    border-color  0.22s ease,
+    box-shadow    0.22s ease,
+    transform     0.14s ease;
 }
-.btn-rounded { border-radius: 100px; }
 
+.btn-rounded {
+  border-radius: 100px;
+}
+
+/* Filled */
 .btn-primary {
   background: var(--text);
   color: var(--bg);
   border-color: var(--text);
 }
 .btn-primary:hover {
-  background: rgba(228,226,218,0.86);
-  box-shadow: 0 2px 18px rgba(228,226,218,0.1);
+  background: rgba(228, 226, 218, 0.86);
+  box-shadow: 0 2px 18px rgba(228, 226, 218, 0.1);
 }
 
+/* Ghost */
 .btn-outline {
   background: transparent;
   color: var(--muted-hi);
@@ -176,19 +306,19 @@ body::after {
 }
 .btn-outline:hover {
   color: var(--text);
-  border-color: rgba(255,255,255,0.28);
-  background: rgba(255,255,255,0.04);
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.04);
 }
 
+/* Press feedback — applies to both variants */
 .btn-primary:active,
 .btn-outline:active {
   transform: scale(0.97) translateY(1px);
   transition-duration: 80ms;
 }
 
-/* ═══════════════════════════
-   STATUS PILL
-═══════════════════════════ */
+
+/* ─── 11. Status Pill ───────────────────────────────────────── */
 .status-pill {
   display: inline-flex;
   align-items: center;
@@ -202,19 +332,20 @@ body::after {
   border: 1px solid var(--border-hi);
   border-radius: 100px;
   padding: 0.375rem 0.875rem;
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
 }
+
 .status-dot {
-  width: 5px; height: 5px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: #5CCA6F;
   flex-shrink: 0;
   animation: pulse-dot 2.4s ease-in-out infinite;
 }
 
-/* ═══════════════════════════
-   SECTION LABEL
-═══════════════════════════ */
+
+/* ─── 12. Section Label ─────────────────────────────────────── */
 .section-label {
   font-family: var(--font-sans);
   font-size: 0.6875rem;
@@ -224,70 +355,78 @@ body::after {
   color: var(--muted);
 }
 
-/* ═══════════════════════════
-   HERO GRID BG
-═══════════════════════════ */
+
+/* ─── 13. Hero — Grid Background ───────────────────────────── */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(255,255,255,0.026) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px);
   background-size: 54px 54px;
 }
 
-/* ═══════════════════════════
-   KEYFRAMES
-═══════════════════════════ */
+
+/* ─── 14. Keyframes & Animation Utilities ───────────────────── */
 @keyframes fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(26px); }
+  from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.35; transform: scale(0.78); }
-}
-@keyframes pulse-glow {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.45; transform: scale(0.88); }
+  0%, 100% { opacity: 1;    transform: scale(1);    }
+  50%       { opacity: 0.35; transform: scale(0.75); }
 }
 
-.anim-fade-in { animation: fade-in 0.8s cubic-bezier(0.16,1,0.3,1) both; }
-.anim-fade-up { animation: fade-up 0.95s cubic-bezier(0.16,1,0.3,1) both; }
-.d-50  { animation-delay: 0.05s; }
-.d-100 { animation-delay: 0.10s; }
-.d-150 { animation-delay: 0.16s; }
-.d-200 { animation-delay: 0.22s; }
-.d-250 { animation-delay: 0.29s; }
-.d-300 { animation-delay: 0.36s; }
-.d-400 { animation-delay: 0.46s; }
+/* Delay ladder — pair with .anim-fade-in or .anim-fade-up */
+.anim-fade-in { animation: fade-in 0.8s  var(--ease-out-expo) both; }
+.anim-fade-up { animation: fade-up 0.95s var(--ease-out-expo) both; }
 
-/* ═══════════════════════════
-   PROJECTS CAROUSEL
-═══════════════════════════ */
-.scroll-group { position: relative; }
+.d-50  { animation-delay:  50ms; }
+.d-100 { animation-delay: 100ms; }
+.d-150 { animation-delay: 160ms; }
+.d-200 { animation-delay: 220ms; }
+.d-250 { animation-delay: 290ms; }
+.d-300 { animation-delay: 360ms; }
+.d-400 { animation-delay: 460ms; }
+
+
+/* ─── 15. Projects Carousel ─────────────────────────────────── */
+
+/* 15a. Track & scrollbar */
+.scroll-group {
+  position: relative;
+}
 
 .scroll-track {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
   cursor: grab;
 }
-.scroll-track:active { cursor: grabbing; scroll-behavior: auto; }
+.scroll-track:active {
+  cursor: grabbing;
+  scroll-behavior: auto; /* disable smooth during drag */
+}
 
-.hide-scrollbar                    { -ms-overflow-style: none; scrollbar-width: none; }
-.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar                     { -ms-overflow-style: none; scrollbar-width: none; }
+.hide-scrollbar::-webkit-scrollbar  { display: none; }
 
-/* Arrow buttons */
+
+/* 15b. Arrow buttons */
 .scroll-nav-btn {
-  display: none;
+  display: none; /* shown at ≥768 px via media query below */
   position: absolute;
-  top: 50%; transform: translateY(-50%);
+  top: 50%;
+  transform: translateY(-50%);
   z-index: var(--z-raised);
-  width: 2.75rem; height: 2.75rem;
+
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
-  background: rgba(8,8,6,0.82);
+  background: rgba(8, 8, 6, 0.82);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-hi);
@@ -295,7 +434,8 @@ body::after {
   justify-content: center;
   color: var(--muted-hi);
   cursor: pointer;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.55);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.55);
+
   transition:
     color        0.2s ease,
     background   0.2s ease,
@@ -303,91 +443,161 @@ body::after {
     opacity      0.25s ease,
     transform    0.2s ease;
 }
-@media (min-width: 768px) { .scroll-nav-btn { display: flex; } }
+
+@media (min-width: 768px) {
+  .scroll-nav-btn { display: flex; }
+}
+
 .scroll-nav-btn:hover {
   color: var(--text);
-  background: rgba(255,255,255,0.07);
-  border-color: rgba(255,255,255,0.24);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.24);
 }
-.scroll-nav-btn:active { transform: translateY(-50%) scale(0.91); }
-.scroll-nav-btn:disabled { opacity: 0; pointer-events: none; }
 
-/* Project panel — scroll reveal */
+.scroll-nav-btn:active {
+  transform: translateY(-50%) scale(0.91);
+}
+
+/* Fade out when at boundary */
+.scroll-nav-btn:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+/* 15c. Project panel — IntersectionObserver scroll-reveal */
 .project-panel {
   opacity: 0;
   transform: translateY(2rem);
   will-change: opacity, transform;
   transition:
-    opacity      0.9s cubic-bezier(0.16,1,0.3,1),
-    transform    0.9s cubic-bezier(0.16,1,0.3,1),
+    opacity      0.9s var(--ease-out-expo),
+    transform    0.9s var(--ease-out-expo),
     border-color 0.3s ease;
 }
-.project-panel.is-visible { opacity: 1; transform: translateY(0); }
-.project-panel.is-visible:nth-child(2) { transition-delay: 80ms; }
+
+.project-panel.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger via nth-child inside .is-visible */
+.project-panel.is-visible:nth-child(2) { transition-delay:  80ms; }
 .project-panel.is-visible:nth-child(3) { transition-delay: 160ms; }
 .project-panel.is-visible:nth-child(4) { transition-delay: 240ms; }
 .project-panel.is-visible:nth-child(5) { transition-delay: 320ms; }
 
-/* Spotlight card */
+
+/* 15d. Card — spotlight & logo */
 .card-spotlight {
   position: relative;
   overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--border);
-  transition: border-color 0.3s ease, background 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    background   0.3s ease;
 }
+
+/*
+  Radial highlight that tracks the mouse.
+  --mx / --my are set inline via JS (onCardMouseMove).
+  Using opacity 0→1 transition for performance (no layout change).
+*/
 .card-spotlight::before {
   content: '';
   position: absolute;
   inset: 0;
   background: radial-gradient(
     560px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(228,226,218,0.044), transparent 40%
+    rgba(228, 226, 218, 0.044),
+    transparent 42%
   );
   opacity: 0;
-  transition: opacity 0.45s ease;
   pointer-events: none;
   z-index: 0;
+  transition: opacity 0.4s ease;
 }
-.card-spotlight:hover::before { opacity: 1; }
-.card-spotlight:hover { border-color: var(--border-hi); }
 
-.card-logo {
-  transition: transform 0.45s cubic-bezier(0.16,1,0.3,1), border-color 0.35s ease;
+.card-spotlight:hover::before {
+  opacity: 1;
 }
+
+.card-spotlight:hover {
+  border-color: var(--border-hi);
+}
+
+/* Logo icon zone */
+.card-logo {
+  transition:
+    transform    0.45s var(--ease-out-expo),
+    border-color 0.35s ease;
+}
+
 .card-spotlight:hover .card-logo {
   transform: scale(1.07) translateY(-1px);
 }
 
-/* ═══════════════════════════
-   FOOTER
-═══════════════════════════ */
+/* Arrow circle in card footer */
+.card-arrow {
+  transition:
+    background   0.3s ease,
+    border-color 0.3s ease,
+    transform    0.3s var(--ease-out-expo);
+}
+
+.card-spotlight:hover .card-arrow {
+  background: rgba(228, 226, 218, 0.09);
+  border-color: var(--border-hi);
+  transform: translate(2px, -2px);
+}
+
+
+/* ─── 16. Footer ────────────────────────────────────────────── */
 .site-footer {
   background: var(--bg-2);
   border-top: 1px solid var(--border);
 }
+
+/*
+  Underline-from-left link — used in footer nav columns.
+  Works on any inline element; set color on the anchor itself.
+*/
 .hover-line {
   position: relative;
+  display: inline-block;
   transition: color 0.2s ease;
 }
+
 .hover-line::after {
   content: '';
   position: absolute;
-  bottom: -2px; left: 0;
-  width: 0; height: 1px;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
   background: currentColor;
-  transition: width 0.32s cubic-bezier(0.16,1,0.3,1);
+  transition: width 0.32s var(--ease-out-expo);
 }
+
 .hover-line:hover { color: var(--text) !important; }
 .hover-line:hover::after { width: 100%; }
 
-.divider { border: none; border-top: 1px solid var(--border); }
+/* Full-width rule */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+}
 
-/* ═══════════════════════════
-   CONTACT PAGE
-═══════════════════════════ */
+
+/* ─── 17. Contact Page ──────────────────────────────────────── */
+/*
+  Small icon button used next to channel links (email, github, etc.)
+  The hover style is driven by the parent <a>:hover so no JS needed.
+*/
 .contact-icon-btn {
-  width: 2.25rem; height: 2.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 0.5rem;
   border: 1px solid var(--border-hi);
   display: flex;
@@ -395,29 +605,46 @@ body::after {
   justify-content: center;
   flex-shrink: 0;
   color: var(--muted-hi);
-  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  transition:
+    background    0.25s ease,
+    border-color  0.25s ease,
+    color         0.25s ease;
 }
+
 a:hover .contact-icon-btn {
   background: var(--text);
   border-color: var(--text);
   color: var(--bg);
 }
 
-/* ═══════════════════════════
-   LEGAL PAGES
-═══════════════════════════ */
+
+/* ─── 18. Legal Pages ───────────────────────────────────────── */
+
+/* Full-bleed section hero shared across legal + contact pages */
+.page-hero {
+  padding-top: 8rem;
+  padding-bottom: 4.5rem;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+
 .legal-section {
   border-top: 1px solid var(--border);
   padding-top: 2.75rem;
   margin-top: 2.75rem;
 }
+
 .legal-h2 {
   font-family: var(--font-serif);
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 600;
   color: var(--text);
+  letter-spacing: -0.025em;
   margin-bottom: 1.25rem;
+  line-height: 1.12;
 }
+
 .legal-p {
   font-size: 0.9375rem;
   color: var(--muted-hi);
@@ -425,13 +652,15 @@ a:hover .contact-icon-btn {
   margin-bottom: 1rem;
   max-width: 66ch;
 }
+
 .legal-ul {
   list-style: none;
-  margin: 0 0 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.625rem;
+  margin-bottom: 1.25rem;
 }
+
 .legal-ul li {
   font-size: 0.9375rem;
   color: var(--muted-hi);
@@ -440,12 +669,15 @@ a:hover .contact-icon-btn {
   position: relative;
   max-width: 66ch;
 }
+
 .legal-ul li::before {
   content: '–';
   position: absolute;
   left: 0;
   color: var(--muted);
 }
+
+/* Accent-bordered callout block */
 .callout {
   border: 1px solid var(--border-hi);
   border-left: 2px solid var(--accent);
@@ -455,33 +687,4 @@ a:hover .contact-icon-btn {
   font-size: 0.9375rem;
   color: var(--muted-hi);
   line-height: 1.78;
-}
-.page-hero {
-  padding-top: 8rem;
-  padding-bottom: 4.5rem;
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid var(--border);
-}
-
-/* ═══════════════════════════
-   UTILITY
-═══════════════════════════ */
-.skip-link {
-  position: absolute;
-  left: -9999px;
-  top: 1rem;
-  padding: 0.5rem 1rem;
-  background: var(--text);
-  color: var(--bg);
-  border-radius: 4px;
-  font-size: 0.875rem;
-  z-index: 10000;
-}
-.skip-link:focus { left: 1rem; }
-
-a, button {
-  transition-property: color, background-color, border-color, opacity, transform;
-  transition-duration: 220ms;
-  transition-timing-function: ease;
 }
