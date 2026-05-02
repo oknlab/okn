@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OKNLAB — AI Products & Custom Development</title>
+  <title>OKNLAB — AI Products &amp; Custom Development</title>
   <meta name="description" content="OKNLAB builds intelligent, multifunctional AI products for coding, content generation, and workflow automation. Premium client work and proprietary tools.">
-  <meta property="og:title" content="OKNLAB — AI Products & Custom Development">
+  <meta property="og:title" content="OKNLAB — AI Products &amp; Custom Development">
   <meta property="og:description" content="We build intelligent products designed to automate the complex and simplify the abstract.">
   <meta property="og:image" content="https://avatars.githubusercontent.com/u/32960623?s=500&v=2">
   <link rel="icon" href="https://avatars.githubusercontent.com/u/32960623?s=52&v=2">
 
+  <!-- Fonts: Cormorant Garamond (display) + Plus Jakarta Sans (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -20,102 +21,108 @@
 
   <style type="text/tailwindcss">
     @theme {
-      --font-serif: "Old Standard TT", Georgia, serif;
-      --font-sans:  "Outfit", system-ui, sans-serif;
-      --color-bg:      #080807;
+      --font-serif: "Cormorant Garamond", Georgia, serif;
+      --font-sans:  "Plus Jakarta Sans", system-ui, sans-serif;
+      --color-bg:      #080806;
       --color-bg2:     #0d0d0b;
       --color-surface: #111110;
-      --color-okn-white: #E9E9E4;
+      --color-text:    #E4E2DA;
     }
   </style>
 </head>
 <body>
 
+<a href="#main-content" class="skip-link">Skip to content</a>
+
 <div id="app">
 
-  <!-- ═══ Header ═══ -->
-  <header class="site-header">
+  <!-- ═══ HEADER ═══ -->
+  <header class="site-header" :class="{ 'is-scrolled': isScrolled }">
     <div class="w-full max-w-[1400px] mx-auto px-6 flex items-center justify-between">
 
       <a href="#" class="flex items-center gap-3 group" aria-label="OKNLAB home">
         <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2"
-             alt="OKNLAB"
+             alt="OKNLAB logo"
              class="w-9 h-9 rounded-full border grayscale group-hover:grayscale-0 transition-all duration-500"
              style="border-color: var(--border-hi)">
         <span class="logo-text">OKNLAB</span>
       </a>
 
-      <nav class="hidden md:flex items-center gap-8" aria-label="Primary">
+      <nav class="hidden md:flex items-center gap-8" aria-label="Primary navigation">
         <a href="#projects" class="nav-link">Projects</a>
         <a href="contact.html" class="nav-link">Contact</a>
       </nav>
 
       <div class="flex items-center gap-4">
-        <a href="contact.html"
-           class="hidden md:inline-flex btn btn-outline btn-rounded"
-           style="padding: 0.5rem 1.25rem; font-size: 0.75rem;">
+        <a href="contact.html" class="hidden md:inline-flex btn btn-outline btn-rounded"
+           style="padding: 0.5rem 1.25rem;">
           Work with us
         </a>
         <button class="md:hidden flex items-center justify-center w-9 h-9"
-                style="color: var(--text)"
+                style="color: var(--muted-hi)"
                 @click="toggleMobileMenu"
-                :aria-expanded="mobileMenuOpen"
-                aria-label="Toggle menu">
+                :aria-expanded="mobileMenuOpen.toString()"
+                aria-controls="mobile-nav"
+                aria-label="Toggle navigation menu">
           <i :data-lucide="mobileMenuOpen ? 'x' : 'menu'" class="w-5 h-5"></i>
         </button>
       </div>
     </div>
 
-    <!-- Mobile nav -->
-    <div v-if="mobileMenuOpen" class="mobile-nav md:hidden" role="navigation">
+    <!-- Mobile nav drawer -->
+    <div v-if="mobileMenuOpen" id="mobile-nav" class="mobile-nav md:hidden" role="navigation" aria-label="Mobile navigation">
       <a href="#projects" class="nav-link text-base" @click="mobileMenuOpen = false">Projects</a>
       <a href="contact.html" class="nav-link text-base" @click="mobileMenuOpen = false">Contact</a>
-      <a href="contact.html" class="btn btn-primary btn-rounded mt-2 w-full justify-center" style="font-size:0.75rem; padding:0.625rem 1.25rem;">
+      <a href="contact.html" class="btn btn-primary btn-rounded mt-2 w-full justify-center"
+         style="font-size:0.8125rem; padding:0.625rem 1.25rem;" @click="mobileMenuOpen = false">
         Work with us
       </a>
     </div>
   </header>
 
-  <!-- ═══ Main ═══ -->
-  <main>
+  <!-- ═══ MAIN ═══ -->
+  <main id="main-content">
 
-    <!-- ── Hero ── -->
-    <section class="relative min-h-[100dvh] flex items-end overflow-hidden"
-             style="padding-bottom: clamp(3rem, 6vw, 5rem)">
+    <!-- ── HERO ── -->
+    <section class="relative flex items-end overflow-hidden"
+             style="min-height: 100dvh; padding-bottom: clamp(3.5rem, 7vw, 6rem)">
 
       <!-- Background texture -->
-      <div class="absolute inset-0 grid-bg opacity-60 pointer-events-none"></div>
+      <div class="absolute inset-0 grid-bg opacity-55 pointer-events-none"></div>
 
       <!-- Ambient glows -->
       <div class="absolute pointer-events-none"
-           style="top:20%; left:5%; width:clamp(300px,40vw,560px); height:clamp(300px,40vw,560px);
-                  background:rgba(233,233,228,0.022); border-radius:50%; filter:blur(130px)"></div>
+           style="top:18%; left:3%; width:clamp(280px,38vw,520px); height:clamp(280px,38vw,520px);
+                  background:rgba(228,226,218,0.018); border-radius:50%; filter:blur(140px)"></div>
       <div class="absolute pointer-events-none"
-           style="bottom:15%; right:10%; width:clamp(200px,28vw,380px); height:clamp(200px,28vw,380px);
-                  background:rgba(233,233,228,0.014); border-radius:50%; filter:blur(100px)"></div>
+           style="bottom:12%; right:8%; width:clamp(180px,24vw,340px); height:clamp(180px,24vw,340px);
+                  background:rgba(196,149,63,0.014); border-radius:50%; filter:blur(100px)"></div>
 
-      <!-- Vertical rule -->
-      <div class="absolute left-[max(1.5rem,calc(50vw-700px))] top-0 bottom-0 w-px pointer-events-none hidden lg:block"
-           style="background: linear-gradient(to bottom, transparent, var(--border) 20%, var(--border) 80%, transparent)"></div>
+      <!-- Left vertical rule — decorative -->
+      <div class="absolute top-0 bottom-0 pointer-events-none hidden lg:block"
+           style="left: max(1.5rem, calc(50vw - 700px));
+                  width: 1px;
+                  background: linear-gradient(to bottom, transparent, var(--border) 20%, var(--border) 78%, transparent)"></div>
 
       <div class="w-full max-w-[1400px] mx-auto px-6 relative z-10">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 items-end">
 
-          <!-- Content -->
+          <!-- Content col -->
           <div class="md:col-span-8 lg:col-span-7">
+
             <div class="status-pill mb-8 anim-fade-in">
               <span class="status-dot"></span>
-              All systems operational
+              Available for projects
             </div>
 
             <h1 class="anim-fade-up d-50"
-                style="font-size:clamp(3.25rem,8.5vw,7.5rem); line-height:0.97; letter-spacing:-0.03em; margin-bottom:2rem; font-weight:700">
-              Accomplish Any<br>
-              <span style="color: rgba(233,233,228,0.25)">Digital Task.</span>
+                style="font-size:clamp(3.5rem,9vw,8rem); line-height:0.96; letter-spacing:-0.03em; margin-bottom:2rem; font-weight:700">
+              Accomplish<br>
+              <span style="color: rgba(228,226,218,0.22)">Any Task.</span>
             </h1>
 
             <p class="anim-fade-up d-150"
-               style="font-size:clamp(0.9375rem,1.3vw,1.125rem); color:var(--muted-hi); max-width:42ch; margin-bottom:2.5rem; font-weight:300; line-height:1.7">
+               style="font-size:clamp(0.9375rem,1.2vw,1.0625rem); color:var(--muted-hi); max-width:40ch; margin-bottom:2.75rem; font-weight:300; line-height:1.75">
               We build intelligent, multifunctional AI products designed to automate the complex and deliver measurable results — for clients and as proprietary tools.
             </p>
 
@@ -134,48 +141,44 @@
           <!-- Editorial aside — desktop only -->
           <div class="hidden md:flex md:col-span-4 lg:col-span-5 flex-col items-end justify-end anim-fade-in d-300"
                aria-hidden="true">
-            <span style="font-family:var(--font-serif); font-size:clamp(6rem,11vw,13rem); font-weight:700; line-height:1; color:rgba(233,233,228,0.035); user-select:none; display:block">
+            <span style="font-family:var(--font-serif); font-size:clamp(5rem,10vw,12rem); font-weight:700; line-height:1; color:rgba(228,226,218,0.03); user-select:none; display:block; letter-spacing:-0.04em">
               {{ String(projects.length).padStart(2,'0') }}
             </span>
-            <div style="width:100%; border-top:1px solid var(--border); padding-top:1.25rem; margin-top:1.25rem; display:flex; justify-content:space-between; align-items:center">
+            <div style="width:100%; border-top:1px solid var(--border); padding-top:1.125rem; margin-top:1.25rem; display:flex; justify-content:space-between; align-items:center">
               <span class="section-label">Selected Works</span>
-              <span style="font-size:0.75rem; color:var(--muted); font-family:var(--font-sans); letter-spacing:0.06em">2024 — 2025</span>
+              <span style="font-size:0.75rem; color:var(--muted); font-family:var(--font-sans); letter-spacing:0.06em">2024–2025</span>
             </div>
           </div>
+
         </div>
       </div>
     </section>
 
-    <!-- ── Projects ── -->
+    <!-- ── PROJECTS ── -->
     <section id="projects" style="background:var(--bg-2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding: 5rem 0 4rem">
 
-      <!-- Header -->
+      <!-- Section header -->
       <div class="max-w-[1400px] mx-auto px-6 mb-14">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div>
             <span class="section-label block mb-4">Portfolio</span>
-            <h2 style="font-size:clamp(2.25rem,5vw,4rem); margin-bottom:1rem">Selected Projects</h2>
-            <p style="color:var(--muted-hi); max-width:38ch; font-weight:300; font-size:1rem">
-              <span class="hidden md:inline">Scroll or use the arrows</span>
+            <h2 style="font-size:clamp(2.25rem,5vw,3.75rem)">Selected Projects</h2>
+            <p style="color:var(--muted-hi); max-width:36ch; font-weight:300; font-size:0.9375rem; margin-top:0.75rem; line-height:1.7">
+              <span class="hidden md:inline">Use the arrows or scroll</span>
               <span class="md:hidden">Swipe</span>
               to explore our suite of tools.
             </p>
           </div>
-
           <div class="flex items-center gap-5">
-            <span style="font-size:0.8125rem; color:var(--muted); font-family:var(--font-sans); letter-spacing:0.05em">
+            <span style="font-size:0.8125rem; color:var(--muted); font-family:var(--font-sans); letter-spacing:0.06em">
               {{ String(projects.length).padStart(2,'0') }} Projects
             </span>
-            <div class="flex md:hidden items-center gap-2 status-pill" style="animation:none">
-              <i data-lucide="move-horizontal" class="w-3.5 h-3.5"></i>
-              Swipe
-            </div>
           </div>
         </div>
       </div>
 
-      <!-- Scroll container -->
-      <div class="scroll-group" style="position:relative">
+      <!-- Carousel -->
+      <div class="scroll-group">
 
         <!-- Left arrow -->
         <button class="scroll-nav-btn" style="left:1rem"
@@ -188,7 +191,9 @@
         <!-- Track -->
         <div ref="scrollContainer"
              class="scroll-track hide-scrollbar"
-             style="display:flex; overflow-x:auto; gap:1.25rem; padding:0.5rem max(1.5rem, calc(50vw - 660px)) 1rem; scroll-snap-type:x mandatory; align-items:stretch"
+             style="display:flex; overflow-x:auto; gap:1.25rem;
+                    padding: 0.5rem max(1.5rem, calc(50vw - 680px)) 1.25rem;
+                    scroll-snap-type:x mandatory; align-items:stretch"
              role="region"
              aria-label="Projects carousel"
              tabindex="0"
@@ -196,26 +201,27 @@
              @keydown.left.prevent="scrollByDir(-1)"
              @keydown.right.prevent="scrollByDir(1)">
 
-          <!-- Card -->
+          <!-- Project card -->
           <a v-for="(p, i) in projects" :key="i" :href="p.link"
              class="project-panel card-spotlight"
-             style="flex:none; width:clamp(280px,82vw,420px); scroll-snap-align:center; border-radius:2rem; padding:2rem 2rem 1.75rem; display:flex; flex-direction:column; text-decoration:none; color:inherit"
+             style="flex:none; width:clamp(280px,80vw,420px); scroll-snap-align:center; border-radius:2rem; padding:2.25rem 2rem 1.875rem; display:flex; flex-direction:column; text-decoration:none; color:inherit"
+             @mousemove="onCardMouseMove($event)"
              draggable="false">
 
             <!-- Ghost number -->
-            <span style="position:absolute; right:-1rem; bottom:-1rem; font-family:var(--font-serif); font-size:10rem; font-weight:700; color:rgba(233,233,228,0.02); line-height:1; pointer-events:none; user-select:none; z-index:0"
+            <span style="position:absolute; right:-1rem; bottom:-1.5rem; font-family:var(--font-serif); font-size:11rem; font-weight:700; color:rgba(228,226,218,0.02); line-height:1; pointer-events:none; user-select:none; z-index:0; letter-spacing:-0.04em"
                   aria-hidden="true">
               {{ String(i+1).padStart(2,'0') }}
             </span>
 
             <!-- Card header -->
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; position:relative; z-index:1">
-              <span style="font-family:var(--font-sans); font-size:0.75rem; color:var(--muted); letter-spacing:0.08em">
+              <span style="font-family:var(--font-sans); font-size:0.75rem; color:var(--muted); letter-spacing:0.1em">
                 {{ String(i+1).padStart(2,'0') }}
               </span>
               <div style="display:flex; align-items:center; gap:0.625rem">
                 <span v-if="p.isNew"
-                      style="font-size:0.625rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; background:var(--text); color:var(--bg); padding:0.2rem 0.5rem; border-radius:0.25rem">
+                      style="font-size:0.625rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; background:var(--text); color:var(--bg); padding:0.2rem 0.55rem; border-radius:0.3rem">
                   New
                 </span>
                 <span style="font-family:var(--font-sans); font-size:0.6875rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted)">
@@ -224,35 +230,36 @@
               </div>
             </div>
 
-            <!-- Logo / icon -->
-            <div style="width:4rem; height:4rem; border-radius:1rem; border:1px solid var(--border-hi); background:rgba(233,233,228,0.04); display:flex; align-items:center; justify-content:center; margin-bottom:1.75rem; transition:transform 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.4s ease; position:relative; z-index:1; overflow:hidden"
-                class="card-logo">
+            <!-- Logo -->
+            <div class="card-logo"
+                 style="width:3.75rem; height:3.75rem; border-radius:0.875rem; border:1px solid var(--border-hi); background:rgba(228,226,218,0.04); display:flex; align-items:center; justify-content:center; margin-bottom:1.75rem; position:relative; z-index:1; overflow:hidden">
               <img v-if="p.logo" :src="p.logo" :alt="p.title + ' logo'"
-                   style="width:2.25rem; height:2.25rem; object-fit:contain; opacity:0.55; transition:opacity 0.4s ease">
-              <i v-else :data-lucide="p.icon" class="w-8 h-8" style="color:var(--muted-hi); transition:color 0.4s ease"></i>
+                   style="width:2rem; height:2rem; object-fit:contain; opacity:0.5; transition:opacity 0.4s ease">
+              <i v-else :data-lucide="p.icon" class="w-7 h-7" style="color:var(--muted-hi)"></i>
             </div>
 
             <!-- Text -->
             <div style="flex:1; display:flex; flex-direction:column; position:relative; z-index:1">
-              <h3 style="font-size:clamp(1.5rem,4vw,2.25rem); font-weight:700; line-height:1.08; letter-spacing:-0.025em; margin-bottom:0.875rem; transition:color 0.35s ease; color:rgba(233,233,228,0.85)">
+              <h3 style="font-family:var(--font-serif); font-size:clamp(1.5rem,3.5vw,2.125rem); font-weight:600; line-height:1.08; letter-spacing:-0.025em; margin-bottom:0.875rem; color:rgba(228,226,218,0.87)">
                 {{ p.title }}
               </h3>
-              <p style="font-size:0.9rem; color:var(--muted-hi); line-height:1.7; font-weight:300; transition:color 0.35s ease; flex:1">
+              <p style="font-family:var(--font-sans); font-size:0.875rem; color:var(--muted-hi); line-height:1.75; font-weight:300; flex:1">
                 {{ p.description }}
               </p>
             </div>
 
-            <!-- Footer -->
+            <!-- Card footer -->
             <div style="margin-top:2rem; padding-top:1.25rem; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; position:relative; z-index:1">
-              <span style="font-size:0.8125rem; color:var(--muted-hi); letter-spacing:0.04em; transition:color 0.3s ease">
+              <span style="font-family:var(--font-sans); font-size:0.8125rem; color:var(--muted-hi); letter-spacing:0.04em; transition:color 0.3s ease">
                 View Project
               </span>
-              <div style="width:2.5rem; height:2.5rem; border-radius:50%; border:1px solid var(--border-hi); background:rgba(233,233,228,0.04); display:flex; align-items:center; justify-content:center; transition:all 0.35s ease">
-                <i data-lucide="arrow-up-right" class="w-4 h-4" style="color:var(--muted-hi); transition:all 0.35s ease"></i>
+              <div style="width:2.375rem; height:2.375rem; border-radius:50%; border:1px solid var(--border-hi); background:rgba(228,226,218,0.04); display:flex; align-items:center; justify-content:center; transition:all 0.35s ease">
+                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5" style="color:var(--muted-hi)"></i>
               </div>
             </div>
           </a>
-        </div>
+
+        </div><!-- /scroll-track -->
 
         <!-- Right arrow -->
         <button class="scroll-nav-btn" style="right:1rem"
@@ -261,60 +268,70 @@
                 aria-label="Next project">
           <i data-lucide="chevron-right" class="w-5 h-5"></i>
         </button>
-      </div>
+      </div><!-- /scroll-group -->
 
       <!-- Progress bar -->
       <div class="max-w-[1400px] mx-auto px-6 mt-8">
         <div style="height:1px; background:var(--border); border-radius:100px; overflow:hidden">
-          <div style="height:100%; background:linear-gradient(to right, rgba(233,233,228,0.5), rgba(233,233,228,0.2)); border-radius:100px; transition:width 0.15s ease-out"
+          <div style="height:100%; background:linear-gradient(to right, rgba(228,226,218,0.48), rgba(228,226,218,0.18)); border-radius:100px; transition:width 0.15s ease-out"
                :style="{ width: scrollProgress + '%' }"></div>
         </div>
       </div>
 
-      <!-- Dot indicators — mobile -->
-      <div class="flex md:hidden justify-center gap-2 mt-6">
+      <!-- Dot indicators — mobile only -->
+      <div class="flex md:hidden justify-center gap-2 mt-6" role="tablist" aria-label="Project navigation">
         <button v-for="(p, i) in projects" :key="'d'+i"
-                style="height:0.5rem; border-radius:100px; border:none; cursor:pointer; background:rgba(233,233,228,0.2); transition:all 0.3s ease"
-                :style="{ width: activeDot === i ? '1.5rem' : '0.5rem', background: activeDot === i ? 'var(--text)' : 'rgba(233,233,228,0.2)' }"
+                style="height:0.5rem; border-radius:100px; border:none; cursor:pointer; transition:all 0.3s ease"
+                :style="{
+                  width: activeDot === i ? '1.5rem' : '0.5rem',
+                  background: activeDot === i ? 'var(--text)' : 'rgba(228,226,218,0.18)'
+                }"
                 @click="scrollToDot(i)"
-                :aria-label="'Go to project ' + (i+1)">
+                :aria-label="'Go to project ' + (i+1)"
+                :aria-selected="activeDot === i">
         </button>
       </div>
-    </section>
+
+    </section><!-- /projects -->
 
   </main>
 
-  <!-- ═══ Footer ═══ -->
+  <!-- ═══ FOOTER ═══ -->
   <footer class="site-footer">
     <div class="max-w-[1400px] mx-auto px-6 pt-14 pb-8">
 
-      <div class="flex flex-col md:flex-row justify-between items-start mb-12 gap-8">
-        <div style="max-width:16rem">
-          <a href="#" class="flex items-center gap-3 mb-4" style="opacity:0.7; text-decoration:none; transition:opacity 0.2s ease"
-             onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+      <div class="flex flex-col md:flex-row justify-between items-start mb-12 gap-10">
+
+        <!-- Brand -->
+        <div style="max-width:15rem">
+          <a href="#" class="flex items-center gap-3 mb-5" style="opacity:0.65; transition:opacity 0.2s ease"
+             onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.65'">
             <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2" alt="OKNLAB"
                  class="w-8 h-8 rounded-full grayscale" style="border:1px solid var(--border-hi)">
-            <span class="logo-text" style="font-size:1.0625rem">OKNLAB</span>
+            <span class="logo-text" style="font-size:1rem">OKNLAB</span>
           </a>
-          <p style="color:var(--muted); font-size:0.8125rem; line-height:1.6">
+          <p style="color:var(--muted); font-size:0.8125rem; line-height:1.65">
             San Francisco, CA<br>Est. 2024
           </p>
         </div>
 
-        <div class="flex gap-10">
+        <!-- Links -->
+        <div class="flex gap-12">
           <div>
-            <p class="section-label mb-4">Navigation</p>
-            <div class="flex flex-col gap-2.5">
+            <p class="section-label mb-5">Navigate</p>
+            <div class="flex flex-col gap-3">
               <a href="#projects" class="hover-line" style="font-size:0.875rem; color:var(--muted-hi)">Projects</a>
               <a href="contact.html" class="hover-line" style="font-size:0.875rem; color:var(--muted-hi)">Contact</a>
-              <a href="https://github.com/oknlab" target="_blank" rel="noopener" class="hover-line" style="font-size:0.875rem; color:var(--muted-hi)">GitHub</a>
+              <a href="https://github.com/oknlab" target="_blank" rel="noopener"
+                 class="hover-line" style="font-size:0.875rem; color:var(--muted-hi)">GitHub</a>
             </div>
           </div>
           <div>
-            <p class="section-label mb-4">Legal</p>
-            <div class="flex flex-col gap-2.5">
+            <p class="section-label mb-5">Legal</p>
+            <div class="flex flex-col gap-3">
               <a href="privacy-policy.html" class="hover-line" style="font-size:0.875rem; color:var(--muted-hi)">Privacy Policy</a>
               <a href="terms-of-service.html" class="hover-line" style="font-size:0.875rem; color:var(--muted-hi)">Terms of Service</a>
+              <a href="refund-policy.html" class="hover-line" style="font-size:0.875rem; color:var(--muted-hi)">Refund Policy</a>
             </div>
           </div>
         </div>
@@ -328,9 +345,9 @@
     </div>
   </footer>
 
-</div><!-- #app -->
+</div><!-- /#app -->
 
-<script src="app.js"></script>
-<script type="module" src="index-app.js"></script>
+<script type="module" src="app.js"></script>
+
 </body>
 </html>
