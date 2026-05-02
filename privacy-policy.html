@@ -1,191 +1,234 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy — OKNLAB</title>
-    <meta name="description" content="OKNLAB Privacy Policy — how we collect, use, and protect your data.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — OKNLAB</title>
+  <meta name="description" content="OKNLAB Privacy Policy — how we collect, use, and protect your data.">
+  <link rel="icon" href="https://avatars.githubusercontent.com/u/32960623?s=52&v=2">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="icon" type="image/svg+xml" id="favicon" href="https://avatars.githubusercontent.com/u/32960623?s=52&v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="styles.css">
+
+  <style type="text/tailwindcss">
+    @theme {
+      --font-serif: "Cormorant Garamond", Georgia, serif;
+      --font-sans:  "Plus Jakarta Sans", system-ui, sans-serif;
+      --color-bg:      #080806;
+      --color-surface: #111110;
+      --color-text:    #E4E2DA;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="fixed top-0 w-full z-50 bg-okn-black/90 backdrop-blur-xl border-b border-white/5">
-        <div class="container mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="index.html" class="flex items-center gap-3 group">
-                <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2" alt="OKNLAB Logo"
-                     class="w-9 h-9 rounded-full grayscale group-hover:grayscale-0 transition-all duration-500 border border-white/20">
-                <span class="font-serif text-xl font-bold tracking-wider">OKNLAB</span>
-            </a>
-            <a href="index.html" class="text-xs text-gray-500 hover:text-white transition-colors tracking-widest uppercase border-b border-transparent hover:border-white/50 pb-0.5">
-                ← Back
-            </a>
-        </div>
-    </header>
+<a href="#main-content" class="skip-link">Skip to content</a>
 
-    <!-- Hero -->
-    <section class="pt-32 pb-16 relative overflow-hidden">
-        <div class="absolute inset-0 pointer-events-none"
-             style="background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 48px 48px;"></div>
-        <div class="absolute bottom-0 left-0 w-full h-24"
-             style="background: linear-gradient(to top, #050505, transparent);"></div>
-        <div class="container mx-auto px-6 relative z-10 max-w-3xl">
-            <span class="inline-flex items-center text-xs tracking-widest uppercase border border-white/10 px-3 py-1 rounded-full text-gray-500 mb-6">Legal Document</span>
-            <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-5 leading-tight">
-                Privacy<br>Policy
-            </h1>
-            <p class="text-gray-500 text-sm">
-                Effective Date: <span class="text-gray-300">January 1, 2025</span>
-                &nbsp;&nbsp;·&nbsp;&nbsp;
-                Last Updated: <span class="text-gray-300">March 17, 2026</span>
-            </p>
-        </div>
-    </section>
+<!-- ══ HEADER ══ -->
+<header class="site-header is-scrolled">
+  <div class="w-full max-w-[1400px] mx-auto px-6 h-full flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3 group" aria-label="OKNLAB home">
+      <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2" alt="OKNLAB"
+           class="w-9 h-9 rounded-full border grayscale group-hover:grayscale-0 transition-all duration-500"
+           style="border-color: var(--border-hi)">
+      <span class="logo-text">OKNLAB</span>
+    </a>
+    <a href="index.html"
+       class="flex items-center gap-2 nav-link text-xs"
+       style="letter-spacing:0.15em; text-transform:uppercase">
+      <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+      Back
+    </a>
+  </div>
+</header>
 
-    <!-- Content -->
-    <main class="container mx-auto px-6 max-w-3xl pb-32">
+<!-- ══ PAGE HERO ══ -->
+<section class="page-hero">
+  <div class="absolute inset-0 grid-bg opacity-50 pointer-events-none"></div>
+  <div class="absolute bottom-0 left-0 w-full h-24 pointer-events-none"
+       style="background: linear-gradient(to top, var(--bg), transparent)"></div>
 
-        <div class="mb-10">
-            <p class="legal-p">
-                OKNLAB ("we," "our," or "us") respects your privacy. This Privacy Policy explains what information we collect when you visit our website and use our services, how we use it, and how we protect it. By accessing oknlab.com, you agree to the practices described below.
-            </p>
-        </div>
+  <div class="max-w-[1400px] mx-auto px-6 relative z-10 max-w-3xl">
+    <span class="status-pill mb-8 anim-fade-in">Legal Document</span>
+    <h1 class="anim-fade-up d-50"
+        style="font-size:clamp(3rem,7vw,6rem); font-weight:700; margin-bottom:1.5rem">
+      Privacy<br>Policy
+    </h1>
+    <p class="anim-fade-up d-150" style="font-size:0.875rem; color:var(--muted)">
+      Effective Date: <span style="color:var(--muted-hi)">January 1, 2025</span>
+      &nbsp;·&nbsp;
+      Last Updated: <span style="color:var(--muted-hi)">March 17, 2026</span>
+    </p>
+  </div>
+</section>
 
-        <div class="legal-section">
-            <h2 class="legal-h2">1. Information We Collect</h2>
-            <p class="legal-p">We collect information in two ways: information you provide to us directly, and information collected automatically as you interact with our platform.</p>
-            <h3 class="text-base font-semibold text-white mb-3 mt-6">Information You Provide</h3>
-            <ul class="legal-ul">
-                <li>Email address when you subscribe to our newsletter or waitlist</li>
-                <li>Name and contact details when you reach out via our contact form or email</li>
-                <li>Any information you voluntarily share in support requests or correspondence</li>
-            </ul>
-            <h3 class="text-base font-semibold text-white mb-3 mt-6">Information Collected Automatically</h3>
-            <ul class="legal-ul">
-                <li>Browser type, operating system, and device identifiers</li>
-                <li>IP address and approximate geographic location (country/region level)</li>
-                <li>Pages viewed, time on page, referral URLs, and click interactions</li>
-                <li>Cookies and similar local storage technologies (see Section 5)</li>
-            </ul>
-        </div>
+<!-- ══ CONTENT ══ -->
+<main id="main-content" class="max-w-[1400px] mx-auto px-6 pb-32" style="max-width: 52rem">
 
-        <div class="legal-section">
-            <h2 class="legal-h2">2. How We Use Your Information</h2>
-            <p class="legal-p">We use the information collected for the following legitimate purposes:</p>
-            <ul class="legal-ul">
-                <li>To operate, maintain, and improve our website and AI products</li>
-                <li>To send updates, release notes, and early-access announcements you have opted into</li>
-                <li>To respond to your inquiries and provide customer support</li>
-                <li>To analyze aggregate usage patterns and improve user experience</li>
-                <li>To detect and prevent fraud, abuse, or security vulnerabilities</li>
-                <li>To comply with legal obligations and enforce our Terms of Service</li>
-            </ul>
-            <p class="legal-p">We will not sell, rent, or trade your personal data to third parties for their marketing purposes.</p>
-        </div>
+  <div class="mb-10 pt-10">
+    <p class="legal-p">
+      OKNLAB ("we," "our," or "us") respects your privacy. This Privacy Policy explains what information we collect when you visit our website and use our services, how we use it, and how we protect it. By accessing oknlab.com, you agree to the practices described below.
+    </p>
+  </div>
 
-        <div class="legal-section">
-            <h2 class="legal-h2">3. Legal Basis for Processing</h2>
-            <p class="legal-p">Where applicable under GDPR or similar frameworks, we process personal data on the following legal bases:</p>
-            <ul class="legal-ul">
-                <li><strong class="text-white/80">Consent</strong> — where you have opted in, such as subscribing to our mailing list</li>
-                <li><strong class="text-white/80">Contractual necessity</strong> — to perform services you have requested</li>
-                <li><strong class="text-white/80">Legitimate interests</strong> — for product analytics and security monitoring</li>
-                <li><strong class="text-white/80">Legal obligation</strong> — to comply with applicable laws and regulations</li>
-            </ul>
-        </div>
+  <!-- Sections -->
+  <div class="legal-section">
+    <h2 class="legal-h2">1. Information We Collect</h2>
+    <p class="legal-p">We collect information in two ways: information you provide directly, and information collected automatically as you interact with our platform.</p>
+    <h3 style="font-family:var(--font-sans); font-size:0.9375rem; font-weight:600; color:var(--text); margin-bottom:0.75rem; margin-top:1.5rem">Information You Provide</h3>
+    <ul class="legal-ul">
+      <li>Email address when you subscribe to our newsletter or waitlist</li>
+      <li>Name and contact details when you reach out via our contact form or email</li>
+      <li>Any information you voluntarily share in support requests or correspondence</li>
+    </ul>
+    <h3 style="font-family:var(--font-sans); font-size:0.9375rem; font-weight:600; color:var(--text); margin-bottom:0.75rem; margin-top:1.5rem">Information Collected Automatically</h3>
+    <ul class="legal-ul">
+      <li>Browser type, operating system, and device identifiers</li>
+      <li>IP address and approximate geographic location (country/region level)</li>
+      <li>Pages viewed, time on page, referral URLs, and click interactions</li>
+      <li>Cookies and similar local storage technologies (see Section 5)</li>
+    </ul>
+  </div>
 
-        <div class="legal-section">
-            <h2 class="legal-h2">4. Sharing of Information</h2>
-            <p class="legal-p">We may share information with trusted third-party service providers who assist us in operating the platform, subject to confidentiality agreements. These include:</p>
-            <ul class="legal-ul">
-                <li>Hosting and infrastructure providers (e.g., GitHub Pages, cloud services)</li>
-                <li>Analytics platforms (only with anonymized or aggregated data)</li>
-                <li>Email delivery services for transactional and newsletter communication</li>
-            </ul>
-            <p class="legal-p">We may also disclose information if required by law, court order, or to protect the rights, property, or safety of OKNLAB, our users, or the public.</p>
-        </div>
+  <div class="legal-section">
+    <h2 class="legal-h2">2. How We Use Your Information</h2>
+    <p class="legal-p">We use the information collected for the following legitimate purposes:</p>
+    <ul class="legal-ul">
+      <li>To operate, maintain, and improve our website and AI products</li>
+      <li>To send updates, release notes, and early-access announcements you have opted into</li>
+      <li>To respond to your inquiries and provide customer support</li>
+      <li>To analyze aggregate usage patterns and improve user experience</li>
+      <li>To detect and prevent fraud, abuse, or security vulnerabilities</li>
+      <li>To comply with legal obligations and enforce our Terms of Service</li>
+    </ul>
+    <p class="legal-p">We will not sell, rent, or trade your personal data to third parties for their marketing purposes.</p>
+  </div>
 
-        <div class="legal-section">
-            <h2 class="legal-h2">5. Cookies &amp; Tracking Technologies</h2>
-            <p class="legal-p">We use cookies and similar technologies to improve site functionality and understand usage patterns. Types include:</p>
-            <ul class="legal-ul">
-                <li><strong class="text-white/80">Essential cookies</strong> — required for basic site operation</li>
-                <li><strong class="text-white/80">Analytics cookies</strong> — used to understand aggregate traffic patterns</li>
-                <li><strong class="text-white/80">Preference cookies</strong> — remember settings like language or theme</li>
-            </ul>
-            <p class="legal-p">You may disable cookies through your browser settings. Note that some features may not function correctly without them.</p>
-        </div>
+  <div class="legal-section">
+    <h2 class="legal-h2">3. Legal Basis for Processing</h2>
+    <p class="legal-p">Where applicable under GDPR or similar frameworks, we process personal data on the following legal bases:</p>
+    <ul class="legal-ul">
+      <li><strong style="color:rgba(228,226,218,0.78)">Consent</strong> — where you have opted in, such as subscribing to our mailing list</li>
+      <li><strong style="color:rgba(228,226,218,0.78)">Contractual necessity</strong> — to perform services you have requested</li>
+      <li><strong style="color:rgba(228,226,218,0.78)">Legitimate interests</strong> — for product analytics and security monitoring</li>
+      <li><strong style="color:rgba(228,226,218,0.78)">Legal obligation</strong> — to comply with applicable laws and regulations</li>
+    </ul>
+  </div>
 
-        <div class="legal-section">
-            <h2 class="legal-h2">6. Data Retention</h2>
-            <p class="legal-p">We retain personal data only for as long as necessary to fulfill the purposes described in this policy, or as required by law. Newsletter subscriber email addresses are retained until you unsubscribe. Analytics data is anonymized after 26 months.</p>
-        </div>
+  <div class="legal-section">
+    <h2 class="legal-h2">4. Sharing of Information</h2>
+    <p class="legal-p">We may share information with trusted third-party service providers who assist us in operating the platform, subject to confidentiality agreements. These include:</p>
+    <ul class="legal-ul">
+      <li>Hosting and infrastructure providers (e.g., GitHub Pages, cloud services)</li>
+      <li>Analytics platforms (only with anonymized or aggregated data)</li>
+      <li>Email delivery services for transactional and newsletter communication</li>
+    </ul>
+    <p class="legal-p">We may also disclose information if required by law, court order, or to protect the rights, property, or safety of OKNLAB, our users, or the public.</p>
+  </div>
 
-        <div class="legal-section">
-            <h2 class="legal-h2">7. Your Rights</h2>
-            <p class="legal-p">Depending on your jurisdiction, you may have the following rights regarding your personal data:</p>
-            <ul class="legal-ul">
-                <li><strong class="text-white/80">Access</strong> — request a copy of the data we hold about you</li>
-                <li><strong class="text-white/80">Rectification</strong> — request correction of inaccurate information</li>
-                <li><strong class="text-white/80">Erasure</strong> — request deletion of your personal data ("right to be forgotten")</li>
-                <li><strong class="text-white/80">Portability</strong> — receive your data in a machine-readable format</li>
-                <li><strong class="text-white/80">Objection</strong> — opt out of processing based on legitimate interests</li>
-                <li><strong class="text-white/80">Withdrawal of consent</strong> — unsubscribe or revoke consent at any time</li>
-            </ul>
-            <p class="legal-p">To exercise any of these rights, contact us at <a href="mailto:hello@oknlab.slmail.me" class="text-white hover:opacity-70 transition-opacity underline underline-offset-2">hello@oknlab.slmail.me</a>. We will respond within 30 days.</p>
-        </div>
+  <div class="legal-section">
+    <h2 class="legal-h2">5. Cookies &amp; Tracking Technologies</h2>
+    <p class="legal-p">We use cookies and similar technologies to improve site functionality and understand usage patterns. Types include:</p>
+    <ul class="legal-ul">
+      <li><strong style="color:rgba(228,226,218,0.78)">Essential cookies</strong> — required for basic site operation</li>
+      <li><strong style="color:rgba(228,226,218,0.78)">Analytics cookies</strong> — used to understand aggregate traffic patterns</li>
+      <li><strong style="color:rgba(228,226,218,0.78)">Preference cookies</strong> — remember settings like language or theme</li>
+    </ul>
+    <p class="legal-p">You may disable cookies through your browser settings. Note that some features may not function correctly without them.</p>
+  </div>
 
-        <div class="legal-section">
-            <h2 class="legal-h2">8. Security</h2>
-            <p class="legal-p">We implement industry-standard security measures including TLS encryption in transit, access controls, and regular security reviews. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
-        </div>
+  <div class="legal-section">
+    <h2 class="legal-h2">6. Data Retention</h2>
+    <p class="legal-p">We retain personal data only for as long as necessary to fulfill the purposes described in this policy, or as required by law. Newsletter subscriber email addresses are retained until you unsubscribe. Analytics data is anonymized after 26 months.</p>
+  </div>
 
-        <div class="legal-section">
-            <h2 class="legal-h2">9. Children's Privacy</h2>
-            <p class="legal-p">Our services are not directed to individuals under the age of 13. We do not knowingly collect personal information from children. If you believe we have inadvertently collected such information, please contact us and we will delete it promptly.</p>
-        </div>
+  <div class="legal-section">
+    <h2 class="legal-h2">7. Your Rights</h2>
+    <p class="legal-p">Depending on your jurisdiction, you may have the following rights regarding your personal data:</p>
+    <ul class="legal-ul">
+      <li><strong style="color:rgba(228,226,218,0.78)">Access</strong> — request a copy of the data we hold about you</li>
+      <li><strong style="color:rgba(228,226,218,0.78)">Rectification</strong> — request correction of inaccurate information</li>
+      <li><strong style="color:rgba(228,226,218,0.78)">Erasure</strong> — request deletion of your personal data ("right to be forgotten")</li>
+      <li><strong style="color:rgba(228,226,218,0.78)">Portability</strong> — receive your data in a machine-readable format</li>
+      <li><strong style="color:rgba(228,226,218,0.78)">Objection</strong> — opt out of processing based on legitimate interests</li>
+      <li><strong style="color:rgba(228,226,218,0.78)">Withdrawal of consent</strong> — unsubscribe or revoke consent at any time</li>
+    </ul>
+    <p class="legal-p">To exercise any of these rights, contact us at
+      <a href="mailto:hello@oknlab.slmail.me"
+         style="color:var(--text); text-decoration:underline; text-underline-offset:3px; transition:opacity 0.2s ease"
+         onmouseover="this.style.opacity='0.65'" onmouseout="this.style.opacity='1'">
+        hello@oknlab.slmail.me
+      </a>. We will respond within 30 days.
+    </p>
+  </div>
 
-        <div class="legal-section">
-            <h2 class="legal-h2">10. Changes to This Policy</h2>
-            <p class="legal-p">We may update this Privacy Policy from time to time. When we do, we will revise the "Last Updated" date at the top. Continued use of our services after changes constitutes acceptance of the revised policy. For material changes, we will provide a more prominent notice.</p>
-        </div>
+  <div class="legal-section">
+    <h2 class="legal-h2">8. Security</h2>
+    <p class="legal-p">We implement industry-standard security measures including TLS encryption in transit, access controls, and regular security reviews. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
+  </div>
 
-        <div class="legal-section">
-            <h2 class="legal-h2">11. Contact</h2>
-            <p class="legal-p">If you have questions, concerns, or requests related to this Privacy Policy, please reach out:</p>
-            <div class="mt-4 p-6 border border-white/10 rounded-xl bg-white/5 space-y-1 text-sm text-gray-400">
-                <p class="font-serif text-lg font-bold text-white mb-3">OKNLAB</p>
-                <p>San Francisco, CA · Est. 2024</p>
-                <p>Email: <a href="mailto:hello@oknlab.slmail.me" class="text-white hover:opacity-70 transition-opacity">hello@oknlab.slmail.me</a></p>
-            </div>
-        </div>
+  <div class="legal-section">
+    <h2 class="legal-h2">9. Children's Privacy</h2>
+    <p class="legal-p">Our services are not directed to individuals under the age of 13. We do not knowingly collect personal information from children. If you believe we have inadvertently collected such information, please contact us and we will delete it promptly.</p>
+  </div>
 
-        <!-- Bottom Nav -->
-        <div class="mt-16 pt-10 border-t border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <a href="index.html" class="text-sm text-gray-500 hover:text-white transition-colors tracking-widest uppercase">← Back to Home</a>
-            <a href="terms-of-service.html" class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white border border-white/10 hover:border-white/30 transition-all px-5 py-2.5 rounded-full">
-                Terms of Service →
-            </a>
-        </div>
-    </main>
+  <div class="legal-section">
+    <h2 class="legal-h2">10. Changes to This Policy</h2>
+    <p class="legal-p">We may update this Privacy Policy from time to time. When we do, we will revise the "Last Updated" date at the top. Continued use of our services after changes constitutes acceptance of the revised policy. For material changes, we will provide a more prominent notice.</p>
+  </div>
 
-    <!-- Footer -->
-    <footer class="bg-black border-t border-white/10 py-8">
-        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p class="text-gray-700 text-xs">© 2025 OKNLAB. All rights reserved.</p>
-            <div class="flex gap-6 text-xs text-gray-600">
-                <a href="privacy-policy" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
-                <a href="terms-of-service" class="hover:text-white transition-colors">Terms of Service</a>
-                <a href="contact" class="hover:text-white transition-colors">Contact</a>
-            </div>
-        </div>
-    </footer>
+  <div class="legal-section">
+    <h2 class="legal-h2">11. Contact</h2>
+    <p class="legal-p">If you have questions, concerns, or requests related to this Privacy Policy, please reach out:</p>
+    <div style="margin-top:1.25rem; padding:1.5rem; border:1px solid var(--border-hi); border-radius:1rem; background:rgba(255,255,255,0.02)">
+      <p style="font-family:var(--font-serif); font-size:1.25rem; font-weight:600; color:var(--text); margin-bottom:0.75rem">OKNLAB</p>
+      <p style="font-size:0.875rem; color:var(--muted-hi); margin-bottom:0.25rem">San Francisco, CA · Est. 2024</p>
+      <p style="font-size:0.875rem; color:var(--muted-hi)">
+        Email:
+        <a href="mailto:hello@oknlab.slmail.me"
+           style="color:var(--text); text-decoration:underline; text-underline-offset:3px">
+          hello@oknlab.slmail.me
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Bottom nav -->
+  <div style="margin-top:4rem; padding-top:2.5rem; border-top:1px solid var(--border); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:1rem">
+    <a href="index.html"
+       style="font-size:0.875rem; color:var(--muted-hi); letter-spacing:0.1em; text-transform:uppercase; transition:color 0.2s ease"
+       onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted-hi)'">
+      ← Back to Home
+    </a>
+    <a href="terms-of-service.html"
+       class="btn btn-outline btn-rounded"
+       style="font-size:0.8125rem; padding:0.5rem 1.25rem">
+      Terms of Service →
+    </a>
+  </div>
+
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer class="site-footer">
+  <div class="max-w-[1400px] mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-4">
+    <p style="font-size:0.75rem; color:var(--muted)">© 2025 OKNLAB. All rights reserved.</p>
+    <div class="flex gap-6" style="font-size:0.75rem;">
+      <span style="color:var(--muted-hi)">Privacy Policy</span>
+      <a href="terms-of-service.html" class="hover-line" style="color:var(--muted-hi)">Terms of Service</a>
+      <a href="refund-policy.html" class="hover-line" style="color:var(--muted-hi)">Refund Policy</a>
+      <a href="contact.html" class="hover-line" style="color:var(--muted-hi)">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => lucide.createIcons());
+</script>
 </body>
 </html>
