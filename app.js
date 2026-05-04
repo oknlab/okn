@@ -1,23 +1,33 @@
 /* ═══════════════════════════════════════════════════════════════
-   OKNLAB — app.js  (v4)
-   Vue 3 Composition API · homepage shell
+   OKNLAB — app.js  (v4 · gpt-taste)
+   Vue 3 Composition API · homepage SPA shell
+
+   ADDED IN v4
+   ──────────────
+   · GSAP + ScrollTrigger hero entrance timeline
+   · GSAP ScrollTrigger for section heading reveals (.gsap-reveal)
+   · GSAP parallax on hero glow orbs
+   · GSAP scale entrance for CTA section
+   · IntersectionObserver retained for carousel cards (horizontal scroll)
 
    TABLE OF CONTENTS
    ─────────────────
    A.  Imports
-   B.  Projects data
-   C.  Reactive state
-   D.  Computed labels
-   E.  Pure helpers
-   F.  Header
-   G.  Carousel — scroll state engine
-   H.  Carousel — navigation
-   I.  Carousel — drag-to-scroll
-   J.  Carousel — wheel intercept
-   K.  Card spotlight
-   L.  IntersectionObserver — card reveal
-   M.  Lifecycle
-   N.  Template exports
+   B.  Data — projects array
+   C.  State refs
+   D.  Computed values
+   E.  Helper methods (pure, no side-effects)
+   F.  Header scroll handler
+   G.  Carousel — scroll-state engine (rAF-throttled)
+   H.  Carousel — navigation methods
+   I.  Carousel — mouse-wheel → horizontal scroll
+   J.  Card — spotlight mouse-position tracker
+   K.  IntersectionObserver — card reveal
+   L.  GSAP — hero entrance timeline
+   M.  GSAP — scroll-triggered section reveals
+   N.  GSAP — parallax on glow orbs
+   O.  Lifecycle hooks
+   P.  Expose to template
 ═══════════════════════════════════════════════════════════════ */
 
 
@@ -68,7 +78,7 @@ createApp({
       {
         title:       'VisionCraft API',
         category:    'Media',
-        description: 'Enterprise image manipulation API for e-commerce at scale. Background removal, colour correction, and format optimisation — processing millions of images daily.',
+        description: 'Enterprise image manipulation API for e-commerce at scale. Background removal, color correction, and format optimisation — processing millions of images per day.',
         icon:        'aperture',
         logo:        'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg',
         link:        '#project-vision',
@@ -86,7 +96,7 @@ createApp({
     ]
 
 
-    /* ─── C. Reactive state ────────────────────────────────── */
+    /* ─── C. State refs ────────────────────────────────────── */
     const isScrolled      = ref(false)
     const mobileMenuOpen  = ref(false)
     const scrollContainer = ref(null)
@@ -96,26 +106,31 @@ createApp({
     const activeDot       = ref(0)
 
 
-    /* ─── D. Computed labels ───────────────────────────────────
-       Vue 3 templates have no access to global JS builtins
-       (String, Number, Math). All formatting lives here.
+    /* ─── D. Computed values ───────────────────────────────────
+       Vue 3 templates do NOT expose global JS built-ins
+       (String, Number, Math). Pre-compute formatted strings here.
     ─────────────────────────────────────────────────────────── */
+
+    /** "05" — zero-padded total project count shown in the hero aside */
     const projectCountLabel = computed(() =>
       String(projects.length).padStart(2, '0')
     )
 
+    /** "05 Projects" label shown in the portfolio header */
     const projectCountFull = computed(() =>
       `${projectCountLabel.value} Projects`
     )
 
 
-    /* ─── E. Pure helpers ──────────────────────────────────── */
+    /* ─── E. Helper methods (pure) ─────────────────────────────
+       pad(n) — zero-pad a 1-based index for card display.
+    ─────────────────────────────────────────────────────────── */
     const pad = (n) => String(n).padStart(2, '0')
 
 
-    /* ─── F. Header ────────────────────────────────────────── */
+    /* ─── F. Header scroll handler ─────────────────────────── */
     const handleScroll = () => {
-      isScrolled.value = window.scrollY > 24
+      isScrolled.value = window.scrollY > 20
     }
 
     const toggleMobileMenu = () => {
@@ -123,53 +138,60 @@ createApp({
     }
 
 
-    /* ─── G. Carousel — scroll state engine ─────────────────
-       rAF-throttled to one frame per tick.
-       Updates: canScrollLeft/Right, scrollProgress, activeDot.
+    /* ─── G. Carousel scroll-state engine ──────────────────────
+       rAF-throttled. Sets canScrollLeft/Right, scrollProgress,
+       activeDot (closest card centre to viewport centre).
     ─────────────────────────────────────────────────────────── */
     let rafPending = false
 
     const _updateScrollState = () => {
       const el = scrollContainer.value
-      if (!el) { rafPending = false; return }
+      if (!el) return
 
       const max = el.scrollWidth - el.clientWidth
 
-      canScrollLeft.value  = el.scrollLeft > 8
-      canScrollRight.value = el.scrollLeft < max - 8
+      canScrollLeft.value  = el.scrollLeft > 10
+      canScrollRight.value = el.scrollLeft < max - 10
       scrollProgress.value = max > 0 ? (el.scrollLeft / max) * 100 : 0
 
-      // Dot = card whose centre is closest to viewport centre
       const vpCentre = el.scrollLeft + el.clientWidth / 2
       const cards    = el.querySelectorAll('.project-panel')
       let closestIdx = 0
       let minDist    = Infinity
 
       cards.forEach((card, i) => {
-        const dist = Math.abs(card.offsetLeft + card.offsetWidth / 2 - vpCentre)
-        if (dist < minDist) { minDist = dist; closestIdx = i }
+        const cardCentre = card.offsetLeft + card.offsetWidth / 2
+        const dist       = Math.abs(cardCentre - vpCentre)
+        if (dist < minDist) {
+          minDist    = dist
+          closestIdx = i
+        }
       })
 
       activeDot.value = closestIdx
       rafPending = false
     }
 
-    const _scheduleUpdate = () => {
+    const onTrackScroll = () => {
       if (rafPending) return
       rafPending = true
       requestAnimationFrame(_updateScrollState)
     }
 
-    const onTrackScroll = _scheduleUpdate
-    const onResize      = _scheduleUpdate
+    const onResize = () => {
+      if (rafPending) return
+      rafPending = true
+      requestAnimationFrame(_updateScrollState)
+    }
 
 
-    /* ─── H. Carousel — navigation ─────────────────────────── */
+    /* ─── H. Carousel navigation methods ───────────────────── */
+
     const scrollByDir = (dir) => {
       const el = scrollContainer.value
       if (!el) return
       const card = el.querySelector('.project-panel')
-      const step = card ? card.offsetWidth + parseInt(getComputedStyle(el).gap || '18') : 440
+      const step = card ? card.offsetWidth + 20 : 440
       el.scrollBy({ left: dir * step, behavior: 'smooth' })
     }
 
@@ -183,70 +205,32 @@ createApp({
     }
 
 
-    /* ─── I. Drag-to-scroll ─────────────────────────────────
-       Click-drag on the track scrolls horizontally.
-       Uses pointercapture so leaving the element mid-drag works.
-    ─────────────────────────────────────────────────────────── */
-    let dragOriginX  = 0
-    let dragScrollX  = 0
-    let isDragging   = false
-
-    const onTrackPointerDown = (e) => {
-      // Ignore right-clicks and touch (touch has native momentum)
-      if (e.button !== 0 || e.pointerType === 'touch') return
-      const el = scrollContainer.value
-      if (!el) return
-
-      isDragging  = true
-      dragOriginX = e.clientX
-      dragScrollX = el.scrollLeft
-
-      el.setPointerCapture(e.pointerId)
-      el.classList.add('is-dragging')
-    }
-
-    const onTrackPointerMove = (e) => {
-      if (!isDragging) return
-      const el = scrollContainer.value
-      if (!el) return
-      const dx = e.clientX - dragOriginX
-      el.scrollLeft = dragScrollX - dx
-    }
-
-    const onTrackPointerUp = (e) => {
-      if (!isDragging) return
-      isDragging = false
-      const el = scrollContainer.value
-      if (!el) return
-      el.releasePointerCapture(e.pointerId)
-      el.classList.remove('is-dragging')
-    }
-
-
-    /* ─── J. Wheel intercept ────────────────────────────────
-       Vertical wheel → horizontal scroll.
-       Releases to page scroll when carousel is at its edge.
-       Must be non-passive to call preventDefault.
+    /* ─── I. Mouse-wheel → horizontal scroll ───────────────────
+       Converts vertical wheel delta to horizontal scroll.
+       Releases back to page scroll at carousel edges.
+       Must be registered non-passive to call preventDefault.
     ─────────────────────────────────────────────────────────── */
     const _onWheel = (e) => {
       const el = scrollContainer.value
       if (!el) return
-      if (Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return   // native horizontal swipe
+
+      if (Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return
 
       const max     = el.scrollWidth - el.clientWidth
-      const atStart = el.scrollLeft <= 1
       const atEnd   = el.scrollLeft >= max - 1
+      const atStart = el.scrollLeft <= 0
 
-      if ((e.deltaY < 0 && atStart) || (e.deltaY > 0 && atEnd)) return
+      if ((e.deltaY > 0 && atEnd) || (e.deltaY < 0 && atStart)) return
 
       e.preventDefault()
-      el.scrollLeft += e.deltaY * 1.2
+      el.scrollLeft += e.deltaY
     }
 
 
-    /* ─── K. Card spotlight ─────────────────────────────────
-       Sets --mx / --my on each card for the CSS radial gradient.
-       Pure DOM mutation — no reactive state, no re-render.
+    /* ─── J. Card spotlight — mouse-position tracker ────────────
+       Sets CSS custom properties --mx / --my on each card so the
+       ::before radial-gradient follows the cursor accurately.
+       No state update → no Vue re-render overhead.
     ─────────────────────────────────────────────────────────── */
     const onCardMouseMove = (e) => {
       const card = e.currentTarget
@@ -256,11 +240,14 @@ createApp({
     }
 
 
-    /* ─── L. IntersectionObserver — card reveal ─────────────── */
+    /* ─── K. IntersectionObserver — card reveal ─────────────────
+       Retained for carousel cards (horizontal scroll track).
+       GSAP ScrollTrigger is not suitable for horizontal-scroll
+       containers — IntersectionObserver handles them correctly.
+    ─────────────────────────────────────────────────────────── */
     let revealObserver = null
 
     const _initReveal = () => {
-      revealObserver?.disconnect()
       revealObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -272,8 +259,8 @@ createApp({
         },
         {
           root:       scrollContainer.value,
-          threshold:  0.10,
-          rootMargin: '0px 160px 0px 160px'
+          threshold:  0.12,
+          rootMargin: '0px 200px 0px 200px'
         }
       )
 
@@ -283,52 +270,234 @@ createApp({
     }
 
 
-    /* ─── M. Lifecycle ──────────────────────────────────────── */
+    /* ─── L. GSAP — Hero entrance timeline ─────────────────────
+       Orchestrated staggered entrance replacing the CSS-animation
+       fallbacks. Each hero element (#hero-pill, #hero-h1, etc.)
+       is animated in sequence.
+
+       GSAP paradigm: Image Scale (img-scale) applied to the hero
+       backdrop photo — starts slightly zoomed, settles to 1.0.
+    ─────────────────────────────────────────────────────────── */
+    const _initHeroGSAP = () => {
+      if (typeof gsap === 'undefined') return
+
+      // Hero photo scale-settle (Image Scale paradigm)
+      gsap.fromTo('.hero-backdrop-img',
+        { scale: 1.08 },
+        { scale: 1.0, duration: 2.2, ease: 'expo.out' }
+      )
+
+      // Staggered entrance timeline
+      const tl = gsap.timeline({ defaults: { ease: 'expo.out' } })
+
+      tl.fromTo('#hero-pill',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.9 }
+      )
+      .fromTo('#hero-h1',
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 1.1 },
+        '-=0.5'
+      )
+      .fromTo('#hero-sub',
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.95 },
+        '-=0.65'
+      )
+      .fromTo('#hero-ctas',
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.9 },
+        '-=0.6'
+      )
+      .fromTo('#hero-meta',
+        { opacity: 0 },
+        { opacity: 1, duration: 0.8 },
+        '-=0.5'
+      )
+      .fromTo('.scroll-cue',
+        { opacity: 0 },
+        { opacity: 1, duration: 0.7 },
+        '-=0.3'
+      )
+    }
+
+
+    /* ─── M. GSAP — Scroll-triggered section reveals ───────────
+       Targets all .gsap-reveal elements (section headings,
+       CTA block, etc.) outside the horizontal carousel.
+
+       GSAP paradigm: Word Scrub applied to CTA heading —
+       opacity scrubs from 0.08 → 1.0 as user scrolls into view.
+    ─────────────────────────────────────────────────────────── */
+    const _initScrollReveal = () => {
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return
+
+      gsap.registerPlugin(ScrollTrigger)
+
+      // Section-level reveal for .gsap-reveal elements
+      // Adds .is-visible class which triggers the CSS transition
+      document.querySelectorAll('.gsap-reveal').forEach((el) => {
+        ScrollTrigger.create({
+          trigger:  el,
+          start:    'top 82%',
+          onEnter: () => {
+            el.classList.add('is-visible')
+          },
+          once: true
+        })
+      })
+
+      // CTA heading — word-by-word opacity scrub (Word Scrub paradigm)
+      // Wraps each word in a span, then scrubs opacity 0.08 → 1.0
+      const ctaHeading = document.querySelector('.cta-heading')
+      if (ctaHeading) {
+        // Split words into spans (preserving <br> and <em>)
+        const rawHTML = ctaHeading.innerHTML
+        const wrapped = rawHTML
+          .replace(/(<[^>]+>)/g, '\x00$1\x00') // protect tags
+          .split('\x00')
+          .map((chunk) => {
+            if (chunk.startsWith('<') || chunk.trim() === '') return chunk
+            return chunk.replace(/\b(\S+)\b/g, '<span class="scrub-word">$1</span>')
+          })
+          .join('')
+        ctaHeading.innerHTML = wrapped
+
+        const words = ctaHeading.querySelectorAll('.scrub-word')
+
+        // Set initial opacity low
+        gsap.set(words, { opacity: 0.08 })
+
+        // Scrub each word's opacity on scroll
+        words.forEach((word, i) => {
+          gsap.to(word, {
+            opacity: 1,
+            scrollTrigger: {
+              trigger: ctaHeading,
+              start:   'top 80%',
+              end:     'bottom 30%',
+              scrub:   0.8
+            },
+            delay: i * 0.04
+          })
+        })
+      }
+
+      // CTA section scale entrance
+      const ctaSection = document.querySelector('#cta')
+      if (ctaSection) {
+        gsap.fromTo(ctaSection,
+          { scale: 0.97, opacity: 0.6 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 1,
+            ease: 'expo.out',
+            scrollTrigger: {
+              trigger: ctaSection,
+              start:   'top 85%',
+              once:    true
+            }
+          }
+        )
+      }
+    }
+
+
+    /* ─── N. GSAP — Parallax on hero glow orbs ─────────────────
+       Glow orbs drift at different speeds as the user scrolls,
+       creating a layered depth illusion.
+       Runs only if the device likely has GPU compositing.
+    ─────────────────────────────────────────────────────────── */
+    const _initParallax = () => {
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return
+
+      const heroSection = document.querySelector('#hero')
+      if (!heroSection) return
+
+      gsap.to('#glow1', {
+        y: -80,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroSection,
+          start:   'top top',
+          end:     'bottom top',
+          scrub:   1.8
+        }
+      })
+
+      gsap.to('#glow2', {
+        y: -40,
+        x:  20,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroSection,
+          start:   'top top',
+          end:     'bottom top',
+          scrub:   2.4
+        }
+      })
+
+      // Backdrop photo subtle parallax (Image Scale + slow drift)
+      gsap.to('.hero-backdrop-img', {
+        y: '15%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroSection,
+          start:   'top top',
+          end:     'bottom top',
+          scrub:   1.2
+        }
+      })
+    }
+
+
+    /* ─── O. Lifecycle hooks ────────────────────────────────── */
     onMounted(() => {
+      // Global listeners
       window.addEventListener('scroll', handleScroll, { passive: true })
       window.addEventListener('resize', onResize,     { passive: true })
 
+      // Render Lucide icons (CDN global)
       lucide.createIcons()
 
       nextTick(() => {
+        // Carousel internals
         _updateScrollState()
         _initReveal()
+        scrollContainer.value?.addEventListener('wheel', _onWheel, { passive: false })
 
-        const el = scrollContainer.value
-        if (el) {
-          el.addEventListener('wheel',        _onWheel,            { passive: false })
-          el.addEventListener('pointerdown',  onTrackPointerDown)
-          el.addEventListener('pointermove',  onTrackPointerMove)
-          el.addEventListener('pointerup',    onTrackPointerUp)
-          el.addEventListener('pointercancel',onTrackPointerUp)
-        }
+        // GSAP — all three layers
+        _initHeroGSAP()
+        _initScrollReveal()
+        _initParallax()
       })
     })
 
     onUpdated(() => {
+      // Re-scan Lucide icon data-attributes after reactive DOM updates
       lucide.createIcons()
     })
 
     onBeforeUnmount(() => {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', onResize)
-
-      const el = scrollContainer.value
-      if (el) {
-        el.removeEventListener('wheel',        _onWheel)
-        el.removeEventListener('pointerdown',  onTrackPointerDown)
-        el.removeEventListener('pointermove',  onTrackPointerMove)
-        el.removeEventListener('pointerup',    onTrackPointerUp)
-        el.removeEventListener('pointercancel',onTrackPointerUp)
-      }
-
+      scrollContainer.value?.removeEventListener('wheel', _onWheel)
       revealObserver?.disconnect()
+
+      // Kill all GSAP ScrollTrigger instances to prevent memory leaks
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.killAll()
+      }
     })
 
 
-    /* ─── N. Template exports ───────────────────────────────── */
+    /* ─── P. Expose to template ─────────────────────────────── */
     return {
+      // Data
       projects,
+
+      // State
       isScrolled,
       mobileMenuOpen,
       scrollContainer,
@@ -336,8 +505,12 @@ createApp({
       canScrollRight,
       scrollProgress,
       activeDot,
+
+      // Computed — formatted strings
       projectCountLabel,
       projectCountFull,
+
+      // Methods
       pad,
       toggleMobileMenu,
       onTrackScroll,
