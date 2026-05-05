@@ -1073,32 +1073,11 @@ p {
 }
 
 
-/* ─── 21. CTA Section — Action Layer ───────────────────────── */
+/* ─── 21. CTA Copy — typography atoms ──────────────────────── */
 /*
-  Massive vertical space. Light text on dark bg — perfect contrast.
-  AIDA Action: drives conversion to contact page.
+  These classes are used inside .footer-merged (homepage) and can
+  also be reused on subpages — they carry no layout assumptions.
 */
-.cta-section {
-  position: relative;
-  overflow: hidden;
-  padding: clamp(6rem, 12vw, 10rem) 0;
-  background: var(--bg);
-  border-top: 1px solid var(--border);
-}
-
-/* Ambient glow behind CTA */
-.cta-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 70% 60% at 50% 50%,
-    rgba(196, 149, 63, 0.04),
-    transparent 70%
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
 .cta-eyebrow {
   font-family: var(--font-sans);
   font-size: 0.6875rem;
@@ -1106,40 +1085,264 @@ p {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .cta-heading {
   font-family: var(--font-serif);
-  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-size: clamp(2.75rem, 6.5vw, 5.5rem);
   font-weight: 600;
-  line-height: 1.08;
+  line-height: 1.05;
   letter-spacing: -0.03em;
   color: var(--text);
-  margin-bottom: 2.5rem;
+  margin-bottom: 0; /* layout handled by zone padding */
   max-width: none;
 }
 
-/* The second line — slightly dimmed for depth */
+/* Second italic line — dimmed for editorial depth */
 .cta-heading-dim {
-  color: rgba(228, 226, 218, 0.38);
+  color: rgba(228, 226, 218, 0.35);
   font-style: italic;
 }
 
-.cta-sub {
-  margin-top: 2rem;
+
+/* ─── 22. Merged Footer — Homepage ─────────────────────────── */
+/*
+  .footer-merged replaces the old separate <section.cta-section>
+  and <footer.site-footer>. The element is a single <footer> with
+  three visual zones: CTA copy · divider · nav grid · copyright.
+
+  Subpages (contact, legal) use .site-footer (below) unchanged.
+*/
+
+/* Outer shell */
+.footer-merged {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+}
+
+/* Decorative ambient glow behind CTA text */
+.footer-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 60% 50% at 30% 20%,
+    rgba(196, 149, 63, 0.035),
+    transparent 65%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/*
+  Ghost wordmark — enormous decorative serif behind content.
+  Not readable, purely typographic texture (aria-hidden).
+*/
+.footer-ghost-word {
+  position: absolute;
+  right: -2rem;
+  bottom: 2rem;
+  font-family: var(--font-serif);
+  font-size: clamp(8rem, 22vw, 22rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: rgba(228, 226, 218, 0.018);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 0;
+}
+
+/* ── Zone 1: CTA copy ── */
+.footer-cta-zone {
+  padding-top:    clamp(4.5rem, 9vw, 7.5rem);
+  padding-bottom: clamp(3rem,   6vw, 5rem);
+}
+
+/*
+  Two-column layout on desktop:
+  left  → eyebrow + big heading
+  right → "Get in touch" arrow link
+  Stacks to single column on mobile.
+*/
+.footer-cta-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .footer-cta-inner {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 3rem;
+  }
+}
+
+.footer-cta-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.footer-cta-right {
+  flex-shrink: 0;
+  padding-bottom: 0.25rem; /* optical alignment with heading baseline */
+}
+
+/* ── "Get in touch" link — no button, editorial approach ── */
+.footer-contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  color: var(--muted-hi);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.footer-contact-link:hover {
+  color: var(--text);
+}
+
+.footer-contact-label {
+  font-family: var(--font-sans);
   font-size: 0.8125rem;
-  color: var(--muted);
+  font-weight: 500;
   letter-spacing: 0.06em;
 }
 
+.footer-contact-arrow {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--border-hi);
+  background: rgba(228, 226, 218, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    background    0.3s ease,
+    border-color  0.3s ease,
+    transform     0.3s var(--ease-out-expo);
+}
 
-/* ─── 22. Footer ────────────────────────────────────────────── */
+.footer-contact-link:hover .footer-contact-arrow {
+  background: rgba(228, 226, 218, 0.1);
+  border-color: rgba(255, 255, 255, 0.24);
+  transform: translate(2px, -2px);
+}
+
+/* ── Zone rule ── */
+.footer-zone-rule {
+  border-color: var(--border-hi);
+  margin: 0;
+}
+
+/* ── Zone 2: Footer content grid ── */
+.footer-grid-zone {
+  padding-top:    clamp(2.5rem, 5vw, 3.5rem);
+  padding-bottom: 0;
+}
+
+/*
+  Three columns on desktop: brand · navigate · legal.
+  Stacks to 2-up grid → single column on mobile.
+*/
+.footer-grid-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem 3rem;
+  grid-auto-flow: dense;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .footer-grid-row {
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 2.5rem 4rem;
+  }
+}
+
+/* Brand column */
+.footer-brand {
+  grid-column: 1 / -1; /* full width on mobile */
+}
+
+@media (min-width: 768px) {
+  .footer-brand {
+    grid-column: 1; /* first column on desktop */
+  }
+}
+
+.footer-logo-anchor {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin-bottom: 1.125rem;
+}
+
+.footer-logo-img {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: block;
+}
+
+.footer-logo-text {
+  font-size: 1rem !important;
+}
+
+.footer-location {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  line-height: 1.65;
+}
+
+/* Nav / Legal columns */
+.footer-col {
+  /* inherits grid cell sizing */
+}
+
+/* ── Bottom copyright bar ── */
+.footer-bottom-rule {
+  border-color: var(--border);
+  margin-bottom: 0;
+}
+
+.footer-bottom-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 1.5rem 0 2.25rem;
+  align-items: flex-start;
+}
+
+@media (min-width: 768px) {
+  .footer-bottom-bar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0;
+  }
+}
+
+.footer-copy {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+
+/* ─── Standalone footer — subpages (contact, legal, etc.) ──── */
 .site-footer {
   background: var(--bg-2);
   border-top: 1px solid var(--border);
 }
 
+/* Used on both merged footer (homepage) and standalone footer (subpages) */
 .footer-logo-link {
   opacity: 0.65;
   transition: opacity 0.2s ease;
