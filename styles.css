@@ -189,100 +189,39 @@ p {
 .skip-link:focus { left: 1rem; }
 
 
-/* ─── 7. Header — Floating Glass Pill ──────────────────────── */
+/* ─── 7. Header ─────────────────────────────────────────────── */
+/*
+  Consistent across all pages — fixed bar at top: 0, height 72px.
+  All pages (homepage + subpages) use .is-scrolled always so the
+  solid background renders immediately with no transition needed.
+  The transparent-to-solid state is kept for potential future use.
+*/
 .site-header {
   position: fixed;
-  top: 1.25rem;
+  top: 0;
   left: 0;
   right: 0;
+  height: 72px;
   display: flex;
-  justify-content: center;
+  align-items: center;
   z-index: var(--z-nav);
-  pointer-events: none; /* let clicks pass through the transparent header area */
-  transition: top 0.4s var(--ease-out-expo);
+
+  background: rgba(8, 8, 6, 0.62);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border-bottom: 1px solid transparent;
+
+  transition:
+    background    0.45s ease,
+    border-color  0.45s ease;
 }
 
 .site-header.is-scrolled {
-  top: 0.75rem;
+  background: rgba(8, 8, 6, 0.97);
+  border-color: var(--border-hi);
 }
 
-/* The actual pill — re-enables pointer events */
-.nav-pill {
-  pointer-events: all;
-  display: flex;
-  align-items: center;
-  gap: 0;
-  background: rgba(8, 8, 6, 0.72);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1px solid var(--border-hi);
-  border-radius: 100px;
-  padding: 0.45rem 0.5rem 0.45rem 1.25rem;
-  max-width: calc(100vw - 2rem);
-  transition:
-    background    0.4s ease,
-    border-color  0.4s ease,
-    box-shadow    0.4s ease;
-}
-
-.site-header.is-scrolled .nav-pill {
-  background: rgba(8, 8, 6, 0.96);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  flex-shrink: 0;
-}
-
-.nav-logo-img {
-  width: 1.875rem;
-  height: 1.875rem;
-  border-radius: 50%;
-  border: 1px solid var(--border-hi);
-  transition: filter 0.5s ease;
-}
-
-.nav-logo:hover .nav-logo-img {
-  filter: grayscale(0);
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  margin-left: 0.25rem;
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-left: 0.75rem;
-}
-
-.nav-hamburger {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.125rem;
-  height: 2.125rem;
-  border-radius: 50%;
-  background: rgba(228, 226, 218, 0.07);
-  border: 1px solid var(--border-hi);
-  color: var(--muted-hi);
-  cursor: pointer;
-}
-
-.nav-hamburger:hover {
-  color: var(--text);
-  background: rgba(228, 226, 218, 0.12);
-}
-
-/* Logo wordmark */
+/* Logo wordmark — used on all pages */
 .logo-text {
   font-family: var(--font-serif);
   font-size: 1.0625rem;
@@ -299,36 +238,16 @@ p {
   font-weight: 400;
   letter-spacing: 0.03em;
   color: var(--muted-hi);
-  padding: 0.4rem 0.75rem;
-  border-radius: 100px;
-  border-bottom: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
   transition:
-    color       0.2s ease,
-    background  0.2s ease;
+    color         0.2s ease,
+    border-color  0.2s ease;
 }
-.nav-link:hover {
+.nav-link:hover,
+.nav-link[aria-current="page"] {
   color: var(--text);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-
-/* ─── 9. Mobile Drawer ──────────────────────────────────────── */
-.mobile-nav {
-  position: fixed;
-  top: 4.75rem;
-  left: 1rem;
-  right: 1rem;
-  background: rgba(8, 8, 6, 0.98);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border: 1px solid var(--border-hi);
-  border-radius: 1.5rem;
-  padding: 1.75rem 1.5rem 2.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  z-index: calc(var(--z-nav) - 1);
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+  border-color: rgba(228, 226, 218, 0.22);
 }
 
 
@@ -1073,46 +992,14 @@ p {
 }
 
 
-/* ─── 21. CTA Copy — typography atoms ──────────────────────── */
-/*
-  These classes are used inside .footer-merged (homepage) and can
-  also be reused on subpages — they carry no layout assumptions.
-*/
-.cta-eyebrow {
-  font-family: var(--font-sans);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 1.25rem;
-}
-
-.cta-heading {
-  font-family: var(--font-serif);
-  font-size: clamp(2.75rem, 6.5vw, 5.5rem);
-  font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  color: var(--text);
-  margin-bottom: 0; /* layout handled by zone padding */
-  max-width: none;
-}
-
-/* Second italic line — dimmed for editorial depth */
-.cta-heading-dim {
-  color: rgba(228, 226, 218, 0.35);
-  font-style: italic;
-}
+/* ─── 21. (reserved) ────────────────────────────────────────── */
 
 
 /* ─── 22. Merged Footer — Homepage ─────────────────────────── */
 /*
-  .footer-merged replaces the old separate <section.cta-section>
-  and <footer.site-footer>. The element is a single <footer> with
-  three visual zones: CTA copy · divider · nav grid · copyright.
-
-  Subpages (contact, legal) use .site-footer (below) unchanged.
+  .footer-merged is a single <footer> replacing the old separate
+  CTA section + footer. Now contains only the link grid + copyright.
+  Subpages use .site-footer (see below).
 */
 
 /* Outer shell */
@@ -1123,13 +1010,13 @@ p {
   border-top: 1px solid var(--border);
 }
 
-/* Decorative ambient glow behind CTA text */
+/* Ambient glow behind footer content */
 .footer-glow {
   position: absolute;
   inset: 0;
   background: radial-gradient(
     ellipse 60% 50% at 30% 20%,
-    rgba(196, 149, 63, 0.035),
+    rgba(196, 149, 63, 0.028),
     transparent 65%
   );
   pointer-events: none;
@@ -1137,8 +1024,8 @@ p {
 }
 
 /*
-  Ghost wordmark — enormous decorative serif behind content.
-  Not readable, purely typographic texture (aria-hidden).
+  Ghost wordmark — enormous decorative serif, aria-hidden.
+  Sits behind the footer grid as subtle typographic texture.
 */
 .footer-ghost-word {
   position: absolute;
@@ -1149,102 +1036,16 @@ p {
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.04em;
-  color: rgba(228, 226, 218, 0.018);
+  color: rgba(228, 226, 218, 0.015);
   pointer-events: none;
   user-select: none;
   white-space: nowrap;
   z-index: 0;
 }
 
-/* ── Zone 1: CTA copy ── */
-.footer-cta-zone {
-  padding-top:    clamp(4.5rem, 9vw, 7.5rem);
-  padding-bottom: clamp(3rem,   6vw, 5rem);
-}
-
-/*
-  Two-column layout on desktop:
-  left  → eyebrow + big heading
-  right → "Get in touch" arrow link
-  Stacks to single column on mobile.
-*/
-.footer-cta-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-@media (min-width: 768px) {
-  .footer-cta-inner {
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 3rem;
-  }
-}
-
-.footer-cta-left {
-  flex: 1;
-  min-width: 0;
-}
-
-.footer-cta-right {
-  flex-shrink: 0;
-  padding-bottom: 0.25rem; /* optical alignment with heading baseline */
-}
-
-/* ── "Get in touch" link — no button, editorial approach ── */
-.footer-contact-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.875rem;
-  color: var(--muted-hi);
-  text-decoration: none;
-  transition: color 0.25s ease;
-}
-
-.footer-contact-link:hover {
-  color: var(--text);
-}
-
-.footer-contact-label {
-  font-family: var(--font-sans);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-}
-
-.footer-contact-arrow {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  border: 1px solid var(--border-hi);
-  background: rgba(228, 226, 218, 0.04);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition:
-    background    0.3s ease,
-    border-color  0.3s ease,
-    transform     0.3s var(--ease-out-expo);
-}
-
-.footer-contact-link:hover .footer-contact-arrow {
-  background: rgba(228, 226, 218, 0.1);
-  border-color: rgba(255, 255, 255, 0.24);
-  transform: translate(2px, -2px);
-}
-
-/* ── Zone rule ── */
-.footer-zone-rule {
-  border-color: var(--border-hi);
-  margin: 0;
-}
-
-/* ── Zone 2: Footer content grid ── */
+/* ── Footer content grid — full width, three columns ── */
 .footer-grid-zone {
-  padding-top:    clamp(2.5rem, 5vw, 3.5rem);
+  padding-top:    clamp(3rem, 6vw, 4.5rem);
   padding-bottom: 0;
 }
 
