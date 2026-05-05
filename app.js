@@ -17,17 +17,16 @@
    C.  State refs
    D.  Computed values
    E.  Helper methods (pure, no side-effects)
-   F.  Header scroll handler
-   G.  Carousel — scroll-state engine (rAF-throttled)
-   H.  Carousel — navigation methods
-   I.  Carousel — mouse-wheel → horizontal scroll
-   J.  Card — spotlight mouse-position tracker
-   K.  IntersectionObserver — card reveal
-   L.  GSAP — hero entrance timeline
-   M.  GSAP — scroll-triggered section reveals
-   N.  GSAP — parallax on glow orbs
-   O.  Lifecycle hooks
-   P.  Expose to template
+   F.  Carousel — scroll-state engine (rAF-throttled)
+   G.  Carousel — navigation methods
+   H.  Carousel — mouse-wheel → horizontal scroll
+   I.  Card — spotlight mouse-position tracker
+   J.  IntersectionObserver — card reveal
+   K.  GSAP — hero entrance timeline
+   L.  GSAP — scroll-triggered section reveals
+   M.  GSAP — parallax on glow orbs
+   N.  Lifecycle hooks
+   O.  Expose to template
 ═══════════════════════════════════════════════════════════════ */
 
 
@@ -97,8 +96,6 @@ createApp({
 
 
     /* ─── C. State refs ────────────────────────────────────── */
-    const isScrolled      = ref(false)
-    const mobileMenuOpen  = ref(false)
     const scrollContainer = ref(null)
     const canScrollLeft   = ref(false)
     const canScrollRight  = ref(true)
@@ -126,17 +123,6 @@ createApp({
        pad(n) — zero-pad a 1-based index for card display.
     ─────────────────────────────────────────────────────────── */
     const pad = (n) => String(n).padStart(2, '0')
-
-
-    /* ─── F. Header scroll handler ─────────────────────────── */
-    const handleScroll = () => {
-      isScrolled.value = window.scrollY > 20
-    }
-
-    const toggleMobileMenu = () => {
-      mobileMenuOpen.value = !mobileMenuOpen.value
-    }
-
 
     /* ─── G. Carousel scroll-state engine ──────────────────────
        rAF-throttled. Sets canScrollLeft/Right, scrollProgress,
@@ -441,8 +427,7 @@ createApp({
     /* ─── O. Lifecycle hooks ────────────────────────────────── */
     onMounted(() => {
       // Global listeners
-      window.addEventListener('scroll', handleScroll, { passive: true })
-      window.addEventListener('resize', onResize,     { passive: true })
+      window.addEventListener('resize', onResize, { passive: true })
 
       // Render Lucide icons (CDN global)
       lucide.createIcons()
@@ -466,7 +451,6 @@ createApp({
     })
 
     onBeforeUnmount(() => {
-      window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', onResize)
       scrollContainer.value?.removeEventListener('wheel', _onWheel)
       revealObserver?.disconnect()
@@ -484,8 +468,6 @@ createApp({
       projects,
 
       // State
-      isScrolled,
-      mobileMenuOpen,
       scrollContainer,
       canScrollLeft,
       canScrollRight,
@@ -498,7 +480,6 @@ createApp({
 
       // Methods
       pad,
-      toggleMobileMenu,
       onTrackScroll,
       scrollByDir,
       scrollToDot,
