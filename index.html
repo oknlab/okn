@@ -1,495 +1,508 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OKNLAB — AI Products &amp; Custom Development</title>
-  <meta name="description" content="OKNLAB builds intelligent, multifunctional AI products for coding, content generation, and workflow automation. Premium client work and proprietary tools.">
-  <meta property="og:title" content="OKNLAB — AI Products &amp; Custom Development">
-  <meta property="og:description" content="We build intelligent products designed to automate the complex and deliver measurable results.">
-  <meta property="og:image" content="https://avatars.githubusercontent.com/u/32960623?s=500&v=2">
-  <link rel="icon" href="https://avatars.githubusercontent.com/u/32960623?s=52&v=2">
+/* ═══════════════════════════════════════════════════════════════
+   OKNLAB — app.js  (v4 · gpt-taste)
+   Vue 3 Composition API · homepage SPA shell
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+   ADDED IN v4
+   ──────────────
+   · GSAP + ScrollTrigger hero entrance timeline
+   · GSAP ScrollTrigger for section heading reveals (.gsap-reveal)
+   · GSAP parallax on hero glow orbs
+   · GSAP scale entrance for CTA section
+   · IntersectionObserver retained for carousel cards (horizontal scroll)
 
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+   TABLE OF CONTENTS
+   ─────────────────
+   A.  Imports
+   B.  Data — projects array
+   C.  State refs
+   D.  Computed values
+   E.  Helper methods (pure, no side-effects)
+   F.  Header scroll handler
+   G.  Carousel — scroll-state engine (rAF-throttled)
+   H.  Carousel — navigation methods
+   I.  Carousel — mouse-wheel → horizontal scroll
+   J.  Card — spotlight mouse-position tracker
+   K.  IntersectionObserver — card reveal
+   L.  GSAP — hero entrance timeline
+   M.  GSAP — scroll-triggered section reveals
+   N.  GSAP — parallax on glow orbs
+   O.  Lifecycle hooks
+   P.  Expose to template
+═══════════════════════════════════════════════════════════════ */
 
-  <!-- GSAP core + ScrollTrigger -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
-  <link rel="stylesheet" href="styles.css">
+/* ─── A. Imports ─────────────────────────────────────────────── */
+import {
+  createApp,
+  ref,
+  computed,
+  onMounted,
+  onUpdated,
+  onBeforeUnmount,
+  nextTick
+} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 
-  <style type="text/tailwindcss">
-    @theme {
-      --font-serif: "Cormorant Garamond", Georgia, serif;
-      --font-sans:  "Plus Jakarta Sans", system-ui, sans-serif;
-      --color-bg:      #080806;
-      --color-bg2:     #0d0d0b;
-      --color-surface: #111110;
-      --color-text:    #E4E2DA;
+
+createApp({
+  setup () {
+
+    /* ─── B. Projects data ─────────────────────────────────── */
+    const projects = [
+      {
+        title:       'CodeSynthesizer X',
+        category:    'DevTools',
+        description: 'An IDE plugin that predicts your next logic block, not just the next line. Transformer-based architecture trained on production codebases to understand intent, not syntax.',
+        icon:        'terminal-square',
+        logo:        'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg',
+        link:        '#project-codesynth',
+        isNew:       true
+      },
+      {
+        title:       'DocuGen AI',
+        category:    'Content',
+        description: 'Automated technical documentation that reads your codebase and writes the manual. Supports JSDoc, TypeDoc, Sphinx, and custom templates with multi-language output.',
+        icon:        'file-text',
+        logo:        'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/markdown/markdown-original.svg',
+        link:        '#project-docugen',
+        isNew:       false
+      },
+      {
+        title:       'FlowAutomate',
+        category:    'Productivity',
+        description: 'Visual workflow builder for connecting API endpoints without glue code. Drag, connect, deploy — with built-in error handling and retry logic.',
+        icon:        'workflow',
+        logo:        'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg',
+        link:        '#project-flow',
+        isNew:       false
+      },
+      {
+        title:       'VisionCraft API',
+        category:    'Media',
+        description: 'Enterprise image manipulation API for e-commerce at scale. Background removal, color correction, and format optimisation — processing millions of images per day.',
+        icon:        'aperture',
+        logo:        'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg',
+        link:        '#project-vision',
+        isNew:       false
+      },
+      {
+        title:       'SecureGuard',
+        category:    'Security',
+        description: 'AI-powered vulnerability scanner with real-time detection. Continuous monitoring, automated patch suggestions, and compliance reporting for SOC2, HIPAA, and ISO 27001.',
+        icon:        'shield-check',
+        logo:        'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg',
+        link:        '#project-secure',
+        isNew:       false
+      }
+    ]
+
+
+    /* ─── C. State refs ────────────────────────────────────── */
+    const isScrolled      = ref(false)
+    const mobileMenuOpen  = ref(false)
+    const scrollContainer = ref(null)
+    const canScrollLeft   = ref(false)
+    const canScrollRight  = ref(true)
+    const scrollProgress  = ref(0)
+    const activeDot       = ref(0)
+
+
+    /* ─── D. Computed values ───────────────────────────────────
+       Vue 3 templates do NOT expose global JS built-ins
+       (String, Number, Math). Pre-compute formatted strings here.
+    ─────────────────────────────────────────────────────────── */
+
+    /** "05" — zero-padded total project count shown in the hero aside */
+    const projectCountLabel = computed(() =>
+      String(projects.length).padStart(2, '0')
+    )
+
+    /** "05 Projects" label shown in the portfolio header */
+    const projectCountFull = computed(() =>
+      `${projectCountLabel.value} Projects`
+    )
+
+
+    /* ─── E. Helper methods (pure) ─────────────────────────────
+       pad(n) — zero-pad a 1-based index for card display.
+    ─────────────────────────────────────────────────────────── */
+    const pad = (n) => String(n).padStart(2, '0')
+
+
+    /* ─── F. Header scroll handler ─────────────────────────── */
+    const handleScroll = () => {
+      isScrolled.value = window.scrollY > 20
     }
-  </style>
-</head>
-<body>
-
-<a href="#main-content" class="skip-link">Skip to content</a>
-
-<div id="app">
-
-  <!-- ═══════════════ HEADER — Floating Glass Pill ═══════════════ -->
-  <header class="site-header" :class="{ 'is-scrolled': isScrolled }">
-    <div class="nav-pill">
-
-      <a href="#" class="nav-logo" aria-label="OKNLAB home">
-        <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2"
-             alt="OKNLAB logo"
-             class="nav-logo-img grayscale hover:grayscale-0 transition-all duration-500">
-        <span class="logo-text">OKNLAB</span>
-      </a>
-
-      <nav class="hidden md:flex nav-links" aria-label="Primary navigation">
-        <a href="#projects"    class="nav-link">Projects</a>
-        <a href="contact.html" class="nav-link">Contact</a>
-        <a href="https://github.com/oknlab" target="_blank" rel="noopener" class="nav-link">GitHub</a>
-      </nav>
-
-      <div class="nav-actions">
-        <a href="contact.html"
-           class="hidden md:inline-flex btn btn-primary btn-rounded"
-           style="font-size: 0.75rem; padding: 0.45rem 1.1rem; letter-spacing: 0.04em;">
-          Work with us
-        </a>
-        <button
-          class="md:hidden nav-hamburger"
-          @click="toggleMobileMenu"
-          :aria-expanded="mobileMenuOpen.toString()"
-          aria-controls="mobile-nav"
-          aria-label="Toggle navigation menu">
-          <i :data-lucide="mobileMenuOpen ? 'x' : 'menu'" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-    </div>
-
-    <!-- Mobile drawer -->
-    <div
-      v-if="mobileMenuOpen"
-      id="mobile-nav"
-      class="mobile-nav md:hidden"
-      role="navigation"
-      aria-label="Mobile navigation">
-      <a href="#projects"    class="nav-link text-base" @click="mobileMenuOpen = false">Projects</a>
-      <a href="contact.html" class="nav-link text-base" @click="mobileMenuOpen = false">Contact</a>
-      <a href="https://github.com/oknlab" target="_blank" rel="noopener"
-         class="nav-link text-base" @click="mobileMenuOpen = false">GitHub</a>
-      <a href="contact.html"
-         class="btn btn-primary btn-rounded mt-2 w-full justify-center"
-         style="font-size: 0.8125rem; padding: 0.625rem 1.25rem;"
-         @click="mobileMenuOpen = false">
-        Work with us
-      </a>
-    </div>
-  </header>
-  <!-- /HEADER -->
-
-
-  <!-- ═══════════════ MAIN ═══════════════ -->
-  <main id="main-content" class="overflow-x-hidden w-full max-w-full">
-
-
-    <!-- ══════ HERO — Cinematic Center ══════
-         H1 max-width: unrestricted (full viewport width context).
-         font-size: clamp(3.75rem, 9vw, 8.5rem).
-         Guaranteed 2 lines: "Accomplish" + "Any [img] Task."
-         No stamp icons. No stat pills in hero.
-    ════════════════════════════════════════ -->
-    <section
-      id="hero"
-      class="hero-section relative flex items-center justify-center overflow-hidden"
-      style="min-height: 100dvh">
-
-      <!-- Full-bleed ambient photo with dark overlay -->
-      <div class="hero-backdrop" aria-hidden="true">
-        <img
-          src="https://picsum.photos/seed/darkcode/1920/1080"
-          alt=""
-          class="hero-backdrop-img">
-        <div class="hero-backdrop-wash"></div>
-      </div>
-
-      <!-- Grid texture -->
-      <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none" aria-hidden="true"></div>
-
-      <!-- Parallax glows (GSAP targets) -->
-      <div class="glow-orb glow-1" id="glow1" aria-hidden="true"></div>
-      <div class="glow-orb glow-2" id="glow2" aria-hidden="true"></div>
-
-      <!-- Vertical rule — desktop decorative -->
-      <div class="vert-rule hidden lg:block" aria-hidden="true"></div>
-
-      <!-- Centered content block -->
-      <div class="hero-inner w-full max-w-[1400px] mx-auto px-6 text-center relative z-10">
-
-        <div class="status-pill mb-8" id="hero-pill">
-          <span class="status-dot"></span>
-          Available for projects
-        </div>
-
-        <!--
-          H1 — 2-line rule strictly enforced.
-          Line 1: "Accomplish"
-          Line 2: "Any [inline-pill-img] Task."
-          Container is full-width, font scales via clamp.
-          Inline image is decorative, aria-hidden.
-        -->
-        <h1 class="hero-h1" id="hero-h1">
-          Accomplish<br>
-          Any
-          <span class="hero-inline-img" aria-hidden="true"
-                style="background-image: url('https://picsum.photos/seed/terminal/400/160')"></span>
-          Task.
-        </h1>
-
-        <p class="hero-sub" id="hero-sub">
-          We build intelligent, multifunctional AI products designed to automate<br class="hidden md:inline">
-          the complex and deliver measurable results — for clients and as proprietary tools.
-        </p>
-
-        <div class="flex flex-wrap gap-3 justify-center" id="hero-ctas">
-          <a href="#projects" class="btn btn-primary btn-rounded btn-lg">
-            Explore Projects
-            <i data-lucide="arrow-down" class="w-4 h-4"></i>
-          </a>
-          <a href="https://github.com/oknlab" target="_blank" rel="noopener"
-             class="btn btn-outline btn-rounded btn-lg">
-            <i data-lucide="github" class="w-4 h-4"></i>
-            GitHub
-          </a>
-        </div>
-
-        <!-- Editorial meta line (no stats, purely typographic) -->
-        <div class="hero-meta" id="hero-meta" aria-hidden="true">
-          <span class="hero-meta-rule"></span>
-          <span class="hero-meta-text">{{ projectCountLabel }} Selected Works &nbsp;·&nbsp; 2024–2025</span>
-          <span class="hero-meta-rule"></span>
-        </div>
-
-      </div>
-
-      <!-- Scroll indicator -->
-      <div class="scroll-cue" aria-hidden="true">
-        <span class="scroll-cue-bar"></span>
-      </div>
-
-    </section>
-    <!-- /HERO -->
-
-
-    <!-- ══════ MARQUEE STRIP — Capabilities ══════
-         Infinite horizontal scroll.
-         Mask-faded edges for premium feel.
-    ════════════════════════════════════════ -->
-    <div class="marquee-strip" aria-hidden="true">
-      <div class="marquee-track">
-        <!-- Set A -->
-        <span class="marquee-item">AI Product Development</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Custom Automation</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">API Integration</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">DevTools</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Content Generation</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Workflow Builder</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Enterprise AI</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Security Systems</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <!-- Set B — duplicate for seamless loop -->
-        <span class="marquee-item">AI Product Development</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Custom Automation</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">API Integration</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">DevTools</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Content Generation</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Workflow Builder</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Enterprise AI</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Security Systems</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-      </div>
-    </div>
-    <!-- /MARQUEE -->
-
-
-    <!-- ══════ PROJECTS — Carousel (Desire layer) ══════ -->
-    <section
-      id="projects"
-      class="projects-section"
-      style="background: var(--bg-2);
-             border-top: 1px solid var(--border);
-             border-bottom: 1px solid var(--border)">
-
-      <!-- Section header -->
-      <div class="max-w-[1400px] mx-auto px-6 projects-header">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-
-          <div>
-            <h2 class="projects-h2 gsap-reveal">Selected Projects</h2>
-            <p class="projects-sub gsap-reveal" style="transition-delay: 80ms">
-              <span class="hidden md:inline">Use the arrows or scroll</span>
-              <span class="md:hidden">Swipe</span>
-              to explore our suite of tools.
-            </p>
-          </div>
-
-          <span class="projects-count gsap-reveal" style="transition-delay: 120ms">
-            {{ projectCountFull }}
-          </span>
-
-        </div>
-      </div>
-
-      <!-- Carousel -->
-      <div class="scroll-group">
-
-        <button
-          class="scroll-nav-btn"
-          style="left: 1rem"
-          :disabled="!canScrollLeft"
-          @click="scrollByDir(-1)"
-          aria-label="Previous project">
-          <i data-lucide="chevron-left" class="w-5 h-5"></i>
-        </button>
-
-        <div
-          ref="scrollContainer"
-          class="scroll-track hide-scrollbar"
-          style="display: flex;
-                 overflow-x: auto;
-                 gap: 1.25rem;
-                 padding: 0.5rem max(1.5rem, calc(50vw - 680px)) 1.25rem;
-                 scroll-snap-type: x mandatory;
-                 align-items: stretch"
-          role="region"
-          aria-label="Projects carousel"
-          tabindex="0"
-          @scroll="onTrackScroll"
-          @keydown.left.prevent="scrollByDir(-1)"
-          @keydown.right.prevent="scrollByDir(1)">
-
-          <a
-            v-for="(p, i) in projects"
-            :key="i"
-            :href="p.link"
-            class="project-panel card-spotlight"
-            style="flex: none;
-                   width: clamp(280px, 80vw, 420px);
-                   scroll-snap-align: center;
-                   border-radius: 2rem;
-                   padding: 2.25rem 2rem 1.875rem;
-                   display: flex;
-                   flex-direction: column;
-                   text-decoration: none;
-                   color: inherit"
-            @mousemove="onCardMouseMove($event)"
-            draggable="false">
-
-            <!-- Ghost ordinal -->
-            <span class="card-ghost-num" aria-hidden="true">{{ pad(i + 1) }}</span>
-
-            <!-- Card header -->
-            <div class="card-header-row">
-              <span class="card-ordinal">{{ pad(i + 1) }}</span>
-              <div style="display: flex; align-items: center; gap: 0.625rem">
-                <span v-if="p.isNew" class="card-new-badge">New</span>
-                <span class="card-category">{{ p.category }}</span>
-              </div>
-            </div>
-
-            <!-- Logo zone -->
-            <div class="card-logo"
-                 style="width: 3.75rem; height: 3.75rem; border-radius: 0.875rem;
-                        border: 1px solid var(--border-hi);
-                        background: rgba(228, 226, 218, 0.04);
-                        display: flex; align-items: center; justify-content: center;
-                        margin-bottom: 1.75rem; position: relative; z-index: 1; overflow: hidden">
-              <img v-if="p.logo" :src="p.logo" :alt="p.title + ' logo'"
-                   style="width: 2rem; height: 2rem; object-fit: contain;
-                          opacity: 0.5; transition: opacity 0.4s ease">
-              <i v-else :data-lucide="p.icon" class="w-7 h-7" style="color: var(--muted-hi)"></i>
-            </div>
-
-            <!-- Text body -->
-            <div style="flex: 1; display: flex; flex-direction: column; position: relative; z-index: 1">
-              <h3 class="card-title">{{ p.title }}</h3>
-              <p class="card-desc">{{ p.description }}</p>
-            </div>
-
-            <!-- Card footer -->
-            <div class="card-footer">
-              <span class="card-cta-label">View Project</span>
-              <div class="card-arrow">
-                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5" style="color: var(--muted-hi)"></i>
-              </div>
-            </div>
-
-          </a>
-
-        </div>
-        <!-- /scroll-track -->
-
-        <button
-          class="scroll-nav-btn"
-          style="right: 1rem"
-          :disabled="!canScrollRight"
-          @click="scrollByDir(1)"
-          aria-label="Next project">
-          <i data-lucide="chevron-right" class="w-5 h-5"></i>
-        </button>
-
-      </div>
-      <!-- /carousel -->
-
-      <!-- Progress bar -->
-      <div class="max-w-[1400px] mx-auto px-6 mt-8 pb-6">
-        <div class="progress-track">
-          <div class="progress-fill" :style="{ width: scrollProgress + '%' }"></div>
-        </div>
-      </div>
-
-      <!-- Dot indicators — mobile only -->
-      <div
-        class="flex md:hidden justify-center gap-2 pb-10"
-        role="tablist"
-        aria-label="Project navigation">
-        <button
-          v-for="(p, i) in projects"
-          :key="'dot-' + i"
-          class="dot-btn"
-          :style="{
-            width:      activeDot === i ? '1.5rem' : '0.5rem',
-            background: activeDot === i ? 'var(--text)' : 'rgba(228, 226, 218, 0.18)'
-          }"
-          @click="scrollToDot(i)"
-          :aria-label="'Go to project ' + pad(i + 1)"
-          :aria-selected="(activeDot === i).toString()">
-        </button>
-      </div>
-
-    </section>
-    <!-- /PROJECTS -->
-
-
-    <!-- ══════ CTA SECTION — Action layer (AIDA) ══════
-         High-contrast, massive, cinematic.
-         Dark bg = light text = perfect contrast.
-    ════════════════════════════════════════ -->
-    <section class="cta-section" id="cta">
-      <div class="cta-glow" aria-hidden="true"></div>
-
-      <div class="max-w-[1400px] mx-auto px-6 relative z-10 text-center">
-
-        <p class="cta-eyebrow gsap-reveal">Ready to build?</p>
-
-        <h2 class="cta-heading gsap-reveal" style="transition-delay: 60ms">
-          Let's create something<br>
-          <em class="cta-heading-dim">extraordinary together.</em>
-        </h2>
-
-        <div class="flex flex-wrap gap-4 justify-center gsap-reveal" style="transition-delay: 120ms">
-          <a href="contact.html" class="btn btn-primary btn-rounded btn-xl">
-            Start a conversation
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </a>
-          <a href="#projects" class="btn btn-outline btn-rounded btn-xl">
-            View our work
-          </a>
-        </div>
-
-        <p class="cta-sub gsap-reveal" style="transition-delay: 180ms">
-          San Francisco, CA &nbsp;·&nbsp; Available globally &nbsp;·&nbsp; Est. 2024
-        </p>
-
-      </div>
-    </section>
-    <!-- /CTA -->
-
-  </main>
-  <!-- /MAIN -->
-
-
-  <!-- ═══════════════ FOOTER ═══════════════ -->
-  <footer class="site-footer">
-    <div class="max-w-[1400px] mx-auto px-6 pt-14 pb-8">
-
-      <div class="flex flex-col md:flex-row justify-between items-start mb-12 gap-10">
-
-        <!-- Brand column -->
-        <div style="max-width: 15rem">
-          <a href="#" class="flex items-center gap-3 mb-5 footer-logo-link">
-            <img
-              src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2"
-              alt="OKNLAB"
-              class="w-8 h-8 rounded-full grayscale"
-              style="border: 1px solid var(--border-hi)">
-            <span class="logo-text" style="font-size: 1rem">OKNLAB</span>
-          </a>
-          <p style="color: var(--muted); font-size: 0.8125rem; line-height: 1.65">
-            San Francisco, CA<br>Est. 2024
-          </p>
-        </div>
-
-        <!-- Link columns — grid-flow-dense: zero dead cells guaranteed -->
-        <div class="grid grid-cols-2 gap-12 grid-flow-dense">
-          <div>
-            <p class="section-label mb-5">Navigate</p>
-            <div class="flex flex-col gap-3">
-              <a href="#projects"                                class="hover-line footer-link">Projects</a>
-              <a href="contact.html"                             class="hover-line footer-link">Contact</a>
-              <a href="https://github.com/oknlab"
-                 target="_blank" rel="noopener"                  class="hover-line footer-link">GitHub</a>
-            </div>
-          </div>
-          <div>
-            <p class="section-label mb-5">Legal</p>
-            <div class="flex flex-col gap-3">
-              <a href="privacy-policy.html"   class="hover-line footer-link">Privacy Policy</a>
-              <a href="terms-of-service.html" class="hover-line footer-link">Terms of Service</a>
-              <a href="refund-policy.html"    class="hover-line footer-link">Refund Policy</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <hr class="divider">
-      <div class="flex flex-col md:flex-row justify-between items-center gap-3 mt-6">
-        <p style="font-size: 0.75rem; color: var(--muted)">© 2025 OKNLAB. All rights reserved.</p>
-        <p style="font-size: 0.75rem; color: var(--muted)">Intelligent tools. Measurable results.</p>
-      </div>
-
-    </div>
-  </footer>
-  <!-- /FOOTER -->
-
-</div>
-<!-- /#app -->
-
-<script type="module" src="app.js"></script>
-
-</body>
-</html>
+
+    const toggleMobileMenu = () => {
+      mobileMenuOpen.value = !mobileMenuOpen.value
+    }
+
+
+    /* ─── G. Carousel scroll-state engine ──────────────────────
+       rAF-throttled. Sets canScrollLeft/Right, scrollProgress,
+       activeDot (closest card centre to viewport centre).
+    ─────────────────────────────────────────────────────────── */
+    let rafPending = false
+
+    const _updateScrollState = () => {
+      const el = scrollContainer.value
+      if (!el) return
+
+      const max = el.scrollWidth - el.clientWidth
+
+      canScrollLeft.value  = el.scrollLeft > 10
+      canScrollRight.value = el.scrollLeft < max - 10
+      scrollProgress.value = max > 0 ? (el.scrollLeft / max) * 100 : 0
+
+      const vpCentre = el.scrollLeft + el.clientWidth / 2
+      const cards    = el.querySelectorAll('.project-panel')
+      let closestIdx = 0
+      let minDist    = Infinity
+
+      cards.forEach((card, i) => {
+        const cardCentre = card.offsetLeft + card.offsetWidth / 2
+        const dist       = Math.abs(cardCentre - vpCentre)
+        if (dist < minDist) {
+          minDist    = dist
+          closestIdx = i
+        }
+      })
+
+      activeDot.value = closestIdx
+      rafPending = false
+    }
+
+    const onTrackScroll = () => {
+      if (rafPending) return
+      rafPending = true
+      requestAnimationFrame(_updateScrollState)
+    }
+
+    const onResize = () => {
+      if (rafPending) return
+      rafPending = true
+      requestAnimationFrame(_updateScrollState)
+    }
+
+
+    /* ─── H. Carousel navigation methods ───────────────────── */
+
+    const scrollByDir = (dir) => {
+      const el = scrollContainer.value
+      if (!el) return
+      const card = el.querySelector('.project-panel')
+      const step = card ? card.offsetWidth + 20 : 440
+      el.scrollBy({ left: dir * step, behavior: 'smooth' })
+    }
+
+    const scrollToDot = (i) => {
+      const el = scrollContainer.value
+      if (!el) return
+      const card = el.querySelectorAll('.project-panel')[i]
+      if (!card) return
+      const target = card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2
+      el.scrollTo({ left: target, behavior: 'smooth' })
+    }
+
+
+    /* ─── I. Mouse-wheel → horizontal scroll ───────────────────
+       Converts vertical wheel delta to horizontal scroll.
+       Releases back to page scroll at carousel edges.
+       Must be registered non-passive to call preventDefault.
+    ─────────────────────────────────────────────────────────── */
+    const _onWheel = (e) => {
+      const el = scrollContainer.value
+      if (!el) return
+
+      if (Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return
+
+      const max     = el.scrollWidth - el.clientWidth
+      const atEnd   = el.scrollLeft >= max - 1
+      const atStart = el.scrollLeft <= 0
+
+      if ((e.deltaY > 0 && atEnd) || (e.deltaY < 0 && atStart)) return
+
+      e.preventDefault()
+      el.scrollLeft += e.deltaY
+    }
+
+
+    /* ─── J. Card spotlight — mouse-position tracker ────────────
+       Sets CSS custom properties --mx / --my on each card so the
+       ::before radial-gradient follows the cursor accurately.
+       No state update → no Vue re-render overhead.
+    ─────────────────────────────────────────────────────────── */
+    const onCardMouseMove = (e) => {
+      const card = e.currentTarget
+      const rect = card.getBoundingClientRect()
+      card.style.setProperty('--mx', (e.clientX - rect.left) + 'px')
+      card.style.setProperty('--my', (e.clientY - rect.top)  + 'px')
+    }
+
+
+    /* ─── K. IntersectionObserver — card reveal ─────────────────
+       Retained for carousel cards (horizontal scroll track).
+       GSAP ScrollTrigger is not suitable for horizontal-scroll
+       containers — IntersectionObserver handles them correctly.
+    ─────────────────────────────────────────────────────────── */
+    let revealObserver = null
+
+    const _initReveal = () => {
+      revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible')
+              revealObserver.unobserve(entry.target)
+            }
+          })
+        },
+        {
+          root:       scrollContainer.value,
+          threshold:  0.12,
+          rootMargin: '0px 200px 0px 200px'
+        }
+      )
+
+      scrollContainer.value
+        ?.querySelectorAll('.project-panel')
+        .forEach((panel) => revealObserver.observe(panel))
+    }
+
+
+    /* ─── L. GSAP — Hero entrance timeline ─────────────────────
+       Orchestrated staggered entrance replacing the CSS-animation
+       fallbacks. Each hero element (#hero-pill, #hero-h1, etc.)
+       is animated in sequence.
+
+       GSAP paradigm: Image Scale (img-scale) applied to the hero
+       backdrop photo — starts slightly zoomed, settles to 1.0.
+    ─────────────────────────────────────────────────────────── */
+    const _initHeroGSAP = () => {
+      if (typeof gsap === 'undefined') return
+
+      // Hero photo scale-settle (Image Scale paradigm)
+      gsap.fromTo('.hero-backdrop-img',
+        { scale: 1.08 },
+        { scale: 1.0, duration: 2.2, ease: 'expo.out' }
+      )
+
+      // Staggered entrance timeline
+      const tl = gsap.timeline({ defaults: { ease: 'expo.out' } })
+
+      tl.fromTo('#hero-pill',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.9 }
+      )
+      .fromTo('#hero-h1',
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 1.1 },
+        '-=0.5'
+      )
+      .fromTo('#hero-sub',
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.95 },
+        '-=0.65'
+      )
+      .fromTo('#hero-ctas',
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.9 },
+        '-=0.6'
+      )
+      .fromTo('#hero-meta',
+        { opacity: 0 },
+        { opacity: 1, duration: 0.8 },
+        '-=0.5'
+      )
+      .fromTo('.scroll-cue',
+        { opacity: 0 },
+        { opacity: 1, duration: 0.7 },
+        '-=0.3'
+      )
+    }
+
+
+    /* ─── M. GSAP — Scroll-triggered section reveals ───────────
+       Targets all .gsap-reveal elements (section headings,
+       merged footer CTA copy, etc.) outside the horizontal carousel.
+
+       GSAP paradigm: Word Scrub applied to CTA heading inside the
+       merged footer — opacity scrubs 0.08 → 1.0 as user scrolls in.
+
+       NOTE: The merged footer (#cta) is NOT scaled on entrance —
+       scaling a full-page-height element creates layout jank.
+       Individual children are revealed via .gsap-reveal instead.
+    ─────────────────────────────────────────────────────────── */
+    const _initScrollReveal = () => {
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return
+
+      gsap.registerPlugin(ScrollTrigger)
+
+      // Section-level reveal for .gsap-reveal elements
+      // Adds .is-visible class which triggers the CSS transition
+      document.querySelectorAll('.gsap-reveal').forEach((el) => {
+        ScrollTrigger.create({
+          trigger:  el,
+          start:    'top 82%',
+          onEnter: () => {
+            el.classList.add('is-visible')
+          },
+          once: true
+        })
+      })
+
+      // CTA heading — word-by-word opacity scrub (Word Scrub paradigm)
+      // Wraps each word in a span, then scrubs opacity 0.08 → 1.0
+      const ctaHeading = document.querySelector('.cta-heading')
+      if (ctaHeading) {
+        // Split words into spans (preserving <br> and <em>)
+        const rawHTML = ctaHeading.innerHTML
+        const wrapped = rawHTML
+          .replace(/(<[^>]+>)/g, '\x00$1\x00') // protect tags
+          .split('\x00')
+          .map((chunk) => {
+            if (chunk.startsWith('<') || chunk.trim() === '') return chunk
+            return chunk.replace(/\b(\S+)\b/g, '<span class="scrub-word">$1</span>')
+          })
+          .join('')
+        ctaHeading.innerHTML = wrapped
+
+        const words = ctaHeading.querySelectorAll('.scrub-word')
+
+        // Set initial opacity low
+        gsap.set(words, { opacity: 0.08 })
+
+        // Scrub each word's opacity on scroll
+        words.forEach((word, i) => {
+          gsap.to(word, {
+            opacity: 1,
+            scrollTrigger: {
+              trigger: ctaHeading,
+              start:   'top 80%',
+              end:     'bottom 30%',
+              scrub:   0.8
+            },
+            delay: i * 0.04
+          })
+        })
+      }
+
+    }
+
+
+    /* ─── N. GSAP — Parallax on hero glow orbs ─────────────────
+       Glow orbs drift at different speeds as the user scrolls,
+       creating a layered depth illusion.
+       Runs only if the device likely has GPU compositing.
+    ─────────────────────────────────────────────────────────── */
+    const _initParallax = () => {
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return
+
+      const heroSection = document.querySelector('#hero')
+      if (!heroSection) return
+
+      gsap.to('#glow1', {
+        y: -80,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroSection,
+          start:   'top top',
+          end:     'bottom top',
+          scrub:   1.8
+        }
+      })
+
+      gsap.to('#glow2', {
+        y: -40,
+        x:  20,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroSection,
+          start:   'top top',
+          end:     'bottom top',
+          scrub:   2.4
+        }
+      })
+
+      // Backdrop photo subtle parallax (Image Scale + slow drift)
+      gsap.to('.hero-backdrop-img', {
+        y: '15%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroSection,
+          start:   'top top',
+          end:     'bottom top',
+          scrub:   1.2
+        }
+      })
+    }
+
+
+    /* ─── O. Lifecycle hooks ────────────────────────────────── */
+    onMounted(() => {
+      // Global listeners
+      window.addEventListener('scroll', handleScroll, { passive: true })
+      window.addEventListener('resize', onResize,     { passive: true })
+
+      // Render Lucide icons (CDN global)
+      lucide.createIcons()
+
+      nextTick(() => {
+        // Carousel internals
+        _updateScrollState()
+        _initReveal()
+        scrollContainer.value?.addEventListener('wheel', _onWheel, { passive: false })
+
+        // GSAP — all three layers
+        _initHeroGSAP()
+        _initScrollReveal()
+        _initParallax()
+      })
+    })
+
+    onUpdated(() => {
+      // Re-scan Lucide icon data-attributes after reactive DOM updates
+      lucide.createIcons()
+    })
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', onResize)
+      scrollContainer.value?.removeEventListener('wheel', _onWheel)
+      revealObserver?.disconnect()
+
+      // Kill all GSAP ScrollTrigger instances to prevent memory leaks
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.killAll()
+      }
+    })
+
+
+    /* ─── P. Expose to template ─────────────────────────────── */
+    return {
+      // Data
+      projects,
+
+      // State
+      isScrolled,
+      mobileMenuOpen,
+      scrollContainer,
+      canScrollLeft,
+      canScrollRight,
+      scrollProgress,
+      activeDot,
+
+      // Computed — formatted strings
+      projectCountLabel,
+      projectCountFull,
+
+      // Methods
+      pad,
+      toggleMobileMenu,
+      onTrackScroll,
+      scrollByDir,
+      scrollToDot,
+      onCardMouseMove
+    }
+  }
+}).mount('#app')
