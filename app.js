@@ -324,10 +324,14 @@ createApp({
 
     /* ─── M. GSAP — Scroll-triggered section reveals ───────────
        Targets all .gsap-reveal elements (section headings,
-       CTA block, etc.) outside the horizontal carousel.
+       merged footer CTA copy, etc.) outside the horizontal carousel.
 
-       GSAP paradigm: Word Scrub applied to CTA heading —
-       opacity scrubs from 0.08 → 1.0 as user scrolls into view.
+       GSAP paradigm: Word Scrub applied to CTA heading inside the
+       merged footer — opacity scrubs 0.08 → 1.0 as user scrolls in.
+
+       NOTE: The merged footer (#cta) is NOT scaled on entrance —
+       scaling a full-page-height element creates layout jank.
+       Individual children are revealed via .gsap-reveal instead.
     ─────────────────────────────────────────────────────────── */
     const _initScrollReveal = () => {
       if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return
@@ -383,24 +387,6 @@ createApp({
         })
       }
 
-      // CTA section scale entrance
-      const ctaSection = document.querySelector('#cta')
-      if (ctaSection) {
-        gsap.fromTo(ctaSection,
-          { scale: 0.97, opacity: 0.6 },
-          {
-            scale: 1,
-            opacity: 1,
-            duration: 1,
-            ease: 'expo.out',
-            scrollTrigger: {
-              trigger: ctaSection,
-              start:   'top 85%',
-              once:    true
-            }
-          }
-        )
-      }
     }
 
 
