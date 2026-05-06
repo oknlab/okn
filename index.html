@@ -1,490 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OKNLAB — AI Products &amp; Custom Development</title>
-  <meta name="description" content="OKNLAB builds intelligent, multifunctional AI products for coding, content generation, and workflow automation. Premium client work and proprietary tools.">
-  <meta property="og:title" content="OKNLAB — AI Products &amp; Custom Development">
-  <meta property="og:description" content="We build intelligent products designed to automate the complex and deliver measurable results.">
-  <meta property="og:image" content="https://avatars.githubusercontent.com/u/32960623?s=500&v=2">
-  <link rel="icon" href="https://avatars.githubusercontent.com/u/32960623?s=52&v=2">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OKNLAB — Intelligent Architecture</title>
 
   <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,500,700,400,300&display=swap" rel="stylesheet" />
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="styles.css" />
 
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- GSAP core + ScrollTrigger -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-
-  <link rel="stylesheet" href="styles.css">
-
-  <style type="text/tailwindcss">
-    @theme {
-      --font-serif: "Cormorant Garamond", Georgia, serif;
-      --font-sans:  "Plus Jakarta Sans", system-ui, sans-serif;
-      --color-bg:      #080806;
-      --color-bg2:     #0d0d0b;
-      --color-surface: #111110;
-      --color-text:    #E4E2DA;
+  <!-- Tailwind + config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { bg: '#080806', surface: '#111110', text: '#E4E2DA', accent: '#C4953F' },
+          fontFamily: { sans: ['Cabinet Grotesk', 'sans-serif'] },
+        }
+      }
     }
-  </style>
+  </script>
+
+  <!-- React -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Shared utilities (plain JS) -->
+  <script src="app.js"></script>
 </head>
-<body>
+<body class="overflow-x-hidden">
+  <div id="root"></div>
 
-<a href="#main-content" class="skip-link">Skip to content</a>
+  <script type="text/babel">
+    const { useLayoutEffect, useRef } = React;
+    gsap.registerPlugin(ScrollTrigger);
 
-<div id="app">
+    /* ── Icons ── */
+    const IconArrowRight = () => (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+      </svg>
+    );
+    const IconGithub = () => (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+      </svg>
+    );
 
-  <!-- ═══════════════ HEADER — Floating Glass Pill ═══════════════ -->
-  <header class="site-header" :class="{ 'is-scrolled': isScrolled }">
-    <div class="nav-pill">
-
-      <a href="#" class="nav-logo" aria-label="OKNLAB home">
-        <img src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2"
-             alt="OKNLAB logo"
-             class="nav-logo-img grayscale hover:grayscale-0 transition-all duration-500">
-        <span class="logo-text">OKNLAB</span>
-      </a>
-
-      <nav class="hidden md:flex nav-links" aria-label="Primary navigation">
-        <a href="#projects" class="nav-link">Projects</a>
-        <a href="/contact"  class="nav-link">Contact</a>
+    /* ── Nav ── */
+    const Nav = () => (
+      <nav className="fixed top-6 left-0 right-0 z-50 flex justify-center w-full px-6 pointer-events-none">
+        <div className="flex items-center justify-between w-full max-w-5xl px-6 py-3 rounded-full bg-surface/80 backdrop-blur-xl border border-white/10 pointer-events-auto shadow-2xl shadow-black" style={{backgroundColor:'rgba(17,17,16,0.85)'}}>
+          <a href="index.html" className="text-lg font-bold tracking-widest uppercase hover:text-accent transition-colors" style={{color:'#E4E2DA'}}>OKNLAB</a>
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium" style={{color:'rgba(228,226,218,0.6)'}}>
+            <a href="index.html" data-nav-link="index.html" className="hover:text-white transition-colors font-bold" style={{color:'#E4E2DA'}}>Projects</a>
+            <a href="contact.html" data-nav-link="contact.html" className="hover:text-white transition-colors">Contact</a>
+          </div>
+          <a href="contact.html" className="px-5 py-2 text-sm font-bold bg-white rounded-full hover:scale-105 transition-transform duration-300" style={{color:'#080806'}}>
+            Let's Talk
+          </a>
+        </div>
       </nav>
+    );
 
-      <div class="nav-actions">
-        <button
-          class="md:hidden nav-hamburger"
-          @click="toggleMobileMenu"
-          :aria-expanded="mobileMenuOpen.toString()"
-          aria-controls="mobile-nav"
-          aria-label="Toggle navigation menu">
-          <i :data-lucide="mobileMenuOpen ? 'x' : 'menu'" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-    </div>
-
-    <!-- Mobile drawer -->
-    <div
-      v-if="mobileMenuOpen"
-      id="mobile-nav"
-      class="mobile-nav md:hidden"
-      role="navigation"
-      aria-label="Mobile navigation">
-      <a href="#projects"  class="nav-link text-base" @click="mobileMenuOpen = false">Projects</a>
-      <a href="/contact"   class="nav-link text-base" @click="mobileMenuOpen = false">Contact</a>
-    </div>
-  </header>
-  <!-- /HEADER -->
-
-
-  <!-- ═══════════════ MAIN ═══════════════ -->
-  <main id="main-content" class="overflow-x-hidden w-full max-w-full">
-
-
-    <!-- ══════ HERO — Cinematic Center ══════
-         H1 max-width: unrestricted (full viewport width context).
-         font-size: clamp(3.75rem, 9vw, 8.5rem).
-         Guaranteed 2 lines: "Accomplish" + "Any [img] Task."
-         No stamp icons. No stat pills in hero.
-    ════════════════════════════════════════ -->
-    <section
-      id="hero"
-      class="hero-section relative flex items-center justify-center overflow-hidden"
-      style="min-height: 100dvh">
-
-      <!-- Full-bleed ambient photo with dark overlay -->
-      <div class="hero-backdrop" aria-hidden="true">
-        <img
-          src="https://picsum.photos/seed/darkcode/1920/1080"
-          alt=""
-          class="hero-backdrop-img">
-        <div class="hero-backdrop-wash"></div>
-      </div>
-
-      <!-- Grid texture -->
-      <div class="absolute inset-0 grid-bg opacity-40 pointer-events-none" aria-hidden="true"></div>
-
-      <!-- Parallax glows (GSAP targets) -->
-      <div class="glow-orb glow-1" id="glow1" aria-hidden="true"></div>
-      <div class="glow-orb glow-2" id="glow2" aria-hidden="true"></div>
-
-      <!-- Vertical rule — desktop decorative -->
-      <div class="vert-rule hidden lg:block" aria-hidden="true"></div>
-
-      <!-- Centered content block -->
-      <div class="hero-inner w-full max-w-[1400px] mx-auto px-6 text-center relative z-10">
-
-        <div class="status-pill mb-8" id="hero-pill">
-          <span class="status-dot"></span>
-          Available for projects
-        </div>
-
-        <!--
-          H1 — 2-line rule strictly enforced.
-          Line 1: "Accomplish"
-          Line 2: "Any [inline-pill-img] Task."
-          Container is full-width, font scales via clamp.
-          Inline image is decorative, aria-hidden.
-        -->
-        <h1 class="hero-h1" id="hero-h1">
-          Accomplish<br>
-          Any
-          <span class="hero-inline-img" aria-hidden="true"
-                style="background-image: url('https://picsum.photos/seed/terminal/400/160')"></span>
-          Task.
-        </h1>
-
-        <p class="hero-sub" id="hero-sub">
-          We build intelligent, multifunctional AI products designed to automate<br class="hidden md:inline">
-          the complex and deliver measurable results — for clients and as proprietary tools.
-        </p>
-
-        <div class="flex flex-wrap gap-3 justify-center" id="hero-ctas">
-          <a href="#projects" class="btn btn-primary btn-rounded btn-lg">
-            Explore Projects
-            <i data-lucide="arrow-down" class="w-4 h-4"></i>
-          </a>
-        </div>
-
-        <!-- Editorial meta line (no stats, purely typographic) -->
-        <div class="hero-meta" id="hero-meta" aria-hidden="true">
-          <span class="hero-meta-rule"></span>
-          <span class="hero-meta-text">{{ projectCountLabel }} Selected Works &nbsp;·&nbsp; 2024–2025</span>
-          <span class="hero-meta-rule"></span>
-        </div>
-
-      </div>
-
-      <!-- Scroll indicator -->
-      <div class="scroll-cue" aria-hidden="true">
-        <span class="scroll-cue-bar"></span>
-      </div>
-
-    </section>
-    <!-- /HERO -->
-
-
-    <!-- ══════ MARQUEE STRIP — Capabilities ══════
-         Infinite horizontal scroll.
-         Mask-faded edges for premium feel.
-    ════════════════════════════════════════ -->
-    <div class="marquee-strip" aria-hidden="true">
-      <div class="marquee-track">
-        <!-- Set A -->
-        <span class="marquee-item">AI Product Development</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Custom Automation</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">API Integration</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">DevTools</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Content Generation</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Workflow Builder</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Enterprise AI</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Security Systems</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <!-- Set B — duplicate for seamless loop -->
-        <span class="marquee-item">AI Product Development</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Custom Automation</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">API Integration</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">DevTools</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Content Generation</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Workflow Builder</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Enterprise AI</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-        <span class="marquee-item">Security Systems</span>
-        <span class="marquee-sep" aria-hidden="true"></span>
-      </div>
-    </div>
-    <!-- /MARQUEE -->
-
-
-    <!-- ══════ PROJECTS — Carousel (Desire layer) ══════ -->
-    <section
-      id="projects"
-      class="projects-section"
-      style="background: var(--bg-2);
-             border-top: 1px solid var(--border);
-             border-bottom: 1px solid var(--border)">
-
-      <!-- Section header -->
-      <div class="max-w-[1400px] mx-auto px-6 projects-header">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-
-          <div>
-            <h2 class="projects-h2 gsap-reveal">Selected Projects</h2>
-            <p class="projects-sub gsap-reveal" style="transition-delay: 80ms">
-              <span class="hidden md:inline">Use the arrows or scroll</span>
-              <span class="md:hidden">Swipe</span>
-              to explore our suite of tools.
-            </p>
+    /* ── Footer ── */
+    const Footer = () => (
+      <footer className="w-full border-t border-white/5 py-12 px-6" style={{backgroundColor:'#050504'}}>
+        <div className="max-w-7xl mx-auto flex flex-col">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="flex items-center gap-4 text-sm font-bold uppercase tracking-widest" style={{color:'rgba(228,226,218,0.5)'}}>
+              <span>© 2026 OKNLAB</span>
+              <span className="w-1.5 h-1.5 rounded-full" style={{backgroundColor:'rgba(196,149,63,0.5)'}}></span>
+              <span>San Francisco</span>
+            </div>
+            <div className="flex items-center gap-6 text-sm font-bold" style={{color:'rgba(228,226,218,0.5)'}}>
+              <a href="privacy-policy.html" className="hover:text-white transition-colors">Privacy</a>
+              <a href="terms.html" className="hover:text-white transition-colors">Terms</a>
+              <a href="refund-policy.html" className="hover:text-white transition-colors">Refund</a>
+              <a href="contact.html" className="hover:text-white transition-colors">Contact</a>
+            </div>
           </div>
+        </div>
+      </footer>
+    );
 
-          <span class="projects-count gsap-reveal" style="transition-delay: 120ms">
-            {{ projectCountFull }}
-          </span>
-
+    /* ── Marquee ── */
+    const InfiniteMarquee = () => (
+      <div className="w-full overflow-hidden py-8 border-y border-white/5" style={{backgroundColor:'#0a0a08'}}>
+        <div className="flex w-max items-center space-x-16 px-8 animate-marquee">
+          {[...Array(2)].map((_, i) => (
+            <React.Fragment key={i}>
+              <span className="text-2xl md:text-4xl font-bold uppercase tracking-widest" style={{color:'rgba(228,226,218,0.1)'}}>CodeSynthesizer</span>
+              <span className="w-3 h-3 rounded-full" style={{backgroundColor:'rgba(196,149,63,0.2)'}}></span>
+              <span className="text-2xl md:text-4xl font-bold uppercase tracking-widest" style={{color:'rgba(228,226,218,0.1)'}}>DocuGen AI</span>
+              <span className="w-3 h-3 rounded-full" style={{backgroundColor:'rgba(196,149,63,0.2)'}}></span>
+              <span className="text-2xl md:text-4xl font-bold uppercase tracking-widest" style={{color:'rgba(228,226,218,0.1)'}}>FlowAutomate</span>
+              <span className="w-3 h-3 rounded-full" style={{backgroundColor:'rgba(196,149,63,0.2)'}}></span>
+              <span className="text-2xl md:text-4xl font-bold uppercase tracking-widest" style={{color:'rgba(228,226,218,0.1)'}}>VisionCraft</span>
+              <span className="w-3 h-3 rounded-full" style={{backgroundColor:'rgba(196,149,63,0.2)'}}></span>
+              <span className="text-2xl md:text-4xl font-bold uppercase tracking-widest" style={{color:'rgba(228,226,218,0.1)'}}>SecureGuard</span>
+              <span className="w-3 h-3 rounded-full" style={{backgroundColor:'rgba(196,149,63,0.2)'}}></span>
+            </React.Fragment>
+          ))}
         </div>
       </div>
+    );
 
-      <!-- Carousel -->
-      <div class="scroll-group">
+    /* ── Home Page ── */
+    const Home = () => {
+      const containerRef = useRef(null);
 
-        <button
-          class="scroll-nav-btn"
-          style="left: 1rem"
-          :disabled="!canScrollLeft"
-          @click="scrollByDir(-1)"
-          aria-label="Previous project">
-          <i data-lucide="chevron-left" class="w-5 h-5"></i>
-        </button>
+      useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+          gsap.utils.toArray('.gsap-fade-up').forEach((el) => {
+            gsap.fromTo(el,
+              { opacity: 0, y: 40 },
+              { opacity: 1, y: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 85%' } }
+            );
+          });
+          gsap.utils.toArray('.gsap-scale-fade').forEach((card) => {
+            gsap.fromTo(card,
+              { scale: 0.9, opacity: 0.3 },
+              { scale: 1, opacity: 1, duration: 1, scrollTrigger: { trigger: card, start: 'top 90%', end: 'top 50%', scrub: 1 } }
+            );
+          });
+        }, containerRef);
+        return () => ctx.revert();
+      }, []);
 
-        <div
-          ref="scrollContainer"
-          class="scroll-track hide-scrollbar"
-          style="display: flex;
-                 overflow-x: auto;
-                 gap: 1.25rem;
-                 padding: 0.5rem max(1.5rem, calc(50vw - 680px)) 1.25rem;
-                 scroll-snap-type: x mandatory;
-                 align-items: stretch"
-          role="region"
-          aria-label="Projects carousel"
-          tabindex="0"
-          @scroll="onTrackScroll"
-          @keydown.left.prevent="scrollByDir(-1)"
-          @keydown.right.prevent="scrollByDir(1)">
+      return (
+        <div ref={containerRef} className="w-full flex flex-col items-center">
 
-          <a
-            v-for="(p, i) in projects"
-            :key="i"
-            :href="p.link"
-            class="project-panel card-spotlight"
-            style="flex: none;
-                   width: clamp(280px, 80vw, 420px);
-                   scroll-snap-align: center;
-                   border-radius: 2rem;
-                   padding: 2.25rem 2rem 1.875rem;
-                   display: flex;
-                   flex-direction: column;
-                   text-decoration: none;
-                   color: inherit"
-            @mousemove="onCardMouseMove($event)"
-            draggable="false">
-
-            <!-- Ghost ordinal -->
-            <span class="card-ghost-num" aria-hidden="true">{{ pad(i + 1) }}</span>
-
-            <!-- Card header -->
-            <div class="card-header-row">
-              <span class="card-ordinal">{{ pad(i + 1) }}</span>
-              <div style="display: flex; align-items: center; gap: 0.625rem">
-                <span v-if="p.isNew" class="card-new-badge">New</span>
-                <span class="card-category">{{ p.category }}</span>
+          {/* Hero */}
+          <section className="relative w-full min-h-[95vh] flex flex-col items-center justify-center px-6 pt-32 pb-24">
+            <div className="absolute inset-0" style={{background:'radial-gradient(ellipse at top, rgba(196,149,63,0.08), transparent 50%)'}}></div>
+            <div className="z-10 flex flex-col items-center text-center max-w-6xl mx-auto w-full">
+              <h1 className="font-bold leading-tight tracking-tight mb-10 w-full gsap-fade-up" style={{fontSize:'clamp(2.5rem,5vw,6rem)',lineHeight:'1.05',color:'#fff'}}>
+                We architect intelligent
+                <span className="inline-block align-middle rounded-full overflow-hidden border border-white/10 shadow-2xl mx-3 lg:mx-5" style={{width:'14vw',maxWidth:'200px',height:'clamp(2rem,4.5vw,4.5rem)',backgroundColor:'#111110',boxShadow:'0 0 40px rgba(196,149,63,0.1)'}}>
+                  <img src="https://picsum.photos/seed/ai/800/400" className="w-full h-full object-cover" style={{filter:'grayscale(1)',mixBlendMode:'luminosity',opacity:'0.9',transition:'transform 1s'}} alt="AI core"
+                    onMouseEnter={e => e.target.style.transform='scale(1.1)'}
+                    onMouseLeave={e => e.target.style.transform='scale(1)'}
+                  />
+                </span>
+                products that automate the complex and scale seamlessly.
+              </h1>
+              <div className="flex flex-col sm:flex-row items-center gap-6 mt-4 gsap-fade-up">
+                <a href="#projects" className="px-8 py-4 font-bold rounded-full flex items-center gap-3 hover:scale-105 transition-transform duration-300" style={{backgroundColor:'#E4E2DA',color:'#080806'}}>
+                  Explore Projects <IconArrowRight />
+                </a>
+                <a href="https://github.com/oknlab" target="_blank" rel="noopener noreferrer" className="px-8 py-4 font-bold rounded-full flex items-center gap-3 transition-colors duration-300" style={{backgroundColor:'#111110',border:'1px solid rgba(228,226,218,0.1)',color:'#E4E2DA'}}
+                  onMouseEnter={e => e.currentTarget.style.backgroundColor='rgba(228,226,218,0.05)'}
+                  onMouseLeave={e => e.currentTarget.style.backgroundColor='#111110'}
+                >
+                  <IconGithub /> GitHub
+                </a>
               </div>
             </div>
+          </section>
 
-            <!-- Logo zone -->
-            <div class="card-logo"
-                 style="width: 3.75rem; height: 3.75rem; border-radius: 0.875rem;
-                        border: 1px solid var(--border-hi);
-                        background: rgba(228, 226, 218, 0.04);
-                        display: flex; align-items: center; justify-content: center;
-                        margin-bottom: 1.75rem; position: relative; z-index: 1; overflow: hidden">
-              <img v-if="p.logo" :src="p.logo" :alt="p.title + ' logo'"
-                   style="width: 2rem; height: 2rem; object-fit: contain;
-                          opacity: 0.5; transition: opacity 0.4s ease">
-              <i v-else :data-lucide="p.icon" class="w-7 h-7" style="color: var(--muted-hi)"></i>
+          <InfiniteMarquee />
+
+          {/* Portfolio */}
+          <section id="projects" className="w-full max-w-7xl mx-auto px-6 py-32 md:py-48">
+            <div className="mb-16 gsap-fade-up">
+              <h2 className="text-4xl md:text-6xl font-bold tracking-tight">Portfolio</h2>
+              <p className="text-xl mt-4 max-w-2xl" style={{color:'rgba(228,226,218,0.5)'}}>High-density engineering for modern automation.</p>
             </div>
 
-            <!-- Text body -->
-            <div style="flex: 1; display: flex; flex-direction: column; position: relative; z-index: 1">
-              <h3 class="card-title">{{ p.title }}</h3>
-              <p class="card-desc">{{ p.description }}</p>
-            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4" style={{gridAutoRows:'300px'}}>
 
-            <!-- Card footer -->
-            <div class="card-footer">
-              <span class="card-cta-label">View Project</span>
-              <div class="card-arrow">
-                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5" style="color: var(--muted-hi)"></i>
+              {/* Card 1 — 2×2 */}
+              <div className="group relative overflow-hidden rounded-3xl md:col-span-2 md:row-span-2 p-10 flex flex-col justify-end gsap-fade-up" style={{backgroundColor:'#111110',border:'1px solid rgba(228,226,218,0.1)'}}>
+                <img src="https://picsum.photos/seed/terminal/1200/800" className="absolute inset-0 w-full h-full object-cover" style={{filter:'grayscale(1)',mixBlendMode:'luminosity',opacity:'0.3',transition:'transform 0.7s ease-out, opacity 0.7s ease-out'}} alt="CodeSynth"
+                  onMouseEnter={e => { e.target.style.transform='scale(1.05)'; e.target.style.opacity='0.4'; }}
+                  onMouseLeave={e => { e.target.style.transform='scale(1)'; e.target.style.opacity='0.3'; }}
+                />
+                <div className="absolute inset-0" style={{background:'linear-gradient(to top, #080806, rgba(8,8,6,0.8), transparent)'}}></div>
+                <div className="relative z-10">
+                  <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-md mb-4 inline-block" style={{backgroundColor:'#E4E2DA',color:'#080806'}}>New</span>
+                  <h3 className="text-3xl md:text-5xl font-bold mb-4">CodeSynthesizer X</h3>
+                  <p className="md:text-lg max-w-md" style={{color:'rgba(228,226,218,0.6)'}}>Transformer-based architecture trained on production codebases to predict entire logic blocks.</p>
+                </div>
               </div>
-            </div>
 
-          </a>
-
-        </div>
-        <!-- /scroll-track -->
-
-        <button
-          class="scroll-nav-btn"
-          style="right: 1rem"
-          :disabled="!canScrollRight"
-          @click="scrollByDir(1)"
-          aria-label="Next project">
-          <i data-lucide="chevron-right" class="w-5 h-5"></i>
-        </button>
-
-      </div>
-      <!-- /carousel -->
-
-      <!-- Progress bar -->
-      <div class="max-w-[1400px] mx-auto px-6 mt-8 pb-6">
-        <div class="progress-track">
-          <div class="progress-fill" :style="{ width: scrollProgress + '%' }"></div>
-        </div>
-      </div>
-
-      <!-- Dot indicators — mobile only -->
-      <div
-        class="flex md:hidden justify-center gap-2 pb-10"
-        role="tablist"
-        aria-label="Project navigation">
-        <button
-          v-for="(p, i) in projects"
-          :key="'dot-' + i"
-          class="dot-btn"
-          :style="{
-            width:      activeDot === i ? '1.5rem' : '0.5rem',
-            background: activeDot === i ? 'var(--text)' : 'rgba(228, 226, 218, 0.18)'
-          }"
-          @click="scrollToDot(i)"
-          :aria-label="'Go to project ' + pad(i + 1)"
-          :aria-selected="(activeDot === i).toString()">
-        </button>
-      </div>
-
-    </section>
-    <!-- /PROJECTS -->
-
-
-    <!-- ══════════════════════════════════════════════════════════
-         CTA + FOOTER — Single merged editorial section.
-         No buttons. The footer links are the action layer.
-         Three visual zones:
-           1. Ghost wordmark — massive decorative serif behind content
-           2. CTA copy — left-aligned, editorial, max 2 lines
-           3. Footer grid — brand + nav + legal on one horizontal row
-    ══════════════════════════════════════════════════════════ -->
-    <footer class="footer-merged" id="cta">
-
-      <!-- Ambient glow -->
-      <div class="footer-glow" aria-hidden="true"></div>
-
-      <!-- Ghost wordmark — decorative, not readable, purely typographic texture -->
-      <span class="footer-ghost-word" aria-hidden="true">OKNLAB</span>
-
-      <!-- ── Zone 1: CTA copy ── -->
-      <div class="max-w-[1400px] mx-auto px-6 relative z-10 footer-cta-zone">
-
-        <div class="footer-cta-inner">
-
-          <div class="footer-cta-left">
-            <p class="cta-eyebrow gsap-reveal">Ready to build?</p>
-            <h2 class="cta-heading gsap-reveal" style="transition-delay: 60ms">
-              Let's create<br>
-              <em class="cta-heading-dim">something extraordinary.</em>
-            </h2>
-          </div>
-
-          <!-- Editorial contact reference — no button, just a link -->
-          <div class="footer-cta-right gsap-reveal" style="transition-delay: 100ms">
-            <a href="/contact" class="footer-contact-link">
-              <span class="footer-contact-label">Get in touch</span>
-              <div class="footer-contact-arrow">
-                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+              {/* Card 2 */}
+              <div className="group relative overflow-hidden rounded-3xl md:col-span-1 md:row-span-1 p-8 flex flex-col justify-between gsap-fade-up" style={{backgroundColor:'#111110',border:'1px solid rgba(228,226,218,0.1)'}}>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform duration-500 group-hover:scale-110" style={{backgroundColor:'rgba(228,226,218,0.05)',border:'1px solid rgba(228,226,218,0.1)'}}>
+                  <span className="font-serif italic text-2xl" style={{color:'rgba(228,226,218,0.4)'}}>D</span>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-2">DocuGen AI</h3>
+                  <p className="text-sm" style={{color:'rgba(228,226,218,0.5)'}}>Automated technical documentation generation directly from your codebase.</p>
+                </div>
               </div>
-            </a>
-          </div>
 
-        </div>
+              {/* Card 3 */}
+              <div className="group relative overflow-hidden rounded-3xl md:col-span-1 md:row-span-1 p-8 flex flex-col justify-between gsap-fade-up" style={{backgroundColor:'#111110',border:'1px solid rgba(228,226,218,0.1)'}}>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform duration-500 group-hover:scale-110" style={{backgroundColor:'rgba(228,226,218,0.05)',border:'1px solid rgba(228,226,218,0.1)'}}>
+                  <span className="font-serif italic text-2xl" style={{color:'rgba(228,226,218,0.4)'}}>F</span>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-2">FlowAutomate</h3>
+                  <p className="text-sm" style={{color:'rgba(228,226,218,0.5)'}}>Visual workflow builder for connecting complex API endpoints without glue code.</p>
+                </div>
+              </div>
 
-      </div>
-      <!-- /CTA copy -->
+              {/* Card 4 */}
+              <div className="group relative overflow-hidden rounded-3xl md:col-span-1 md:row-span-1 p-8 flex flex-col justify-between gsap-fade-up" style={{backgroundColor:'#111110',border:'1px solid rgba(228,226,218,0.1)'}}>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform duration-500 group-hover:scale-110" style={{backgroundColor:'rgba(228,226,218,0.05)',border:'1px solid rgba(228,226,218,0.1)'}}>
+                  <span className="font-serif italic text-2xl" style={{color:'rgba(228,226,218,0.4)'}}>V</span>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-2">VisionCraft API</h3>
+                  <p className="text-sm" style={{color:'rgba(228,226,218,0.5)'}}>Enterprise image manipulation processing millions of assets at scale.</p>
+                </div>
+              </div>
 
-      <!-- ── Zone 2: Divider ── -->
-      <div class="max-w-[1400px] mx-auto px-6 relative z-10">
-        <hr class="divider footer-zone-rule">
-      </div>
+              {/* Card 5 — 2×1 */}
+              <div className="group relative overflow-hidden rounded-3xl md:col-span-2 md:row-span-1 p-8 flex flex-col justify-end gsap-fade-up" style={{backgroundColor:'#111110',border:'1px solid rgba(228,226,218,0.1)'}}>
+                <img src="https://picsum.photos/seed/security/1000/400" className="absolute inset-0 w-full h-full object-cover" style={{filter:'grayscale(1)',mixBlendMode:'luminosity',opacity:'0.2',transition:'transform 0.7s ease-out, opacity 0.7s ease-out'}} alt="SecureGuard"
+                  onMouseEnter={e => { e.target.style.transform='scale(1.05)'; e.target.style.opacity='0.3'; }}
+                  onMouseLeave={e => { e.target.style.transform='scale(1)'; e.target.style.opacity='0.2'; }}
+                />
+                <div className="absolute inset-0" style={{background:'linear-gradient(to right, #080806, rgba(8,8,6,0.9), transparent)'}}></div>
+                <div className="relative z-10 max-w-lg">
+                  <h3 className="text-3xl font-bold mb-2">SecureGuard</h3>
+                  <p style={{color:'rgba(228,226,218,0.6)'}}>AI-powered vulnerability scanner with real-time detection and automated patch suggestions for SOC2 compliance.</p>
+                </div>
+              </div>
 
-      <!-- ── Zone 3: Footer content grid ── -->
-      <div class="max-w-[1400px] mx-auto px-6 relative z-10 footer-grid-zone">
-
-        <div class="footer-grid-row">
-
-          <!-- Brand column -->
-          <div class="footer-brand">
-            <a href="#" class="footer-logo-link footer-logo-anchor">
-              <img
-                src="https://avatars.githubusercontent.com/u/32960623?s=500&v=2"
-                alt="OKNLAB"
-                class="footer-logo-img grayscale"
-                style="border: 1px solid var(--border-hi)">
-              <span class="logo-text footer-logo-text">OKNLAB</span>
-            </a>
-            <p class="footer-location">San Francisco, CA<br>Est. 2024</p>
-          </div>
-
-          <!-- Navigate column -->
-          <div class="footer-col">
-            <p class="section-label mb-5">Navigate</p>
-            <div class="flex flex-col gap-3">
-              <a href="#projects"                                class="hover-line footer-link">Projects</a>
-              <a href="/contact"                                 class="hover-line footer-link">Contact</a>
-              <a href="https://github.com/oknlab"
-                 target="_blank" rel="noopener"                  class="hover-line footer-link">GitHub</a>
             </div>
-          </div>
-
-          <!-- Legal column -->
-          <div class="footer-col">
-            <p class="section-label mb-5">Legal</p>
-            <div class="flex flex-col gap-3">
-              <a href="/privacy-policy"   class="hover-line footer-link">Privacy Policy</a>
-              <a href="/terms-of-service" class="hover-line footer-link">Terms of Service</a>
-              <a href="/refund-policy"    class="hover-line footer-link">Refund Policy</a>
-            </div>
-          </div>
-
+          </section>
         </div>
+      );
+    };
 
-        <!-- Bottom bar -->
-        <hr class="divider footer-bottom-rule">
-        <div class="footer-bottom-bar">
-          <p class="footer-copy">© 2025 OKNLAB. All rights reserved.</p>
-          <p class="footer-copy">Intelligent tools. Measurable results.</p>
-        </div>
+    /* ── App Shell ── */
+    const App = () => (
+      <main className="overflow-x-hidden w-full max-w-full relative">
+        <div className="grain-overlay"></div>
+        <Nav />
+        <Home />
+        <Footer />
+      </main>
+    );
 
-      </div>
-      <!-- /footer grid -->
-
-    </footer>
-    <!-- /CTA + FOOTER -->
-
-  </main>
-  <!-- /MAIN -->
-
-</div>
-<!-- /#app -->
-
-<script type="module" src="app.js"></script>
-
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
 </body>
 </html>
